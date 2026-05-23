@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Domain\Auth\DTOs\LoginUserData;
+use App\Domain\Auth\Services\AuthService;
+use App\Enums\UserRole;
+use App\Support\Store\StoreBasketMerge;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        private AuthService $auth,
+        private StoreBasketMerge $basketMerge,
+    ) {}
+
     public function showLogin(): View
     {
         return view('auth.login', [
@@ -18,22 +26,14 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $user = $this->auth->loginSession($request->toDto(UserRole::Customer), $request->boolean('remember'));
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        $request->session()->regenerate();
+        $this->basketMerge->mergeGuestIntoUser($request, $user);
 
-            return redirect()->intended(url('/'));
-        }
-
-        return back()
-            ->withErrors(['email' => 'These credentials do not match our records.'])
-            ->onlyInput('email');
+        return redirect()->intended(route('account'));
     }
 
     public function showRegister(): View
@@ -43,35 +43,33 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(Request $request): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'terms' => ['accepted'],
-        ]);
+        $data = $request->toDto();
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-        ]);
+        $this->auth->register($data);
 
-        Auth::login($user);
+        $user = $this->auth->loginSession(new LoginUserData(
+            email: $data->email,
+            password: $data->password,
+            requiredRole: UserRole::Customer,
+        ));
 
         $request->session()->regenerate();
+        $this->basketMerge->mergeGuestIntoUser($request, $user);
 
-        return redirect(url('/'))->with('status', 'Welcome to Mandira Foods!');
+        return redirect()
+            ->intended(route('account'))
+            ->with('status', 'Welcome to Mandira Foods!');
     }
 
     public function logout(Request $request): RedirectResponse
     {
-        Auth::logout();
+        $this->auth->logoutSession();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect(url('/login'));
+        return redirect(route('login'))->with('status', 'You have been signed out.');
     }
 }

@@ -6,6 +6,10 @@
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
 @endpush
 
+@push('scripts')
+    <script src="{{ asset('js/auth.js') }}" defer></script>
+@endpush
+
 @section('content')
     <div class="content-page">
         @include('partials.store.content-breadcrumb', ['title' => 'Register'])
@@ -47,22 +51,12 @@
                                             @enderror
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input type="password" id="password" name="password"
-                                                class="form-control @error('password') is-invalid @enderror" required
-                                                autocomplete="new-password" placeholder="At least 8 characters">
-                                            @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        <x-auth.password-input id="password" name="password" label="Password"
+                                            placeholder="At least 8 characters" autocomplete="new-password" />
 
-                                        <div class="mb-3">
-                                            <label for="password_confirmation" class="form-label">Confirm password</label>
-                                            <input type="password" id="password_confirmation" name="password_confirmation"
-                                                class="form-control" required autocomplete="new-password"
-                                                placeholder="Re-enter your password">
-                                        </div>
+                                        <x-auth.password-input id="password_confirmation" name="password_confirmation"
+                                            label="Confirm password" placeholder="Re-enter your password"
+                                            autocomplete="new-password" :required="true" />
 
                                         <label class="auth-form__terms">
                                             <input type="checkbox" name="terms" value="1"

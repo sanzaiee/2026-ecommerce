@@ -1,0 +1,151 @@
+.invoice-body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f4f1ec;
+    color: #3d2914;
+}
+
+.invoice-toolbar {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #3d2914;
+}
+
+.invoice-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    background: #c9a227;
+    color: #3d2914;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.invoice-btn--muted {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.invoice {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.invoice__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e8e0d5;
+}
+
+.invoice__brand {
+    margin: 0;
+    font-size: 1.75rem;
+    color: #3d2914;
+}
+
+.invoice__tagline {
+    margin: 0.25rem 0 0;
+    color: #6b5a45;
+}
+
+.invoice__meta {
+    text-align: right;
+}
+
+.invoice__meta h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.invoice__meta p {
+    margin: 0.15rem 0;
+}
+
+.invoice__parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.invoice__parties h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b5a45;
+}
+
+.invoice__parties p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.invoice__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.invoice__table th,
+.invoice__table td {
+    padding: 0.65rem 0.5rem;
+    border-bottom: 1px solid #e8e0d5;
+    text-align: left;
+}
+
+.invoice__table th.num,
+.invoice__table td.num {
+    text-align: right;
+}
+
+.invoice__table thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b5a45;
+}
+
+.invoice__total-row td {
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-top: 2px solid #3d2914;
+    border-bottom: none;
+    padding-top: 0.75rem;
+}
+
+.invoice__footer p {
+    margin: 0.35rem 0;
+    font-size: 0.95rem;
+}
+
+.invoice__thanks {
+    margin-top: 1.5rem !important;
+    font-style: italic;
+    color: #6b5a45;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .invoice-body {
+        background: #fff;
+    }
+
+    .invoice {
+        margin: 0;
+        box-shadow: none;
+        max-width: none;
+    }
+}

@@ -40,7 +40,17 @@
                         <span id="cartTotal">Rs. 0</span>
                     </div>
                 </div>
-                <button type="button" class="cart-drawer__checkout" id="cartCheckoutBtn">Proceed to Checkout</button>
+                <button type="button" class="cart-drawer__checkout" id="cartCheckoutBtn">
+                    @auth
+                        @if (auth()->user()->isCustomer())
+                            Proceed to Checkout
+                        @else
+                            Sign in to Checkout
+                        @endif
+                    @else
+                        Sign in to Checkout
+                    @endauth
+                </button>
             </footer>
         </div>
 

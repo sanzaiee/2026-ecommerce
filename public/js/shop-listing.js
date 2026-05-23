@@ -1,6 +1,10 @@
 (function () {
-  const shopPage = document.getElementById('shopPage');
+  const shopPage = document.getElementById('shopPage')
+    || document.getElementById('categoryPage')
+    || document.getElementById('brandPage');
   if (!shopPage) return;
+
+  const isScopedListingPage = shopPage.id === 'categoryPage' || shopPage.id === 'brandPage';
 
   const grid = document.getElementById('shopProductGrid');
   const emptyState = document.getElementById('shopEmpty');
@@ -13,49 +17,109 @@
   const filterDrawer = document.getElementById('shopFilterDrawer');
   const desktopForm = document.getElementById('shopFiltersDesktop');
   const mobileForm = document.getElementById('shopFiltersMobile');
+  const categorySearchInput = document.querySelector('[data-category-search]');
+  let categorySearch = '';
 
   const CART_KEY = 'mandira_cart';
   const PAGE_SIZE = 8;
   let visibleLimit = PAGE_SIZE;
   let toastTimer;
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlSearch = (urlParams.get('search') || '').trim();
+
   const cols = () => Array.from(grid.querySelectorAll('.shop-product-col'));
+
+  function parseRatingMin(value) {
+    if (value === null || value === undefined || value === '' || value === 'any') {
+      return null;
+    }
+    const min = Number(value);
+    return Number.isFinite(min) ? min : null;
+  }
+
+  function getProductRating(col) {
+    const card = col.querySelector('.product-card');
+    const raw = card?.getAttribute('data-rating')
+      ?? col.getAttribute('data-rating')
+      ?? card?.dataset.rating
+      ?? col.dataset.rating
+      ?? '0';
+    const rating = Number(raw);
+    return Number.isFinite(rating) ? rating : 0;
+  }
+
+  function getProductPrice(col) {
+    const card = col.querySelector('.product-card');
+    const raw = col.getAttribute('data-price')
+      ?? card?.getAttribute('data-price')
+      ?? col.dataset.price
+      ?? card?.dataset.price
+      ?? '0';
+    const price = Number(raw);
+    return Number.isFinite(price) ? price : 0;
+  }
+
+  function getProductInStock(col) {
+    const card = col.querySelector('.product-card');
+    const raw = col.getAttribute('data-in-stock')
+      ?? card?.getAttribute('data-in-stock')
+      ?? col.dataset.inStock
+      ?? card?.dataset.inStock
+      ?? '1';
+    return raw === '1';
+  }
 
   function getFilterState(form) {
     if (!form) return null;
     const fd = new FormData(form);
     const categories = fd.getAll('category');
     const availability = fd.getAll('availability');
-    const rating = fd.get('rating') || '';
     const priceMin = fd.get('price_min');
     const priceMax = fd.get('price_max');
 
     return {
       categories,
       availability,
-      rating: rating === '' ? null : Number(rating),
-      priceMin: priceMin !== '' ? Number(priceMin) : null,
-      priceMax: priceMax !== '' ? Number(priceMax) : null,
+      rating: parseRatingMin(fd.get('rating')),
+      priceMin: priceMin !== '' && priceMin !== null ? Number(priceMin) : null,
+      priceMax: priceMax !== '' && priceMax !== null ? Number(priceMax) : null,
     };
+  }
+
+  function syncRadioGroup(sourceForm, target, name) {
+    const selected = sourceForm.querySelector(`input[type="radio"][name="${name}"]:checked`);
+    target.querySelectorAll(`input[type="radio"][name="${name}"]`).forEach((input) => {
+      input.checked = selected ? input.value === selected.value : false;
+    });
   }
 
   function syncForms(sourceForm) {
     const target = sourceForm === desktopForm ? mobileForm : desktopForm;
     if (!sourceForm || !target) return;
 
+    syncRadioGroup(sourceForm, target, 'rating');
+
     sourceForm.querySelectorAll('input').forEach((input) => {
-      const match = target.querySelector(`[name="${input.name}"][value="${CSS.escape(input.value)}"]`)
-        || target.querySelector(`[name="${input.name}"]`);
-      if (!match) return;
-      if (input.type === 'checkbox' || input.type === 'radio') {
+      if (input.type === 'radio') return;
+
+      if (input.type === 'checkbox') {
         const twin = target.querySelector(
           `[name="${input.name}"][value="${CSS.escape(input.value)}"]`
         );
         if (twin) twin.checked = input.checked;
-      } else {
-        const field = target.querySelector(`[name="${input.name}"]`);
-        if (field) field.value = input.value;
+        return;
       }
+
+      const field = target.querySelector(`[name="${input.name}"]`);
+      if (field) field.value = input.value;
+    });
+  }
+
+  function resetRatingFilter(form) {
+    if (!form) return;
+    form.querySelectorAll('input[name="rating"]').forEach((input) => {
+      input.checked = input.value === 'any';
     });
   }
 
@@ -66,15 +130,16 @@
     if (state.rating !== null) n += 1;
     if (state.priceMin !== null) n += 1;
     if (state.priceMax !== null) n += 1;
+    if (urlSearch) n += 1;
+    if (categorySearch) n += 1;
     return n;
   }
 
   function productMatches(col, state) {
-    const card = col.querySelector('.product-card');
-    const category = col.dataset.category || '';
-    const price = Number(col.dataset.price || card?.dataset.price || 0);
-    const rating = Number(col.dataset.rating || card?.dataset.rating || 0);
-    const inStock = (col.dataset.inStock ?? '1') === '1';
+    const category = col.dataset.category || col.getAttribute('data-category') || '';
+    const price = getProductPrice(col);
+    const rating = getProductRating(col);
+    const inStock = getProductInStock(col);
 
     if (state.categories.length && !state.categories.includes(category)) {
       return false;
@@ -91,6 +156,11 @@
     if (state.priceMin !== null && price < state.priceMin) return false;
     if (state.priceMax !== null && price > state.priceMax) return false;
 
+    if (categorySearch) {
+      const name = col.querySelector('.product-name')?.textContent?.trim().toLowerCase() || '';
+      if (!name.includes(categorySearch)) return false;
+    }
+
     return true;
   }
 
@@ -98,10 +168,10 @@
     const sort = sortSelect?.value || 'default';
 
     matched.sort((a, b) => {
-      const priceA = Number(a.col.dataset.price || 0);
-      const priceB = Number(b.col.dataset.price || 0);
-      const ratingA = Number(a.col.dataset.rating || 0);
-      const ratingB = Number(b.col.dataset.rating || 0);
+      const priceA = getProductPrice(a.col);
+      const priceB = getProductPrice(b.col);
+      const ratingA = getProductRating(a.col);
+      const ratingB = getProductRating(b.col);
 
       switch (sort) {
         case 'price-asc':
@@ -146,6 +216,14 @@
 
     if (state.priceMax !== null) {
       chips.push({ key: 'price_max', value: String(state.priceMax), label: `Up to Rs. ${state.priceMax}` });
+    }
+
+    if (urlSearch) {
+      chips.push({ key: 'search', value: urlSearch, label: `“${urlSearch}”` });
+    }
+
+    if (categorySearch) {
+      chips.push({ key: 'category_search', value: categorySearch, label: `“${categorySearch}”` });
     }
 
     if (!chips.length) {
@@ -226,14 +304,28 @@
     requestAnimationFrame(() => grid.classList.remove('is-updating'));
   }
 
+  function clearSearch() {
+    if (!urlSearch) return;
+    const next = new URL(window.location.href);
+    next.searchParams.delete('search');
+    window.location.href = next.toString();
+  }
+
   function clearFilters() {
     [desktopForm, mobileForm].forEach((form) => {
       if (!form) return;
       form.reset();
-      const anyRating = form.querySelector('[name="rating"][value=""]');
-      if (anyRating) anyRating.checked = true;
+      resetRatingFilter(form);
     });
+    categorySearch = '';
+    if (categorySearchInput) categorySearchInput.value = '';
     visibleLimit = PAGE_SIZE;
+
+    if (urlSearch) {
+      clearSearch();
+      return;
+    }
+
     applyFilters();
   }
 
@@ -308,6 +400,19 @@
     const btn = e.target.closest('[data-chip-key]');
     if (!btn) return;
 
+    if (btn.dataset.chipKey === 'search') {
+      clearSearch();
+      return;
+    }
+
+    if (btn.dataset.chipKey === 'category_search') {
+      categorySearch = '';
+      if (categorySearchInput) categorySearchInput.value = '';
+      visibleLimit = PAGE_SIZE;
+      applyFilters();
+      return;
+    }
+
     const { chipKey, chipValue } = btn.dataset;
     [desktopForm, mobileForm].forEach((form) => {
       if (!form) return;
@@ -315,8 +420,7 @@
         const input = form.querySelector(`[name="${chipKey}"][value="${chipValue}"]`);
         if (input) input.checked = false;
       } else if (chipKey === 'rating') {
-        const any = form.querySelector('[name="rating"][value=""]');
-        if (any) any.checked = true;
+        resetRatingFilter(form);
       } else {
         const input = form.querySelector(`[name="${chipKey}"]`);
         if (input) input.value = '';
@@ -327,6 +431,15 @@
   });
 
   sortSelect?.addEventListener('change', () => applyFilters());
+
+  categorySearchInput?.addEventListener('input', () => {
+    clearTimeout(categorySearchInput._searchDebounce);
+    categorySearchInput._searchDebounce = setTimeout(() => {
+      categorySearch = categorySearchInput.value.trim().toLowerCase();
+      visibleLimit = PAGE_SIZE;
+      applyFilters();
+    }, 300);
+  });
 
   document.querySelectorAll('.shop-view-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -361,15 +474,17 @@
     if (id && name) addToCart(id, name, price);
   });
 
-  // Pre-select category from URL (?category=dried-fruits|pickles)
-  const params = new URLSearchParams(window.location.search);
-  const urlCategory = params.get('category');
-  if (urlCategory && ['dried-fruits', 'pickles'].includes(urlCategory)) {
-    [desktopForm, mobileForm].forEach((form) => {
-      const input = form?.querySelector(`[name="category"][value="${urlCategory}"]`);
-      if (input) input.checked = true;
-    });
+  if (!isScopedListingPage) {
+    const urlCategory = urlParams.get('category');
+    if (urlCategory && ['dried-fruits', 'pickles'].includes(urlCategory)) {
+      [desktopForm, mobileForm].forEach((form) => {
+        const input = form?.querySelector(`[name="category"][value="${urlCategory}"]`);
+        if (input) input.checked = true;
+      });
+    }
   }
 
-  applyFilters();
+  if (grid?.querySelector('.shop-product-col')) {
+    applyFilters();
+  }
 })();

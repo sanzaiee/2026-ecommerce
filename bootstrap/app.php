@@ -11,7 +11,26 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+            'customer' => \App\Http\Middleware\EnsureUserIsCustomer::class,
+        ]);
+
+        $middleware->redirectGuestsTo(function ($request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.login');
+            }
+
+            return route('login');
+        });
+
+        $middleware->redirectUsersTo(function ($request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.dashboard');
+            }
+
+            return route('account');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

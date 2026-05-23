@@ -1,12 +1,8 @@
 (function () {
-  const CART_KEY = 'mandira_cart';
   const root = document.getElementById('productDetail');
   if (!root) return;
 
   const productId = root.dataset.productId;
-  const productName = root.dataset.productName;
-  const productPrice = Number(root.dataset.productPrice) || 0;
-  const productImage = root.dataset.productImage;
   const inStock = root.dataset.inStock === '1';
 
   const mainImage = document.getElementById('productMainImage');
@@ -16,14 +12,33 @@
   const qtyIncrease = document.getElementById('qtyIncrease');
   const addToCartBtn = document.getElementById('addToCartBtn');
   const wishlistBtn = document.getElementById('productWishlist');
-  const toast = document.getElementById('productToast');
-  const toastMessage = document.getElementById('productToastMessage');
   const reviewForm = document.getElementById('reviewForm');
   const reviewsList = document.getElementById('reviewsList');
 
-  let toastTimer = null;
+  const store = () => window.MandiraStore;
 
-  // Image gallery
+  function productPayload() {
+    if (store()?.normalizeProduct) {
+      return store().normalizeProduct({
+        id: root.dataset.productId,
+        name: root.dataset.productName,
+        price: root.dataset.productPrice,
+        image: root.dataset.productImage,
+        url: root.dataset.productUrl,
+        inStock,
+      });
+    }
+
+    return {
+      id: productId,
+      name: root.dataset.productName,
+      price: Number(root.dataset.productPrice) || 0,
+      image: root.dataset.productImage || '',
+      url: root.dataset.productUrl || '',
+      inStock,
+    };
+  }
+
   thumbs.forEach((thumb) => {
     thumb.addEventListener('click', () => {
       const src = thumb.dataset.image;
@@ -39,7 +54,6 @@
     });
   });
 
-  // Quantity
   function getQty() {
     const val = parseInt(qtyInput.value, 10);
     return Number.isFinite(val) && val >= 1 ? val : 1;
@@ -49,131 +63,21 @@
     qtyInput.value = Math.min(99, Math.max(1, val));
   }
 
-  if (qtyDecrease) {
-    qtyDecrease.addEventListener('click', () => setQty(getQty() - 1));
-  }
+  qtyDecrease?.addEventListener('click', () => setQty(getQty() - 1));
+  qtyIncrease?.addEventListener('click', () => setQty(getQty() + 1));
+  qtyInput?.addEventListener('change', () => setQty(getQty()));
 
-  if (qtyIncrease) {
-    qtyIncrease.addEventListener('click', () => setQty(getQty() + 1));
-  }
+  addToCartBtn?.addEventListener('click', () => {
+    const payload = productPayload();
+    if (!payload || !store()) return;
 
-  if (qtyInput) {
-    qtyInput.addEventListener('change', () => setQty(getQty()));
-  }
-
-  // Wishlist — handled by store.js (MandiraStore); sync initial state on load
-  if (wishlistBtn && window.MandiraStore) {
-    const inWishlist = window.MandiraStore.getWishlist().some((item) => item.id === productId);
-    wishlistBtn.classList.toggle('is-active', inWishlist);
-    wishlistBtn.setAttribute('aria-pressed', inWishlist ? 'true' : 'false');
-    wishlistBtn.setAttribute(
-      'aria-label',
-      inWishlist ? 'Remove from wishlist' : 'Add to wishlist'
-    );
-    const icon = wishlistBtn.querySelector('i');
-    if (icon) icon.className = inWishlist ? 'bi bi-heart-fill' : 'bi bi-heart';
-  }
-
-  // Cart (localStorage)
-  function getCart() {
-    try {
-      const raw = localStorage.getItem(CART_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
+    const added = store().addToCart(payload, getQty(), { openDrawer: true });
+    if (added) {
+      addToCartBtn.classList.add('is-added');
+      window.setTimeout(() => addToCartBtn.classList.remove('is-added'), 700);
     }
-  }
+  });
 
-  function saveCart(items) {
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
-    updateCartBadge(items);
-  }
-
-  function formatRs(n) {
-    return 'Rs. ' + n.toLocaleString('en-NP');
-  }
-
-  function updateCartBadge(items) {
-    const count = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
-    const subtotal = items.reduce(
-      (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
-      0
-    );
-
-    const badge = document.querySelector('.mobile-bottom-nav__badge[data-count]');
-    if (badge) {
-      badge.textContent = count;
-      badge.dataset.count = String(count);
-      badge.setAttribute(
-        'aria-label',
-        count + (count === 1 ? ' item' : ' items') + ' in cart'
-      );
-    }
-
-    const pillTotal = document.querySelector('.cart-pill__total');
-    if (pillTotal) pillTotal.textContent = formatRs(subtotal);
-  }
-
-  function addToCart() {
-    if (!inStock) return;
-
-    const qty = getQty();
-
-    if (window.MandiraStore) {
-      window.MandiraStore.addToCart(
-        { id: productId, name: productName, price: productPrice, image: productImage },
-        qty
-      );
-      window.MandiraStore.openDrawer('cart');
-      showToast(`Added ${qty} × ${productName} to cart`);
-      return;
-    }
-
-    const items = getCart();
-    const existing = items.find((item) => item.id === productId);
-
-    if (existing) {
-      existing.quantity += qty;
-    } else {
-      items.push({
-        id: productId,
-        name: productName,
-        price: productPrice,
-        image: productImage,
-        quantity: qty,
-      });
-    }
-
-    saveCart(items);
-    showToast(`Added ${qty} × ${productName} to cart`);
-  }
-
-  function showToast(message) {
-    if (!toast || !toastMessage) return;
-
-    toastMessage.textContent = message;
-    toast.hidden = false;
-    toast.classList.add('is-visible');
-
-    if (toastTimer) window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => {
-      toast.classList.remove('is-visible');
-      window.setTimeout(() => {
-        toast.hidden = true;
-      }, 300);
-    }, 2800);
-  }
-
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', addToCart);
-  }
-
-  // Sync badge on load from localStorage (store.js owns badges when present)
-  if (!window.MandiraStore) {
-    updateCartBadge(getCart());
-  }
-
-  // Reviews
   function formatReviewDate(date) {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
@@ -191,6 +95,8 @@
   }
 
   function appendReview({ name, rating, text }) {
+    if (!reviewsList) return;
+
     const article = document.createElement('article');
     article.className = 'review-card';
     const now = new Date();
@@ -213,19 +119,17 @@
     reviewsList.prepend(article);
   }
 
-  if (reviewForm) {
-    reviewForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+  reviewForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-      const name = document.getElementById('reviewName').value.trim();
-      const rating = Number(document.getElementById('reviewRating').value);
-      const text = document.getElementById('reviewText').value.trim();
+    const name = document.getElementById('reviewName')?.value.trim();
+    const rating = Number(document.getElementById('reviewRating')?.value);
+    const text = document.getElementById('reviewText')?.value.trim();
 
-      if (!name || !rating || !text) return;
+    if (!name || !rating || !text) return;
 
-      appendReview({ name, rating, text });
-      reviewForm.reset();
-      showToast('Thank you! Your review has been posted.');
-    });
-  }
+    appendReview({ name, rating, text });
+    reviewForm.reset();
+    store()?.showToast?.('Thank you! Your review has been posted.');
+  });
 })();

@@ -24,7 +24,12 @@
                 {{-- Desktop sidebar --}}
                 <aside class="col-lg-3 d-none d-lg-block shop-layout__sidebar" aria-label="Product filters">
                     <div class="shop-sidebar">
-                        @include('partials.store.shop-filters', ['idPrefix' => 'desktop', 'formId' => 'shopFiltersDesktop'])
+                        @include('partials.store.shop-filters', [
+                            'idPrefix' => 'desktop',
+                            'formId' => 'shopFiltersDesktop',
+                            'filterCategories' => $filterCategories,
+                            'activeCategory' => $activeCategory,
+                        ])
                     </div>
                 </aside>
 
@@ -33,8 +38,13 @@
                     <div class="shop-toolbar">
                         <div class="shop-toolbar__start">
                             <h1 class="shop-toolbar__title">{{ $pageTitle }}</h1>
+                            @if (! empty($activeSearch))
+                                <p class="shop-toolbar__search-hint">
+                                    Results for &ldquo;{{ $activeSearch }}&rdquo;
+                                </p>
+                            @endif
                             <p class="shop-toolbar__count" id="shopResultCount" aria-live="polite">
-                                {{ count($products) }} products
+                                {{ count($products) }} {{ count($products) === 1 ? 'product' : 'products' }}
                             </p>
                         </div>
 
@@ -91,6 +101,7 @@
                                 :product-id="$product['id']"
                                 :href="$product['href']"
                                 :price-numeric="$product['priceNumeric']"
+                                :in-wishlist="in_array($product['id'], $wishlistSlugs ?? [], true)"
                                 data-category="{{ $product['category'] }}"
                                 data-price="{{ $product['priceNumeric'] }}"
                                 data-rating="{{ $product['rating'] }}"
@@ -105,7 +116,13 @@
                             <i class="bi bi-search"></i>
                         </div>
                         <h2 class="shop-empty__title">No products found</h2>
-                        <p class="shop-empty__text">Try adjusting your filters or clearing them to see more items.</p>
+                        <p class="shop-empty__text" id="shopEmptyText">
+                            @if (! empty($activeSearch))
+                                No products match your search. Try different keywords or browse all products.
+                            @else
+                                Try adjusting your filters or clearing them to see more items.
+                            @endif
+                        </p>
                         <button type="button" class="btn shop-empty__btn" data-action="clear-filters">
                             Clear all filters
                         </button>
@@ -136,6 +153,8 @@
                 'idPrefix' => 'mobile',
                 'formId' => 'shopFiltersMobile',
                 'showActions' => true,
+                'filterCategories' => $filterCategories,
+                'activeCategory' => $activeCategory,
             ])
         </div>
     </div>

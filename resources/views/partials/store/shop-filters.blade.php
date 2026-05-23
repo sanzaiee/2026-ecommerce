@@ -15,21 +15,17 @@
     <div class="shop-filters__group">
         <h3 class="shop-filters__label">Category</h3>
         <ul class="shop-filters__list">
-            <li>
-                <label class="shop-filter-check">
-                    <input type="checkbox" name="category" value="dried-fruits"
-                        id="{{ $idPrefix }}-cat-dried">
-                    <span class="shop-filter-check__box" aria-hidden="true"></span>
-                    <span class="shop-filter-check__text">Dried Fruits</span>
-                </label>
-            </li>
-            <li>
-                <label class="shop-filter-check">
-                    <input type="checkbox" name="category" value="pickles" id="{{ $idPrefix }}-cat-pickles">
-                    <span class="shop-filter-check__box" aria-hidden="true"></span>
-                    <span class="shop-filter-check__text">Pickles</span>
-                </label>
-            </li>
+            @foreach ($filterCategories ?? [] as $cat)
+                <li>
+                    <label class="shop-filter-check">
+                        <input type="checkbox" name="category" value="{{ $cat->slug }}"
+                            id="{{ $idPrefix }}-cat-{{ $cat->slug }}"
+                            @checked(($activeCategory ?? null) === $cat->slug)>
+                        <span class="shop-filter-check__box" aria-hidden="true"></span>
+                        <span class="shop-filter-check__text">{{ $cat->name }}</span>
+                    </label>
+                </li>
+            @endforeach
         </ul>
     </div>
 
@@ -111,7 +107,7 @@
             </li>
             <li>
                 <label class="shop-filter-radio">
-                    <input type="radio" name="rating" value="" id="{{ $idPrefix }}-rating-any" checked>
+                    <input type="radio" name="rating" value="any" id="{{ $idPrefix }}-rating-any" checked>
                     <span class="shop-filter-radio__dot" aria-hidden="true"></span>
                     <span class="shop-filter-radio__text">Any rating</span>
                 </label>

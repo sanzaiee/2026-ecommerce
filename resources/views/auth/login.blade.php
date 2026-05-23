@@ -6,6 +6,10 @@
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
 @endpush
 
+@push('scripts')
+    <script src="{{ asset('js/auth.js') }}" defer></script>
+@endpush
+
 @section('content')
     <div class="content-page">
         @include('partials.store.content-breadcrumb', ['title' => 'Sign In'])
@@ -42,15 +46,8 @@
                                             @enderror
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input type="password" id="password" name="password"
-                                                class="form-control @error('password') is-invalid @enderror" required
-                                                autocomplete="current-password" placeholder="Enter your password">
-                                            @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        <x-auth.password-input id="password" name="password" label="Password"
+                                            placeholder="Enter your password" autocomplete="current-password" />
 
                                         <div class="auth-form__row">
                                             <label class="auth-form__remember">

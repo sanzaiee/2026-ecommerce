@@ -2,6 +2,9 @@
     'promo' => 'Free shipping on orders above Rs. 2,000',
     'promoSecondary' => '100% natural products',
     'cartTotal' => 'Rs. 0',
+    'siteName' => null,
+    'brandSuffix' => null,
+    'logoUrl' => null,
     'menuItems' => [
         ['label' => 'All Products', 'href' => url('/shop')],
         ['label' => 'Dried Fruits', 'href' => url('/shop') . '?category=dried-fruits'],
@@ -9,14 +12,35 @@
     ],
 ])
 
-<div class="top-strip">
-    {{ $promo }}<span>|</span>{{ $promoSecondary }}
-</div>
+@php
+    $site = $site ?? [];
+    $siteName = $siteName ?? ($site['siteName'] ?? 'Mandira');
+    $brandSuffix = $brandSuffix ?? ($site['brandSuffix'] ?? 'Foods');
+    $logoUrl = $logoUrl ?? ($site['logoUrl'] ?? null);
+    $promo = $promo ?? ($site['promoPrimary'] ?? null);
+    $promoSecondary = $promoSecondary ?? ($site['promoSecondary'] ?? null);
+@endphp
+
+@if ($promo || $promoSecondary)
+    <div class="top-strip">
+        @if ($promo && $promoSecondary)
+            {{ $promo }}<span>|</span>{{ $promoSecondary }}
+        @elseif ($promo)
+            {{ $promo }}
+        @else
+            {{ $promoSecondary }}
+        @endif
+    </div>
+@endif
 
 <nav class="main-navbar navbar navbar-expand-lg" {{ $attributes }}>
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <div class="brand-text">Mandira<span>Foods</span></div>
+            @if ($logoUrl)
+                <img src="{{ $logoUrl }}" alt="{{ $siteName }} {{ $brandSuffix }}" class="navbar-brand__logo" height="40">
+            @else
+                <div class="brand-text">{{ $siteName }}<span>{{ $brandSuffix }}</span></div>
+            @endif
         </a>
 
         <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse"
@@ -25,40 +49,50 @@
         </button>
 
         <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav nav-menu mb-2 mb-lg-0">
-                @foreach ($menuItems as $item)
-                    <li class="nav-item">
-                        <a class="nav-link nav-menu__link" href="{{ $item['href'] }}">{{ $item['label'] }}</a>
-                    </li>
-                @endforeach
-            </ul>
+            <div class="navbar-collapse__body">
+                <ul class="navbar-nav nav-menu mb-0">
+                    @foreach ($menuItems as $item)
+                        <li class="nav-item">
+                            <a class="nav-link nav-menu__link" href="{{ $item['href'] }}">{{ $item['label'] }}</a>
+                        </li>
+                    @endforeach
+                </ul>
 
-            <div class="nav-right-zone">
-                <div class="search-bar d-none d-lg-block">
-                    <input type="search" placeholder="Search products..." aria-label="Search">
-                    <i class="bi bi-search search-icon"></i>
+                <div class="navbar-collapse__actions">
+                    @include('partials.store.header-search', ['class' => 'nav-search--mobile d-lg-none'])
+
+                    <div class="nav-right-zone">
+                        @include('partials.store.header-search', ['class' => 'nav-search--desktop d-none d-lg-block'])
+
+                        <div class="nav-icons">
+                            <a href="{{ auth()->check() && auth()->user()->isCustomer() ? route('account.wishlist') : route('store.wishlist.show') }}"
+                                class="nav-icon-btn" aria-label="Open wishlist"
+                                @guest
+                                    data-drawer-open="wishlist" role="button"
+                                @else
+                                    @if (!auth()->user()->isCustomer())
+                                        data-drawer-open="wishlist" role="button"
+                                    @endif
+                                @endguest>
+                                <i class="bi bi-heart"></i>
+                                <span class="nav-icon-btn__badge is-hidden" data-wishlist-count="0"
+                                    aria-hidden="true">0</span>
+                            </a>
+                            @guest
+                                <a href="{{ route('login') }}" class="nav-icon-btn" aria-label="Sign in">
+                                    <i class="bi bi-person"></i>
+                                </a>
+                            @else
+                                <x-store.account-nav />
+                            @endguest
+                            <a href="#" class="cart-pill" aria-label="Open cart" data-drawer-open="cart"
+                                role="button">
+                                <i class="bi bi-bag"></i>
+                                <span class="cart-pill__total">{{ $cartTotal }}</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="nav-icons">
-                    <a href="#" class="nav-icon-btn" aria-label="Open wishlist" data-drawer-open="wishlist"
-                        role="button">
-                        <i class="bi bi-heart"></i>
-                        <span class="nav-icon-btn__badge" data-wishlist-count="0" aria-hidden="true">0</span>
-                    </a>
-                    <a href="{{ auth()->check() ? url('/') : route('login') }}" class="nav-icon-btn"
-                        aria-label="{{ auth()->check() ? 'My account' : 'Sign in' }}">
-                        <i class="bi bi-person"></i>
-                    </a>
-                    <a href="#" class="cart-pill" aria-label="Open cart" data-drawer-open="cart" role="button">
-                        <i class="bi bi-bag"></i>
-                        <span class="cart-pill__total">{{ $cartTotal }}</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="search-bar d-lg-none w-100">
-                <input type="search" placeholder="Search products..." aria-label="Search">
-                <i class="bi bi-search search-icon"></i>
             </div>
         </div>
     </div>

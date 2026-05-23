@@ -11,7 +11,7 @@
         ['label' => 'Contact Us', 'href' => route('contact')],
     ],
     'informationLinks' => [
-        ['label' => 'About Us', 'href' => '#'],
+        ['label' => 'About Us', 'href' => route('about')],
         ['label' => 'FAQs', 'href' => route('faqs')],
         ['label' => 'Shipping & Delivery', 'href' => '#'],
         ['label' => 'Returns', 'href' => route('refund')],
@@ -32,7 +32,14 @@
 ])
 
 @php
-    $copyright ??= '&copy; ' . date('Y') . ' Mandira Foods. All rights reserved.';
+    $site = $site ?? [];
+    $brand = $site['siteName'] ?? $brand;
+    $brandSuffix = $site['brandSuffix'] ?? $brandSuffix;
+    $description = $site['footerDescription'] ?? $description;
+    $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' Mandira Foods. All rights reserved.');
+    if (! empty($site['socialLinks'] ?? [])) {
+        $socialLinks = $site['socialLinks'];
+    }
 @endphp
 
 <footer class="site-footer" {{ $attributes }}>

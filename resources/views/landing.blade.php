@@ -1,29 +1,34 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
 @section('content')
-    <x-store.hero
-        :title="$hero['title']"
-        :subtitle="$hero['subtitle']"
-        :image="$hero['image']"
-        :image-alt="$hero['imageAlt']"
-    />
+    <x-store.hero :title="$hero['title']" :subtitle="$hero['subtitle']" :image="$hero['image']" :image-alt="$hero['imageAlt']" />
 
     {{-- Shop By Category --}}
-    <section class="section-padding">
-        <div class="container">
-            <div class="section-header section-header--center">
-                <h2 class="section-heading">Shop By Category</h2>
-            </div>
-            <div class="row category-row justify-content-center">
+    <section class="category-section" aria-labelledby="category-heading">
+        <div class="category-section__ambient" aria-hidden="true"></div>
+        <div class="container category-section__container">
+            <header class="category-section__header">
+                <p class="category-section__eyebrow">Collections</p>
+                <h2 id="category-heading" class="category-section__title">Shop By Category</h2>
+                <div class="category-section__accent" aria-hidden="true"></div>
+            </header>
+
+            <div class="category-showcase">
                 @foreach ($categories as $category)
-                    <div class="col-md-6">
-                        <a href="{{ $category['href'] }}" class="category-card">
-                            <div class="img-wrap">
-                                <img src="{{ $category['image'] }}" alt="{{ $category['title'] }}">
-                            </div>
-                            <h3 class="card-title">{{ $category['title'] }}</h3>
-                        </a>
-                    </div>
+                    <a href="{{ $category['href'] }}" class="category-tile">
+                        <span class="category-tile__media">
+                            <img src="{{ $category['image'] }}" alt="{{ $category['title'] }}" loading="lazy"
+                                decoding="async">
+                            <span class="category-tile__scrim" aria-hidden="true"></span>
+                        </span>
+                        <span class="category-tile__content">
+                            <h3 class="category-tile__title">{{ $category['title'] }}</h3>
+                            <span class="category-tile__cta">
+                                Explore
+                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                            </span>
+                        </span>
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -37,17 +42,7 @@
             </div>
             <div class="row product-grid row-cols-1 row-cols-md-2 row-cols-lg-4">
                 @foreach ($everydayProducts as $product)
-                    <x-store.product-card
-                        :image="$product['image']"
-                        :alt="$product['alt'] ?? ''"
-                        :name="$product['name']"
-                        :price="$product['price']"
-                        :compare-price="$product['comparePrice'] ?? null"
-                        :rating="$product['rating']"
-                        :reviews="$product['reviews']"
-                        :out-of-stock="$product['outOfStock'] ?? false"
-                        :href="$product['href'] ?? url('/products/premium-dried-mango-slices')"
-                    />
+                    @include('partials.store.product-card-item', ['product' => $product])
                 @endforeach
             </div>
         </div>
@@ -61,24 +56,14 @@
             </div>
             <div class="row product-grid row-cols-1 row-cols-md-2 row-cols-lg-4">
                 @foreach ($topSellingProducts as $product)
-                    <x-store.product-card
-                        :image="$product['image']"
-                        :alt="$product['alt'] ?? ''"
-                        :name="$product['name']"
-                        :price="$product['price']"
-                        :compare-price="$product['comparePrice'] ?? null"
-                        :rating="$product['rating']"
-                        :reviews="$product['reviews']"
-                        :out-of-stock="$product['outOfStock'] ?? false"
-                        :href="$product['href'] ?? url('/products/premium-dried-mango-slices')"
-                    />
+                    @include('partials.store.product-card-item', ['product' => $product])
                 @endforeach
             </div>
         </div>
     </section>
 
     {{-- Watch & Explore --}}
-    <section class="section-padding section-bg reels-section">
+    {{-- <section class="section-padding section-bg reels-section">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-heading-left">Watch &amp; Explore</h2>
@@ -94,5 +79,23 @@
                 @endforeach
             </div>
         </div>
-    </section>
+    </section> --}}
+
+    @if (!empty($testimonials))
+        <section class="section-padding section-bg testimonials-section" aria-labelledby="testimonials-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-heading-left" id="testimonials-heading">What Our Customers Say</h2>
+                </div>
+                <div class="row g-4 testimonials-grid">
+                    @foreach ($testimonials as $testimonial)
+                        @include('partials.store.testimonial-card', ['testimonial' => $testimonial])
+                    @endforeach
+                </div>
+                <p class="testimonials-section__about text-center mb-0">
+                    <a href="{{ route('about') }}">Learn more about Mandira Foods</a>
+                </p>
+            </div>
+        </section>
+    @endif
 @endsection

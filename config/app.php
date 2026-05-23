@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Placeholder image
+    |--------------------------------------------------------------------------
+    |
+    | Fallback URL when product or media images are missing.
+    |
+    */
+
+    'placeholder_image' => env('PLACEHOLDER_IMAGE', '/img/placeholder.jpg'),
+
 ];

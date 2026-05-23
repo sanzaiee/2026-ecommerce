@@ -9,26 +9,7 @@
 @section('content')
     @php
         $rating = min(5, max(0, (float) $product['rating']));
-        $initialReviews = [
-            [
-                'name' => 'Sunita R.',
-                'rating' => 5,
-                'text' => 'Absolutely delicious! The mangoes are sweet, chewy, and taste incredibly fresh. Will definitely order again.',
-                'date' => '2026-04-12',
-            ],
-            [
-                'name' => 'Rajesh K.',
-                'rating' => 4,
-                'text' => 'Great quality and packaging. A bit pricey but worth it for the natural taste without any additives.',
-                'date' => '2026-03-28',
-            ],
-            [
-                'name' => 'Anita M.',
-                'rating' => 5,
-                'text' => 'My kids love these as an after-school snack. Love that there is no added sugar!',
-                'date' => '2026-03-05',
-            ],
-        ];
+        $initialReviews = $reviews ?? [];
     @endphp
 
     <div class="product-detail" id="productDetail"
@@ -36,6 +17,7 @@
         data-product-name="{{ $product['name'] }}"
         data-product-price="{{ $product['price'] }}"
         data-product-image="{{ $product['images'][0] }}"
+        data-product-url="{{ route('product.show', $product['slug']) }}"
         data-in-stock="{{ $product['inStock'] ? '1' : '0' }}">
 
         {{-- Breadcrumb --}}
@@ -43,7 +25,11 @@
             <div class="container">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('/') }}#products">{{ $product['category'] }}</a></li>
+                    @if (! empty($product['category']))
+                        <li class="breadcrumb-item">
+                            <a href="{{ ! empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
+                        </li>
+                    @endif
                     <li class="breadcrumb-item active" aria-current="page">{{ $product['name'] }}</li>
                 </ol>
             </div>
@@ -99,7 +85,15 @@
                                 </a>
                             </div>
 
-                            <p class="product-info__category">{{ $product['category'] }}</p>
+                            <p class="product-info__category">
+                                @if (! empty($product['category']))
+                                    <a href="{{ ! empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
+                                @endif
+                                @if (! empty($product['brand']))
+                                    @if (! empty($product['category'])) · @endif
+                                    <a href="{{ route('brand.show', $product['brandSlug']) }}">{{ $product['brand'] }}</a>
+                                @endif
+                            </p>
 
                             <div class="product-info__price-row">
                                 <span class="product-info__price">{{ $product['priceFormatted'] }}</span>
@@ -137,6 +131,13 @@
                                 </div>
 
                                 <button type="button" class="product-info__wishlist" id="productWishlist"
+                                    data-action="wishlist"
+                                    data-product-id="{{ $product['id'] }}"
+                                    data-product-name="{{ $product['name'] }}"
+                                    data-product-price="{{ $product['price'] }}"
+                                    data-product-image="{{ $product['images'][0] }}"
+                                    data-product-url="{{ route('product.show', $product['slug']) }}"
+                                    data-in-stock="{{ $product['inStock'] ? '1' : '0' }}"
                                     aria-label="Add to wishlist" aria-pressed="false">
                                     <i class="bi bi-heart" aria-hidden="true"></i>
                                 </button>
@@ -223,28 +224,28 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <form class="review-form" id="reviewForm" novalidate>
+                        @if (session('status'))
+                            <div class="alert alert-success">{{ session('status') }}</div>
+                        @endif
+                        <form class="review-form" method="POST" action="{{ route('product.reviews.store', $product['slug']) }}">
+                            @csrf
                             <h3 class="review-form__title">Write a Review</h3>
                             <div class="mb-3">
                                 <label for="reviewName" class="form-label">Your Name</label>
-                                <input type="text" class="form-control" id="reviewName" required
-                                    placeholder="Enter your name">
+                                <input type="text" name="name" class="form-control" id="reviewName" value="{{ old('name', auth()->user()?->name) }}" required placeholder="Enter your name">
                             </div>
                             <div class="mb-3">
                                 <label for="reviewRating" class="form-label">Rating</label>
-                                <select class="form-select" id="reviewRating" required>
+                                <select name="rating" class="form-select" id="reviewRating" required>
                                     <option value="" selected disabled>Choose rating</option>
-                                    <option value="5">5 — Excellent</option>
-                                    <option value="4">4 — Good</option>
-                                    <option value="3">3 — Average</option>
-                                    <option value="2">2 — Fair</option>
-                                    <option value="1">1 — Poor</option>
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        <option value="{{ $i }}" @selected(old('rating') == $i)>{{ $i }} star{{ $i > 1 ? 's' : '' }}</option>
+                                    @endfor
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="reviewText" class="form-label">Your Review</label>
-                                <textarea class="form-control" id="reviewText" rows="4" required
-                                    placeholder="Share your experience with this product"></textarea>
+                                <textarea name="comment" class="form-control" id="reviewText" rows="4" placeholder="Share your experience">{{ old('comment') }}</textarea>
                             </div>
                             <button type="submit" class="btn review-form__submit">Submit Review</button>
                         </form>
@@ -260,17 +261,7 @@
                 <div class="related-products-scroll">
                     <div class="row product-grid row-cols-1 row-cols-sm-2 row-cols-lg-4 flex-nowrap flex-lg-wrap">
                         @foreach ($relatedProducts as $related)
-                            <x-store.product-card
-                                :image="$related['image']"
-                                :alt="$related['alt'] ?? ''"
-                                :name="$related['name']"
-                                :price="$related['price']"
-                                :compare-price="$related['comparePrice'] ?? null"
-                                :rating="$related['rating']"
-                                :reviews="$related['reviews']"
-                                :product-id="$related['id']"
-                                :href="$related['href']"
-                            />
+                            @include('partials.store.product-card-item', ['product' => $related])
                         @endforeach
                     </div>
                 </div>
@@ -278,12 +269,8 @@
         </section>
     </div>
 
-    <div class="product-toast" id="productToast" role="status" aria-live="polite" aria-atomic="true" hidden>
-        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
-        <span id="productToastMessage">Added to cart</span>
-    </div>
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/product-detail.js') }}"></script>
+    <script src="{{ asset('js/product-detail.js') }}" defer></script>
 @endpush

@@ -2,50 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\CMS\Services\AboutPageService;
+use App\Domain\Contact\DTOs\CreateContactMessageData;
+use App\Domain\Contact\Services\ContactMessageService;
+use App\Domain\Newsletter\Services\NewsletterSubscriberService;
+use App\Domain\Settings\Services\SettingsService;
+use App\Support\ViewData\AboutPageMapper;
+use App\Http\Requests\StoreContactMessageRequest;
+use App\Http\Requests\SubscribeNewsletterRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
+    public function __construct(
+        private ContactMessageService $contactMessages,
+        private NewsletterSubscriberService $newsletter,
+        private SettingsService $settings,
+        private AboutPageService $aboutPage,
+        private AboutPageMapper $aboutMapper,
+    ) {}
+
     public function contact(): View
     {
+        $site = $this->settings->getPublic();
+
         return view('pages.contact', [
             'cartTotal' => 'Rs. 0',
             'pageTitle' => 'Contact Us',
-            'contactInfo' => $this->contactInfo(),
+            'contactInfo' => $site['contactInfo'],
         ]);
     }
 
-    public function submitContact(Request $request): RedirectResponse
+    public function submitContact(StoreContactMessageRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'subject' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string', 'max:2000'],
-        ]);
+        $validated = $request->validated();
+
+        $this->contactMessages->submit(new CreateContactMessageData(
+            name: $validated['name'],
+            email: $validated['email'],
+            phone: $validated['phone'] ?? null,
+            subject: $validated['subject'],
+            message: $validated['message'],
+        ));
 
         return redirect()
             ->route('contact')
             ->with('status', 'Thank you! We received your message and will reply within one business day.');
     }
 
-    public function subscribeNewsletter(Request $request): RedirectResponse
+    public function subscribeNewsletter(SubscribeNewsletterRequest $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'max:255'],
-        ]);
-
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator, 'newsletter')
-                ->withInput();
-        }
+        $this->newsletter->subscribe($request->validated('email'));
 
         return back()->with('newsletter_status', 'You are subscribed! Watch your inbox for offers and new arrivals.');
+    }
+
+    public function about(): View
+    {
+        $site = $this->settings->getPublic();
+        $page = $this->aboutPage->getPublicPayload();
+
+        return view('pages.about', array_merge(
+            $this->aboutMapper->toAboutView($page, $site),
+            ['cartTotal' => 'Rs. 0'],
+        ));
     }
 
     public function faq(): View
@@ -59,62 +80,38 @@ class PageController extends Controller
 
     public function terms(): View
     {
+        $site = $this->settings->getPublic();
+
         return view('pages.terms', [
             'cartTotal' => 'Rs. 0',
             'pageTitle' => 'Terms & Conditions',
-            'lastUpdated' => 'May 23, 2026',
+            'legalBody' => $site['termsBody'],
+            'lastUpdated' => $site['termsUpdated'],
         ]);
     }
 
     public function privacy(): View
     {
+        $site = $this->settings->getPublic();
+
         return view('pages.privacy', [
             'cartTotal' => 'Rs. 0',
             'pageTitle' => 'Privacy Policy',
-            'lastUpdated' => 'May 23, 2026',
+            'legalBody' => $site['privacyBody'],
+            'lastUpdated' => $site['privacyUpdated'],
         ]);
     }
 
     public function refund(): View
     {
+        $site = $this->settings->getPublic();
+
         return view('pages.refund', [
             'cartTotal' => 'Rs. 0',
             'pageTitle' => 'Refund Policy',
-            'lastUpdated' => 'May 23, 2026',
+            'legalBody' => $site['refundBody'],
+            'lastUpdated' => $site['refundUpdated'],
         ]);
-    }
-
-    /**
-     * @return array<int, array{icon: string, label: string, value: string, href: string|null}>
-     */
-    private function contactInfo(): array
-    {
-        return [
-            [
-                'icon' => 'bi-envelope',
-                'label' => 'Email',
-                'value' => 'support@mandirafoods.com',
-                'href' => 'mailto:support@mandirafoods.com',
-            ],
-            [
-                'icon' => 'bi-telephone',
-                'label' => 'Phone',
-                'value' => '+977 1-XXXXXXX',
-                'href' => 'tel:+9771XXXXXXX',
-            ],
-            [
-                'icon' => 'bi-geo-alt',
-                'label' => 'Address',
-                'value' => 'Baluwatar, Kathmandu, Nepal',
-                'href' => null,
-            ],
-            [
-                'icon' => 'bi-clock',
-                'label' => 'Hours',
-                'value' => 'Sun–Fri, 10:00 AM – 6:00 PM',
-                'href' => null,
-            ],
-        ];
     }
 
     /**
@@ -153,7 +150,7 @@ class PageController extends Controller
             ],
             [
                 'question' => 'Who can I contact for help?',
-                'answer' => 'Email us at support@mandirafoods.com or call +977 1-XXXXXXX (Sun–Fri, 10 AM–6 PM). We usually reply within one business day.',
+                'answer' => 'Use the contact details on our Contact page. We usually reply within one business day.',
             ],
         ];
     }
