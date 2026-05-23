@@ -1,5 +1,5 @@
 <p>
-    Mandira Foods respects your privacy. This policy explains what personal information we collect,
+    Our site respects your privacy. This policy explains what personal information we collect,
     how we use it, and the choices you have.
 </p>
 
@@ -7,7 +7,8 @@
 <ul>
     <li><strong>Account data:</strong> name, email address, and password (stored securely hashed).</li>
     <li><strong>Order data:</strong> shipping address, phone number, order history, and payment status.</li>
-    <li><strong>Technical data:</strong> IP address, browser type, and cookies used to run the site and remember preferences.</li>
+    <li><strong>Technical data:</strong> IP address, browser type, and cookies used to run the site and remember
+        preferences.</li>
     <li><strong>Communications:</strong> messages you send to customer support.</li>
 </ul>
 

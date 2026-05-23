@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice {{ $order->order_number }} — Mandira Foods</title>
+    <title>Invoice {{ $order->order_number }} — Our site</title>
     <link href="{{ asset('css/admin-invoice.css') }}" rel="stylesheet">
 </head>
+
 <body class="invoice-body">
     <div class="invoice-toolbar no-print">
         <button type="button" onclick="window.print()" class="invoice-btn">Print / Save PDF</button>
@@ -15,7 +17,7 @@
     <article class="invoice">
         <header class="invoice__header">
             <div>
-                <h1 class="invoice__brand">Mandira Foods</h1>
+                <h1 class="invoice__brand">Our site</h1>
                 <p class="invoice__tagline">Premium dried fruits &amp; snacks</p>
             </div>
             <div class="invoice__meta">
@@ -29,8 +31,8 @@
             <div>
                 <h3>Bill to</h3>
                 <p>{{ $order->customer_name }}<br>
-                {{ $order->customer_email }}<br>
-                {{ $order->customer_phone }}</p>
+                    {{ $order->customer_email }}<br>
+                    {{ $order->customer_phone }}</p>
             </div>
             <div>
                 <h3>Ship to</h3>
@@ -91,4 +93,5 @@
         </footer>
     </article>
 </body>
+
 </html>

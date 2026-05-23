@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal ?? 'Rs. 0'])
 
-@section('title', ($pageTitle ?? 'My Account') . ' — Mandira Foods')
+@section('title', ($pageTitle ?? 'My Account') . ' — Our site')
 
 @push('styles')
     <link href="{{ asset('css/account.css') }}" rel="stylesheet">

@@ -1,12 +1,12 @@
 <p>
-    Welcome to Mandira Foods. By accessing our website or placing an order, you agree to these Terms
+    Welcome to Our site. By accessing our website or placing an order, you agree to these Terms
     &amp; Conditions. Please read them carefully before using our services.
 </p>
 
 <h2>1. About us</h2>
 <p>
-    Mandira Foods sells premium dried fruits, traditional pickles, and related products online within
-    Nepal. References to &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;Mandira Foods&rdquo; mean our company and website.
+    Our site sells premium dried fruits, traditional pickles, and related products online within
+    Nepal. References to &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;Our site&rdquo; mean our company and website.
 </p>
 
 <h2>2. Orders and pricing</h2>

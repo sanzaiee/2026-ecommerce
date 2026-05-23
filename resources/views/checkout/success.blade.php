@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Order confirmed — Mandira Foods')
+@section('title', 'Order confirmed — Our site')
 
 @push('styles')
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">

@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', $pageTitle . ' — Mandira Foods')
+@section('title', $pageTitle . ' — Our site')
 
 @push('styles')
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
@@ -34,7 +34,8 @@
                                     <div>
                                         <span class="contact-info-card__label">{{ $item['label'] }}</span>
                                         @if ($item['href'])
-                                            <a href="{{ $item['href'] }}" class="contact-info-card__value">{{ $item['value'] }}</a>
+                                            <a href="{{ $item['href'] }}"
+                                                class="contact-info-card__value">{{ $item['value'] }}</a>
                                         @else
                                             <p class="contact-info-card__value mb-0">{{ $item['value'] }}</p>
                                         @endif
@@ -75,7 +76,8 @@
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="phone" class="form-label">Phone <span class="text-muted">(optional)</span></label>
+                                        <label for="phone" class="form-label">Phone <span
+                                                class="text-muted">(optional)</span></label>
                                         <input type="tel" id="phone" name="phone"
                                             class="form-control @error('phone') is-invalid @enderror"
                                             value="{{ old('phone') }}" placeholder="+977 98XXXXXXXX">
@@ -87,12 +89,18 @@
                                         <label for="subject" class="form-label">Subject</label>
                                         <select id="subject" name="subject"
                                             class="form-select @error('subject') is-invalid @enderror" required>
-                                            <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Choose a topic</option>
-                                            <option value="Order inquiry" @selected(old('subject') === 'Order inquiry')>Order inquiry</option>
-                                            <option value="Product question" @selected(old('subject') === 'Product question')>Product question</option>
-                                            <option value="Shipping & delivery" @selected(old('subject') === 'Shipping & delivery')>Shipping & delivery</option>
-                                            <option value="Returns & refunds" @selected(old('subject') === 'Returns & refunds')>Returns & refunds</option>
-                                            <option value="Wholesale / bulk" @selected(old('subject') === 'Wholesale / bulk')>Wholesale / bulk</option>
+                                            <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Choose a
+                                                topic</option>
+                                            <option value="Order inquiry" @selected(old('subject') === 'Order inquiry')>Order inquiry
+                                            </option>
+                                            <option value="Product question" @selected(old('subject') === 'Product question')>Product question
+                                            </option>
+                                            <option value="Shipping & delivery" @selected(old('subject') === 'Shipping & delivery')>Shipping &
+                                                delivery</option>
+                                            <option value="Returns & refunds" @selected(old('subject') === 'Returns & refunds')>Returns & refunds
+                                            </option>
+                                            <option value="Wholesale / bulk" @selected(old('subject') === 'Wholesale / bulk')>Wholesale / bulk
+                                            </option>
                                             <option value="Other" @selected(old('subject') === 'Other')>Other</option>
                                         </select>
                                         @error('subject')
@@ -101,9 +109,8 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="message" class="form-label">Message</label>
-                                        <textarea id="message" name="message" rows="5"
-                                            class="form-control @error('message') is-invalid @enderror" required
-                                            placeholder="How can we help you?">{{ old('message') }}</textarea>
+                                        <textarea id="message" name="message" rows="5" class="form-control @error('message') is-invalid @enderror"
+                                            required placeholder="How can we help you?">{{ old('message') }}</textarea>
                                         @error('message')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

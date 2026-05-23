@@ -93,7 +93,7 @@
                     @endforeach
                 </div>
                 <p class="testimonials-section__about text-center mb-0">
-                    <a href="{{ route('about') }}">Learn more about Mandira Foods</a>
+                    <a href="{{ route('about') }}">Learn more about Our site</a>
                 </p>
             </div>
         </section>

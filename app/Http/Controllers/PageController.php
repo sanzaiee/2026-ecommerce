@@ -121,7 +121,7 @@ class PageController extends Controller
     {
         return [
             [
-                'question' => 'What products does Mandira Foods sell?',
+                'question' => 'What products does Our site sell?',
                 'answer' => 'We offer premium dried fruits, traditional Nepali pickles, and curated gift boxes. All products are made with natural ingredients and no artificial preservatives.',
             ],
             [

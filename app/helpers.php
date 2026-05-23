@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Settings\Repositories\SiteSettingRepository;
+
 if (! function_exists('get_placeholder_image')) {
     /**
      * Default image URL when a product or media asset has no upload.
@@ -13,5 +15,17 @@ if (! function_exists('get_placeholder_image')) {
         }
 
         return $url;
+    }
+}
+
+if (! function_exists('get_site_name')) {
+    /**
+     * Get the site name from the configuration.
+     */
+    function get_site_name(): string
+    {
+        $site = app(SiteSettingRepository::class)->getSingleton();
+
+        return $site?->site_name ?? config('app.name');
     }
 }

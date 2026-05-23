@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Wishlist — Mandira Foods')
+@section('title', 'Wishlist — Our site')
 
 @push('styles')
     <link href="{{ asset('css/account.css') }}" rel="stylesheet">
@@ -23,13 +23,14 @@
                     </p>
                 </div>
 
-                <div class="account-card account-wishlist-page @if (($wishlist['count'] ?? 0) === 0) is-empty @endif" data-wishlist-page>
+                <div class="account-card account-wishlist-page @if (($wishlist['count'] ?? 0) === 0) is-empty @endif"
+                    data-wishlist-page>
                     <div class="account-wishlist-toolbar">
                         <p class="account-wishlist-count" id="wishlistPageCount">
                             {{ ($wishlist['count'] ?? 0) === 1 ? '1 item saved' : ($wishlist['count'] ?? 0) . ' items saved' }}
                         </p>
-                        <button type="button" class="account-btn account-btn--primary account-btn--inline" id="wishlistPageMoveAll"
-                            @if (($wishlist['count'] ?? 0) === 0) disabled @endif>
+                        <button type="button" class="account-btn account-btn--primary account-btn--inline"
+                            id="wishlistPageMoveAll" @if (($wishlist['count'] ?? 0) === 0) disabled @endif>
                             Move all to cart
                         </button>
                     </div>

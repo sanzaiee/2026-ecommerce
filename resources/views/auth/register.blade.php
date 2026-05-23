@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Create Account — Mandira Foods')
+@section('title', 'Create Account — Our site')
 
 @push('styles')
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
                                 <div class="auth-card__form">
                                     <div class="auth-heading">
                                         <h1>Create your account</h1>
-                                        <p>Join Mandira Foods for a smoother shopping experience.</p>
+                                        <p>Join Our site for a smoother shopping experience.</p>
                                     </div>
 
                                     <form class="auth-form" method="POST" action="{{ route('register') }}" novalidate>
@@ -63,9 +63,11 @@
                                                 {{ old('terms') ? 'checked' : '' }} required>
                                             <span>
                                                 I agree to the
-                                                <a href="{{ route('terms') }}" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+                                                <a href="{{ route('terms') }}" target="_blank" rel="noopener">Terms &amp;
+                                                    Conditions</a>
                                                 and
-                                                <a href="{{ route('privacy') }}" target="_blank" rel="noopener">Privacy Policy</a>.
+                                                <a href="{{ route('privacy') }}" target="_blank" rel="noopener">Privacy
+                                                    Policy</a>.
                                             </span>
                                         </label>
                                         @error('terms')
@@ -86,9 +88,12 @@
                                         <h2>Why register?</h2>
                                         <p>Members enjoy exclusive perks on dried fruits, pickles, and gift boxes.</p>
                                         <ul>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Order history &amp; invoices</li>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Saved shipping addresses</li>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Early access to seasonal offers</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Order history
+                                                &amp; invoices</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Saved shipping
+                                                addresses</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Early access to
+                                                seasonal offers</li>
                                         </ul>
                                     </div>
                                 </div>

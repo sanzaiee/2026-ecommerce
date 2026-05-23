@@ -1,5 +1,5 @@
 <p>
-    We want you to be satisfied with every Mandira Foods purchase. If something is not right, please
+    We want you to be satisfied with every Our site purchase. If something is not right, please
     review this policy and contact us — we will do our best to help.
 </p>
 

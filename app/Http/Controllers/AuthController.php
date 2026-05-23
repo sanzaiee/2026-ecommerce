@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         return redirect()
             ->intended(route('account'))
-            ->with('status', 'Welcome to Mandira Foods!');
+            ->with('status', 'Welcome to Our site!');
     }
 
     public function logout(Request $request): RedirectResponse

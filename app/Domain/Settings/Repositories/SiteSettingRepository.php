@@ -15,7 +15,7 @@ class SiteSettingRepository implements SiteSettingRepositoryInterface
         }
 
         return SiteSetting::create([
-            'site_name' => 'Mandira',
+            'site_name' => 'Our Site Name',
             'brand_suffix' => 'Foods',
             'tagline' => 'Premium dried fruits and traditional pickles',
             'theme_primary' => config('store.theme.primary'),

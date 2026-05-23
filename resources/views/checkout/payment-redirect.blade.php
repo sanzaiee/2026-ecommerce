@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Redirecting to payment — Mandira Foods')
+@section('title', 'Redirecting to payment — Our site')
 
 @push('styles')
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
@@ -30,7 +30,8 @@
 
                     <p class="checkout-result__hint">
                         If you are not redirected automatically,
-                        <button type="submit" form="paymentRedirectForm" class="checkout-result__link-btn">click here</button>.
+                        <button type="submit" form="paymentRedirectForm" class="checkout-result__link-btn">click
+                            here</button>.
                     </p>
                 </div>
             </div>

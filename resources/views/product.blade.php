@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', $product['name'] . ' — Mandira Foods')
+@section('title', $product['name'] . ' — Our site')
 
 @push('styles')
     <link href="{{ asset('css/product-detail.css') }}" rel="stylesheet">
@@ -12,12 +12,9 @@
         $initialReviews = $reviews ?? [];
     @endphp
 
-    <div class="product-detail" id="productDetail"
-        data-product-id="{{ $product['id'] }}"
-        data-product-name="{{ $product['name'] }}"
-        data-product-price="{{ $product['price'] }}"
-        data-product-image="{{ $product['images'][0] }}"
-        data-product-url="{{ route('product.show', $product['slug']) }}"
+    <div class="product-detail" id="productDetail" data-product-id="{{ $product['id'] }}"
+        data-product-name="{{ $product['name'] }}" data-product-price="{{ $product['price'] }}"
+        data-product-image="{{ $product['images'][0] }}" data-product-url="{{ route('product.show', $product['slug']) }}"
         data-in-stock="{{ $product['inStock'] ? '1' : '0' }}">
 
         {{-- Breadcrumb --}}
@@ -25,9 +22,10 @@
             <div class="container">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                    @if (! empty($product['category']))
+                    @if (!empty($product['category']))
                         <li class="breadcrumb-item">
-                            <a href="{{ ! empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
+                            <a
+                                href="{{ !empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
                         </li>
                     @endif
                     <li class="breadcrumb-item active" aria-current="page">{{ $product['name'] }}</li>
@@ -43,15 +41,14 @@
                     <div class="col-lg-6">
                         <div class="product-gallery">
                             <div class="product-gallery__main">
-                                <img src="{{ $product['images'][0] }}" alt="{{ $product['name'] }}"
-                                    id="productMainImage" class="product-gallery__main-img">
+                                <img src="{{ $product['images'][0] }}" alt="{{ $product['name'] }}" id="productMainImage"
+                                    class="product-gallery__main-img">
                             </div>
                             <div class="product-gallery__thumbs" role="list" aria-label="Product images">
                                 @foreach ($product['images'] as $index => $image)
                                     <button type="button"
                                         class="product-gallery__thumb{{ $index === 0 ? ' is-active' : '' }}"
-                                        data-image="{{ $image }}"
-                                        aria-label="View image {{ $index + 1 }}"
+                                        data-image="{{ $image }}" aria-label="View image {{ $index + 1 }}"
                                         aria-pressed="{{ $index === 0 ? 'true' : 'false' }}">
                                         <img src="{{ $image }}" alt="">
                                     </button>
@@ -86,11 +83,14 @@
                             </div>
 
                             <p class="product-info__category">
-                                @if (! empty($product['category']))
-                                    <a href="{{ ! empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
+                                @if (!empty($product['category']))
+                                    <a
+                                        href="{{ !empty($product['categorySlug']) ? route('category.show', $product['categorySlug']) : route('shop') }}">{{ $product['category'] }}</a>
                                 @endif
-                                @if (! empty($product['brand']))
-                                    @if (! empty($product['category'])) · @endif
+                                @if (!empty($product['brand']))
+                                    @if (!empty($product['category']))
+                                        ·
+                                    @endif
                                     <a href="{{ route('brand.show', $product['brandSlug']) }}">{{ $product['brand'] }}</a>
                                 @endif
                             </p>
@@ -131,14 +131,13 @@
                                 </div>
 
                                 <button type="button" class="product-info__wishlist" id="productWishlist"
-                                    data-action="wishlist"
-                                    data-product-id="{{ $product['id'] }}"
+                                    data-action="wishlist" data-product-id="{{ $product['id'] }}"
                                     data-product-name="{{ $product['name'] }}"
                                     data-product-price="{{ $product['price'] }}"
                                     data-product-image="{{ $product['images'][0] }}"
                                     data-product-url="{{ route('product.show', $product['slug']) }}"
-                                    data-in-stock="{{ $product['inStock'] ? '1' : '0' }}"
-                                    aria-label="Add to wishlist" aria-pressed="false">
+                                    data-in-stock="{{ $product['inStock'] ? '1' : '0' }}" aria-label="Add to wishlist"
+                                    aria-pressed="false">
                                     <i class="bi bi-heart" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -227,19 +226,23 @@
                         @if (session('status'))
                             <div class="alert alert-success">{{ session('status') }}</div>
                         @endif
-                        <form class="review-form" method="POST" action="{{ route('product.reviews.store', $product['slug']) }}">
+                        <form class="review-form" method="POST"
+                            action="{{ route('product.reviews.store', $product['slug']) }}">
                             @csrf
                             <h3 class="review-form__title">Write a Review</h3>
                             <div class="mb-3">
                                 <label for="reviewName" class="form-label">Your Name</label>
-                                <input type="text" name="name" class="form-control" id="reviewName" value="{{ old('name', auth()->user()?->name) }}" required placeholder="Enter your name">
+                                <input type="text" name="name" class="form-control" id="reviewName"
+                                    value="{{ old('name', auth()->user()?->name) }}" required
+                                    placeholder="Enter your name">
                             </div>
                             <div class="mb-3">
                                 <label for="reviewRating" class="form-label">Rating</label>
                                 <select name="rating" class="form-select" id="reviewRating" required>
                                     <option value="" selected disabled>Choose rating</option>
                                     @for ($i = 5; $i >= 1; $i--)
-                                        <option value="{{ $i }}" @selected(old('rating') == $i)>{{ $i }} star{{ $i > 1 ? 's' : '' }}</option>
+                                        <option value="{{ $i }}" @selected(old('rating') == $i)>
+                                            {{ $i }} star{{ $i > 1 ? 's' : '' }}</option>
                                     @endfor
                                 </select>
                             </div>

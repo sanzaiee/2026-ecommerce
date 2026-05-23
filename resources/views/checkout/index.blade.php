@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Checkout — Mandira Foods')
+@section('title', 'Checkout — Our site')
 
 @push('styles')
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
@@ -105,8 +105,7 @@
                                     <div class="col-12">
                                         <label for="notes" class="form-label">Delivery notes
                                             <span class="text-muted">(optional)</span></label>
-                                        <textarea id="notes" name="notes" rows="3"
-                                            class="form-control @error('notes') is-invalid @enderror"
+                                        <textarea id="notes" name="notes" rows="3" class="form-control @error('notes') is-invalid @enderror"
                                             placeholder="Gate code, preferred time, etc.">{{ old('notes') }}</textarea>
                                         @error('notes')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -126,11 +125,11 @@
                                     @foreach ($paymentOptions as $index => $option)
                                         <label class="checkout-payment-option">
                                             <input type="radio" name="payment_method" value="{{ $option['id'] }}"
-                                                @checked(old('payment_method', $defaultPaymentMethod) === $option['id'])
-                                                required>
+                                                @checked(old('payment_method', $defaultPaymentMethod) === $option['id']) required>
                                             <span class="checkout-payment-option__box">
                                                 <span class="checkout-payment-option__label">{{ $option['label'] }}</span>
-                                                <span class="checkout-payment-option__desc">{{ $option['description'] }}</span>
+                                                <span
+                                                    class="checkout-payment-option__desc">{{ $option['description'] }}</span>
                                             </span>
                                         </label>
                                     @endforeach

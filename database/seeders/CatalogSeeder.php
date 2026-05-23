@@ -197,7 +197,7 @@ class CatalogSeeder extends Seeder
         $landing = LandingPage::query()->updateOrCreate(['id' => 1], [
             'hero_title' => 'Mandira Premium Dried Fruits',
             'hero_subtitle' => 'All natural. No added sugar, color.',
-            'meta_title' => 'Mandira Foods — Premium Dried Fruits & Pickles',
+            'meta_title' => 'Our site — Premium Dried Fruits & Pickles',
             'meta_description' => 'Shop premium dried fruits and traditional pickles from Nepal.',
         ]);
 
@@ -222,7 +222,7 @@ class CatalogSeeder extends Seeder
         AboutPage::query()->updateOrCreate(['id' => 1], [
             'hero_eyebrow' => 'Our story',
             'story_heading' => 'From Nepal to your table',
-            'story_paragraph_1' => 'Mandira Foods brings premium dried fruits and traditional Nepali pickles to homes across the country. We partner with growers who share our respect for the land, then slow-dry, season, and pack each batch so flavor stays honest from the first bite to the last.',
+            'story_paragraph_1' => 'Our site brings premium dried fruits and traditional Nepali pickles to homes across the country. We partner with growers who share our respect for the land, then slow-dry, season, and pack each batch so flavor stays honest from the first bite to the last.',
             'story_paragraph_2' => 'Whether you are filling a pantry, packing a lunchbox, or sending a gift, we want every product to feel as thoughtful as something you would share with family.',
             'gallery_heading' => 'Crafted with care',
             'gallery_lead' => 'A glimpse of what we make — simple ingredients, proud Nepali roots.',
@@ -240,8 +240,8 @@ class CatalogSeeder extends Seeder
             ],
             'cta_title' => 'Taste the difference',
             'cta_text' => 'Explore our dried fruits, pickles, and gift-ready packs — shipped across Nepal.',
-            'meta_title' => 'About Us — Mandira Foods',
-            'meta_description' => 'Learn about Mandira Foods — premium dried fruits and traditional pickles crafted in Nepal.',
+            'meta_title' => 'About Us — Our site',
+            'meta_description' => 'Learn about Our site — premium dried fruits and traditional pickles crafted in Nepal.',
         ]);
 
         $sampleReviews = [

@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Sign In — Mandira Foods')
+@section('title', 'Sign In — Our site')
 
 @push('styles')
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
@@ -61,7 +61,7 @@
                                     </form>
 
                                     <p class="auth-switch">
-                                        New to Mandira Foods?
+                                        New to {{ get_site_name() }}?
                                         <a href="{{ route('register') }}">Create an account</a>
                                     </p>
                                 </div>
@@ -71,9 +71,12 @@
                                         <h2>Premium natural foods from Nepal</h2>
                                         <p>Your account gives you quick access to orders, addresses, and your wishlist.</p>
                                         <ul>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Track deliveries in real time</li>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Save products to your wishlist</li>
-                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Faster checkout on repeat orders</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Track deliveries
+                                                in real time</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Save products to
+                                                your wishlist</li>
+                                            <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Faster checkout
+                                                on repeat orders</li>
                                         </ul>
                                     </div>
                                 </div>

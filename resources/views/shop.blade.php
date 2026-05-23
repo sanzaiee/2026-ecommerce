@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', $pageTitle . ' — Mandira Foods')
+@section('title', $pageTitle . ' — Our site')
 
 @push('styles')
     <link href="{{ asset('css/shop-listing.css') }}" rel="stylesheet">
@@ -38,7 +38,7 @@
                     <div class="shop-toolbar">
                         <div class="shop-toolbar__start">
                             <h1 class="shop-toolbar__title">{{ $pageTitle }}</h1>
-                            @if (! empty($activeSearch))
+                            @if (!empty($activeSearch))
                                 <p class="shop-toolbar__search-hint">
                                     Results for &ldquo;{{ $activeSearch }}&rdquo;
                                 </p>
@@ -49,9 +49,8 @@
                         </div>
 
                         <div class="shop-toolbar__end">
-                            <button type="button" class="btn shop-toolbar__filter-btn d-lg-none"
-                                data-bs-toggle="offcanvas" data-bs-target="#shopFilterDrawer"
-                                aria-controls="shopFilterDrawer">
+                            <button type="button" class="btn shop-toolbar__filter-btn d-lg-none" data-bs-toggle="offcanvas"
+                                data-bs-target="#shopFilterDrawer" aria-controls="shopFilterDrawer">
                                 <i class="bi bi-sliders" aria-hidden="true"></i>
                                 Filter
                                 <span class="shop-toolbar__filter-badge" id="shopFilterBadge" hidden>0</span>
@@ -68,8 +67,8 @@
                             </div>
 
                             <div class="shop-toolbar__view" role="group" aria-label="View layout">
-                                <button type="button" class="shop-view-btn is-active" data-view="grid"
-                                    aria-pressed="true" aria-label="Grid view">
+                                <button type="button" class="shop-view-btn is-active" data-view="grid" aria-pressed="true"
+                                    aria-label="Grid view">
                                     <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="shop-view-btn" data-view="list" aria-pressed="false"
@@ -86,28 +85,12 @@
                     <div class="row product-grid shop-product-grid row-cols-1 row-cols-md-2 row-cols-xl-4"
                         id="shopProductGrid" data-shop-grid>
                         @foreach ($products as $product)
-                            <x-store.product-card
-                                :image="$product['image']"
-                                :hover-image="$product['hoverImage'] ?? null"
-                                :alt="$product['alt'] ?? ''"
-                                :name="$product['name']"
-                                :price="$product['price']"
-                                :compare-price="$product['comparePrice'] ?? null"
-                                :rating="$product['rating']"
-                                :reviews="$product['reviews']"
-                                :out-of-stock="! ($product['inStock'] ?? true)"
-                                :on-sale="$product['onSale'] ?? false"
-                                :category-label="$product['categoryLabel'] ?? null"
-                                :product-id="$product['id']"
-                                :href="$product['href']"
-                                :price-numeric="$product['priceNumeric']"
-                                :in-wishlist="in_array($product['id'], $wishlistSlugs ?? [], true)"
-                                data-category="{{ $product['category'] }}"
-                                data-price="{{ $product['priceNumeric'] }}"
-                                data-rating="{{ $product['rating'] }}"
-                                data-in-stock="{{ ($product['inStock'] ?? true) ? '1' : '0' }}"
-                                class="shop-product-col"
-                            />
+                            <x-store.product-card :image="$product['image']" :hover-image="$product['hoverImage'] ?? null" :alt="$product['alt'] ?? ''" :name="$product['name']"
+                                :price="$product['price']" :compare-price="$product['comparePrice'] ?? null" :rating="$product['rating']" :reviews="$product['reviews']" :out-of-stock="!($product['inStock'] ?? true)"
+                                :on-sale="$product['onSale'] ?? false" :category-label="$product['categoryLabel'] ?? null" :product-id="$product['id']" :href="$product['href']"
+                                :price-numeric="$product['priceNumeric']" :in-wishlist="in_array($product['id'], $wishlistSlugs ?? [], true)" data-category="{{ $product['category'] }}"
+                                data-price="{{ $product['priceNumeric'] }}" data-rating="{{ $product['rating'] }}"
+                                data-in-stock="{{ $product['inStock'] ?? true ? '1' : '0' }}" class="shop-product-col" />
                         @endforeach
                     </div>
 
@@ -117,7 +100,7 @@
                         </div>
                         <h2 class="shop-empty__title">No products found</h2>
                         <p class="shop-empty__text" id="shopEmptyText">
-                            @if (! empty($activeSearch))
+                            @if (!empty($activeSearch))
                                 No products match your search. Try different keywords or browse all products.
                             @else
                                 Try adjusting your filters or clearing them to see more items.
@@ -143,8 +126,7 @@
         aria-labelledby="shopFilterDrawerTitle">
         <div class="offcanvas-header shop-filter-drawer__header">
             <h2 class="offcanvas-title shop-filter-drawer__title" id="shopFilterDrawerTitle">Filters</h2>
-            <button type="button" class="shop-filter-drawer__close" data-bs-dismiss="offcanvas"
-                aria-label="Close filters">
+            <button type="button" class="shop-filter-drawer__close" data-bs-dismiss="offcanvas" aria-label="Close filters">
                 <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
         </div>

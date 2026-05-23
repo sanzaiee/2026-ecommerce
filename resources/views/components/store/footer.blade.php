@@ -1,27 +1,24 @@
 @props([
-    'brand' => 'Mandira',
+    'brand' => get_site_name(),
     'brandSuffix' => 'Foods',
-    'description' => 'Premium dried fruits and traditional pickles crafted with care. 100% natural ingredients, no artificial additives — straight from Nepal to your table.',
+    'description' =>
+        'Premium dried fruits and traditional pickles crafted with care. 100% natural ingredients, no artificial additives — straight from Nepal to your table.',
     'copyright' => null,
     'quickLinks' => [
         ['label' => 'All Products', 'href' => url('/shop')],
         ['label' => 'Dried Fruits', 'href' => url('/shop') . '?category=dried-fruits'],
         ['label' => 'Pickles', 'href' => url('/shop') . '?category=pickles'],
-        ['label' => 'Gift Boxes', 'href' => '#'],
         ['label' => 'Contact Us', 'href' => route('contact')],
     ],
     'informationLinks' => [
         ['label' => 'About Us', 'href' => route('about')],
         ['label' => 'FAQs', 'href' => route('faqs')],
-        ['label' => 'Shipping & Delivery', 'href' => '#'],
         ['label' => 'Returns', 'href' => route('refund')],
-        ['label' => 'Track Order', 'href' => '#'],
     ],
     'policyLinks' => [
         ['label' => 'Privacy Policy', 'href' => route('privacy')],
         ['label' => 'Terms & Conditions', 'href' => route('terms')],
         ['label' => 'Refund Policy', 'href' => route('refund')],
-        ['label' => 'Cookie Policy', 'href' => '#'],
     ],
     'socialLinks' => [
         ['label' => 'Facebook', 'href' => '#', 'icon' => 'bi-facebook'],
@@ -36,8 +33,8 @@
     $brand = $site['siteName'] ?? $brand;
     $brandSuffix = $site['brandSuffix'] ?? $brandSuffix;
     $description = $site['footerDescription'] ?? $description;
-    $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' Mandira Foods. All rights reserved.');
-    if (! empty($site['socialLinks'] ?? [])) {
+    $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' Our site. All rights reserved.');
+    if (!empty($site['socialLinks'] ?? [])) {
         $socialLinks = $site['socialLinks'];
     }
 @endphp
@@ -103,7 +100,8 @@
         <div class="footer-bottom">
             <div class="social-icons">
                 @foreach ($socialLinks as $social)
-                    <a href="{{ $social['href'] }}" aria-label="{{ $social['label'] }}">
+                    <a href="{{ $social['href'] }}" aria-label="{{ $social['label'] }}" target="_blank"
+                        rel="noopener noreferrer">
                         <i class="bi {{ $social['icon'] }}"></i>
                     </a>
                 @endforeach

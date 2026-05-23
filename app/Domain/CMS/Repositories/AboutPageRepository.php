@@ -32,7 +32,7 @@ class AboutPageRepository implements AboutPageRepositoryInterface
         return [
             'hero_eyebrow' => 'Our story',
             'story_heading' => 'From Nepal to your table',
-            'story_paragraph_1' => 'Mandira Foods brings premium dried fruits and traditional Nepali pickles to homes across the country.',
+            'story_paragraph_1' => 'Our site brings premium dried fruits and traditional Nepali pickles to homes across the country.',
             'story_paragraph_2' => 'Whether you are filling a pantry, packing a lunchbox, or sending a gift, we want every product to feel as thoughtful as something you would share with family.',
             'gallery_heading' => 'Crafted with care',
             'gallery_lead' => 'A glimpse of what we make — simple ingredients, proud Nepali roots.',
