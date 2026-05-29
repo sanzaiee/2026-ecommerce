@@ -6,8 +6,8 @@
     'copyright' => null,
     'quickLinks' => [
         ['label' => 'All Products', 'href' => url('/shop')],
-        ['label' => 'Dried Fruits', 'href' => url('/shop') . '?category=dried-fruits'],
-        ['label' => 'Pickles', 'href' => url('/shop') . '?category=pickles'],
+        ['label' => 'Fried', 'href' => url('/shop') . '?category=fried'],
+        ['label' => 'Frozen', 'href' => url('/shop') . '?category=frozen'],
         ['label' => 'Contact Us', 'href' => route('contact')],
     ],
     'informationLinks' => [
