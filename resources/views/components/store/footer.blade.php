@@ -32,6 +32,7 @@
     $site = $site ?? [];
     $brand = $site['siteName'] ?? $brand;
     $brandSuffix = $site['brandSuffix'] ?? $brandSuffix;
+    $logoUrl = $site['logoUrl'] ?? null;
     $description = $site['footerDescription'] ?? $description;
     $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' Our site. All rights reserved.');
     if (!empty($site['socialLinks'] ?? [])) {
@@ -68,7 +69,12 @@
     <div class="container">
         <div class="row g-4 g-lg-5">
             <div class="col-12 col-md-6 col-lg-3 footer-brand">
-                <span class="brand-text">{{ $brand }}<span>{{ $brandSuffix }}</span></span>
+                @if ($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="{{ $brand }} {{ $brandSuffix }}"
+                        class="footer-brand__logo" width="220" height="52" loading="lazy" decoding="async">
+                @else
+                    <span class="brand-text">{{ $brand }}<span>{{ $brandSuffix }}</span></span>
+                @endif
                 <p>{{ $description }}</p>
             </div>
             <div class="col-6 col-md-3 col-lg-3 footer-col">

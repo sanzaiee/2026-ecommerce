@@ -168,9 +168,12 @@
                         <div class="col-md-6">
                             <label class="form-label">Logo</label>
                             <input type="file" name="logo" class="form-control" accept="image/*">
+                            <div class="form-text">Horizontal wordmark recommended: 480&times;96&nbsp;px (or similar
+                                4:1&ndash;5:1 ratio), PNG/SVG with transparent background. Displays up to 56px tall in
+                                the header.</div>
                             @if ($settings->getFirstMediaUrl('logo'))
-                                <img src="{{ $settings->getFirstMediaUrl('logo') }}" alt="Logo"
-                                    class="media-preview-box mt-2">
+                                <img src="{{ $settings->getFirstMediaUrl('logo', 'header') ?: $settings->getFirstMediaUrl('logo') }}"
+                                    alt="Logo" class="media-preview-box mt-2">
                             @endif
                         </div>
                         <div class="col-md-6">

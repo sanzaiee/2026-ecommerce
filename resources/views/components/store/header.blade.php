@@ -35,11 +35,15 @@
 
 <nav class="main-navbar navbar navbar-expand-lg" {{ $attributes }}>
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand @if ($logoUrl) navbar-brand--has-logo @endif"
+            href="{{ url('/') }}">
             @if ($logoUrl)
-                <img src="{{ $logoUrl }}" alt="{{ $siteName }} {{ $brandSuffix }}" class="navbar-brand__logo" height="40">
+                <span class="navbar-brand__mark">
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }} {{ $brandSuffix }}" class="navbar-brand__logo"
+                        width="520" height="170" decoding="async" fetchpriority="high">
+                </span>
             @else
-                <div class="brand-text">{{ $siteName }}<span>{{ $brandSuffix }}</span></div>
+                <span class="brand-text">{{ $siteName }}<span>{{ $brandSuffix }}</span></span>
             @endif
         </a>
 
@@ -62,18 +66,19 @@
                     @include('partials.store.header-search', ['class' => 'nav-search--mobile d-lg-none'])
 
                     <div class="nav-right-zone">
-                        @include('partials.store.header-search', ['class' => 'nav-search--desktop d-none d-lg-block'])
+                        @include('partials.store.header-search', [
+                            'class' => 'nav-search--desktop d-none d-lg-block',
+                        ])
 
                         <div class="nav-icons">
                             <a href="{{ auth()->check() && auth()->user()->isCustomer() ? route('account.wishlist') : route('store.wishlist.show') }}"
                                 class="nav-icon-btn" aria-label="Open wishlist"
                                 @guest
-                                    data-drawer-open="wishlist" role="button"
+data-drawer-open="wishlist" role="button"
                                 @else
                                     @if (!auth()->user()->isCustomer())
                                         data-drawer-open="wishlist" role="button"
-                                    @endif
-                                @endguest>
+                                    @endif @endguest>
                                 <i class="bi bi-heart"></i>
                                 <span class="nav-icon-btn__badge is-hidden" data-wishlist-count="0"
                                     aria-hidden="true">0</span>

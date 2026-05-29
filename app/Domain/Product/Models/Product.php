@@ -7,6 +7,7 @@ use App\Domain\Brand\Models\Brand;
 use App\Domain\Category\Models\Category;
 use App\Domain\Review\Models\Review;
 use App\Enums\StockStatus;
+use Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -62,6 +63,13 @@ class Product extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnly(['title', 'slug', 'price', 'stock_status'])->logOnlyDirty();
+    }
+
+    public function featuredImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getMedia($this->productMediaCollection())->first(),
+        );
     }
 
     public function category(): BelongsTo

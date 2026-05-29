@@ -43,7 +43,7 @@ class UpdateSiteSettingsRequest extends FormRequest
                     continue;
                 }
                 if (! str_starts_with($value, '#')) {
-                    $value = '#' . $value;
+                    $value = '#'.$value;
                 }
                 $this->merge([$field => strtoupper($value)]);
             }
@@ -98,7 +98,7 @@ class UpdateSiteSettingsRequest extends FormRequest
             'refund_policy' => ['nullable', 'string', 'max:65535'],
             'default_meta_title' => ['nullable', 'string', 'max:255'],
             'default_meta_description' => ['nullable', 'string', 'max:500'],
-            'logo' => ['nullable', 'image', 'max:2048'],
+            'logo' => ['nullable', 'image', 'max:3048'],
             'favicon' => ['nullable', 'image', 'max:512', 'dimensions:max_width=512,max_height=512'],
         ];
     }

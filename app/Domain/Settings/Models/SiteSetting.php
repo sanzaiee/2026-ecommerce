@@ -64,5 +64,9 @@ class SiteSetting extends Model implements HasMedia
             ->width(120)
             ->height(120)
             ->performOnCollections('logo');
+
+        $this->addMediaConversion('header')
+            ->width(480)
+            ->performOnCollections('logo');
     }
 }

@@ -25,7 +25,9 @@ class SiteSettingsMapper
             'footerDescription' => $settings->footer_description,
             'copyright' => $settings->copyright_text
                 ?: '&copy; ' . date('Y') . ' ' . $settings->site_name . ' ' . $settings->brand_suffix . '. All rights reserved.',
-            'logoUrl' => $settings->getFirstMediaUrl('logo') ?: null,
+            'logoUrl' => $settings->getFirstMediaUrl('logo', 'header')
+                ?: $settings->getFirstMediaUrl('logo')
+                ?: null,
             'faviconUrl' => $settings->getFirstMediaUrl('favicon') ?: null,
             'defaultMetaTitle' => $settings->default_meta_title,
             'defaultMetaDescription' => $settings->default_meta_description,
