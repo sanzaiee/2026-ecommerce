@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
+@section('subtitle', 'Store overview for ' . now()->format('l, F j, Y'))
 
 @section('content')
     @php
@@ -28,16 +29,32 @@
         $paymentCounts = collect($orderStats['by_payment'] ?? [])->values();
     @endphp
 
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-        <div>
-            <h1 class="h3 mb-1">Dashboard</h1>
-            <p class="text-muted mb-0 small">Store overview for {{ now()->format('l, F j, Y') }}</p>
-        </div>
+    <div class="row g-3 mb-4 align-items-stretch">
         @if (($attention['total'] ?? 0) > 0)
-            <span class="badge rounded-pill dashboard-attention-badge">
-                <i class="bi bi-bell-fill me-1"></i>{{ $attention['total'] }} need attention
-            </span>
+            <div class="col-lg-8">
+                <div class="admin-card admin-card--compact d-flex flex-wrap align-items-center justify-content-between gap-2 h-100">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="dashboard-attention-badge">
+                            <i class="bi bi-bell-fill me-1"></i>{{ $attention['total'] }} need attention
+                        </span>
+                        <span class="small admin-text-muted">Review pending orders and messages</span>
+                    </div>
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-sm admin-btn-outline">View orders</a>
+                </div>
+            </div>
         @endif
+        <div class="col-lg-4 @if (($attention['total'] ?? 0) === 0) ms-lg-auto @endif">
+            <div class="admin-card admin-appearance h-100">
+                <div class="admin-appearance__head">
+                    <div>
+                        <h2 class="admin-appearance__title">Appearance</h2>
+                        <p class="admin-appearance__desc">Override the site default for this browser. Set the global default in Settings → Appearance.</p>
+                    </div>
+                    <i class="bi bi-palette admin-appearance__icon" aria-hidden="true"></i>
+                </div>
+                @include('partials.admin.theme-toggle')
+            </div>
+        </div>
     </div>
 
     {{-- Sales KPIs --}}
@@ -255,13 +272,18 @@
                 blue: '#4a6fa5',
             };
 
+            const isDark = document.documentElement.getAttribute('data-admin-theme') === 'dark';
+            const chartText = isDark ? '#b5a99a' : '#7a6b5c';
+            const chartGrid = isDark ? '#3d342c' : '#f0ebe3';
+
             const doughnutOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom'
-                    }
+                        position: 'bottom',
+                        labels: { color: chartText },
+                    },
                 },
             };
 

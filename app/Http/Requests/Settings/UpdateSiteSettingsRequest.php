@@ -34,7 +34,10 @@ class UpdateSiteSettingsRequest extends FormRequest
             }
         }
 
-        foreach (['theme_primary', 'theme_primary_dark', 'theme_hero_accent'] as $field) {
+        foreach ([
+            'theme_primary', 'theme_primary_dark', 'theme_hero_accent',
+            'admin_color_primary', 'admin_color_secondary', 'admin_color_neutral',
+        ] as $field) {
             if ($this->has($field)) {
                 $value = trim(strip_tags((string) $this->input($field)));
                 if ($value === '') {
@@ -81,6 +84,10 @@ class UpdateSiteSettingsRequest extends FormRequest
             'theme_primary' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'theme_primary_dark' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'theme_hero_accent' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'admin_theme' => ['nullable', 'in:light,dark,system'],
+            'admin_color_primary' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'admin_color_secondary' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'admin_color_neutral' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'promo_primary' => ['nullable', 'string', 'max:255'],
             'promo_secondary' => ['nullable', 'string', 'max:255'],
             'footer_description' => ['nullable', 'string', 'max:2000'],
@@ -112,6 +119,10 @@ class UpdateSiteSettingsRequest extends FormRequest
             themePrimary: $this->input('theme_primary'),
             themePrimaryDark: $this->input('theme_primary_dark'),
             themeHeroAccent: $this->input('theme_hero_accent'),
+            adminTheme: $this->input('admin_theme'),
+            adminColorPrimary: $this->input('admin_color_primary'),
+            adminColorSecondary: $this->input('admin_color_secondary'),
+            adminColorNeutral: $this->input('admin_color_neutral'),
             promoPrimary: $this->input('promo_primary'),
             promoSecondary: $this->input('promo_secondary'),
             footerDescription: $this->input('footer_description'),

@@ -15,6 +15,21 @@ return [
         'hero_accent' => env('STORE_THEME_HERO_ACCENT', '#dceee9'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin CMS theme (defaults when DB value is empty)
+    | light | dark | system
+    |--------------------------------------------------------------------------
+    */
+    'admin' => [
+        'theme' => env('ADMIN_THEME', 'light'),
+        'colors' => [
+            'primary' => env('ADMIN_COLOR_PRIMARY', '#3D2914'),
+            'secondary' => env('ADMIN_COLOR_SECONDARY', '#C9A227'),
+            'neutral' => env('ADMIN_COLOR_NEUTRAL', '#7A6B5C'),
+        ],
+    ],
+
     'checkout' => [
         'require_auth' => true,
     ],

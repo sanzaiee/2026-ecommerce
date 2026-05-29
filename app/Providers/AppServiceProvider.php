@@ -114,6 +114,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer([
             'layouts.store',
             'layouts.admin',
+            'layouts.admin-guest',
             'components.store.header',
             'components.store.footer',
             'pages.*',

@@ -20,6 +20,8 @@ class SiteSettingsMapper
                 'primaryDark' => $this->themeColor($settings->theme_primary_dark, 'primary_dark'),
                 'heroAccent' => $this->themeColor($settings->theme_hero_accent, 'hero_accent'),
             ],
+            'adminTheme' => $this->adminTheme($settings),
+            'adminColors' => $this->adminColors($settings),
             'promoPrimary' => $settings->promo_primary,
             'promoSecondary' => $settings->promo_secondary,
             'footerDescription' => $settings->footer_description,
@@ -124,5 +126,39 @@ class SiteSettingsMapper
         }
 
         return strtoupper((string) config("store.theme.{$key}", '#b91c1c'));
+    }
+
+    private function adminTheme(SiteSetting $settings): string
+    {
+        $value = $settings->admin_theme;
+
+        if (in_array($value, ['light', 'dark', 'system'], true)) {
+            return $value;
+        }
+
+        $default = config('store.admin.theme', 'light');
+
+        return in_array($default, ['light', 'dark', 'system'], true) ? $default : 'light';
+    }
+
+    /**
+     * @return array{primary: string, secondary: string, neutral: string}
+     */
+    private function adminColors(SiteSetting $settings): array
+    {
+        return [
+            'primary' => $this->adminColor($settings->admin_color_primary, 'primary'),
+            'secondary' => $this->adminColor($settings->admin_color_secondary, 'secondary'),
+            'neutral' => $this->adminColor($settings->admin_color_neutral, 'neutral'),
+        ];
+    }
+
+    private function adminColor(?string $value, string $key): string
+    {
+        if ($value && preg_match('/^#[0-9A-Fa-f]{6}$/', $value)) {
+            return strtoupper($value);
+        }
+
+        return strtoupper((string) config("store.admin.colors.{$key}", '#3D2914'));
     }
 }

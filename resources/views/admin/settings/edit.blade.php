@@ -76,6 +76,13 @@
             font-size: 0.8125rem;
             color: #3d3d3d;
         }
+
+        .admin-settings-preview__swatch {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
     </style>
 @endpush
 
@@ -83,6 +90,10 @@
     $themePrimary = old('theme_primary', $settings->theme_primary ?? config('store.theme.primary'));
     $themePrimaryDark = old('theme_primary_dark', $settings->theme_primary_dark ?? config('store.theme.primary_dark'));
     $themeHeroAccent = old('theme_hero_accent', $settings->theme_hero_accent ?? config('store.theme.hero_accent'));
+    $adminTheme = old('admin_theme', $settings->admin_theme ?? config('store.admin.theme', 'light'));
+    $adminColorPrimary = old('admin_color_primary', $settings->admin_color_primary ?? config('store.admin.colors.primary'));
+    $adminColorSecondary = old('admin_color_secondary', $settings->admin_color_secondary ?? config('store.admin.colors.secondary'));
+    $adminColorNeutral = old('admin_color_neutral', $settings->admin_color_neutral ?? config('store.admin.colors.neutral'));
 @endphp
 
 @section('content')
@@ -222,9 +233,72 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            <hr class="my-4">
+
+                            <h3 class="h6 mb-2">Admin panel</h3>
+                            <p class="text-muted small mb-3">
+                                Colors and light/dark mode for the CMS. Storefront colors above are separate.
+                            </p>
+
+                            @foreach ([
+                                'admin_color_primary' => ['label' => 'Primary', 'hint' => 'Buttons, active nav, headings', 'value' => $adminColorPrimary],
+                                'admin_color_secondary' => ['label' => 'Secondary', 'hint' => 'Accents, icons, highlights', 'value' => $adminColorSecondary],
+                                'admin_color_neutral' => ['label' => 'Neutral', 'hint' => 'Muted text and borders', 'value' => $adminColorNeutral],
+                            ] as $field => $meta)
+                                <div class="row g-2 theme-color-row mb-3" data-admin-color-field="{{ $field }}">
+                                    <div class="col-md-5">
+                                        <label class="form-label">{{ $meta['label'] }}</label>
+                                        <div class="form-text">{{ $meta['hint'] }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="color" class="form-control form-control-color theme-color-picker"
+                                            value="{{ $meta['value'] }}" data-admin-color-picker="{{ $field }}"
+                                            aria-label="{{ $meta['label'] }} picker">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="{{ $field }}"
+                                            class="form-control font-monospace" value="{{ $meta['value'] }}"
+                                            maxlength="7" pattern="^#[0-9A-Fa-f]{6}$"
+                                            data-admin-color-hex="{{ $field }}">
+                                        @error($field)
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="mb-3">
+                                <label class="form-label">Admin preview</label>
+                                <div class="admin-settings-preview p-3 rounded border" id="adminColorPreview">
+                                    <div class="d-flex gap-2 mb-2">
+                                        <span class="admin-settings-preview__swatch" data-admin-preview="primary"></span>
+                                        <span class="admin-settings-preview__swatch" data-admin-preview="secondary"></span>
+                                        <span class="admin-settings-preview__swatch" data-admin-preview="neutral"></span>
+                                    </div>
+                                    <button type="button" class="btn btn-sm text-white" data-admin-preview-btn>Sign in</button>
+                                    <span class="small ms-2" data-admin-preview-muted>Muted label text</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="admin_theme">Default admin theme</label>
+                                <select name="admin_theme" id="admin_theme" class="form-select" style="max-width: 16rem;">
+                                    <option value="light" @selected($adminTheme === 'light')>Light</option>
+                                    <option value="dark" @selected($adminTheme === 'dark')>Dark</option>
+                                    <option value="system" @selected($adminTheme === 'system')>System (match device)</option>
+                                </select>
+                                @error('admin_theme')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">
+                                    Env: <code>ADMIN_THEME</code>, <code>ADMIN_COLOR_PRIMARY</code>,
+                                    <code>ADMIN_COLOR_SECONDARY</code>, <code>ADMIN_COLOR_NEUTRAL</code>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-5">
-                            <label class="form-label">Live preview</label>
+                            <label class="form-label">Storefront preview</label>
                             <div class="theme-preview" id="themePreview">
                                 <div class="theme-preview__strip" id="previewStrip">Free shipping on orders above Rs.
                                     2,000</div>
@@ -410,6 +484,56 @@
             });
 
             updatePreview();
+
+            const adminFields = ['admin_color_primary', 'admin_color_secondary', 'admin_color_neutral'];
+            const adminPreviewBtn = document.querySelector('[data-admin-preview-btn]');
+            const adminPreviewMuted = document.querySelector('[data-admin-preview-muted]');
+
+            function readAdmin(field) {
+                const hex = document.querySelector('[data-admin-color-hex="' + field + '"]');
+                return normalizeHex(hex ? hex.value : '');
+            }
+
+            function updateAdminPreview() {
+                const primary = readAdmin('admin_color_primary') || '#3D2914';
+                const secondary = readAdmin('admin_color_secondary') || '#C9A227';
+                const neutral = readAdmin('admin_color_neutral') || '#7A6B5C';
+
+                document.querySelectorAll('[data-admin-preview]').forEach((el) => {
+                    const key = el.getAttribute('data-admin-preview');
+                    if (key === 'primary') el.style.background = primary;
+                    if (key === 'secondary') el.style.background = secondary;
+                    if (key === 'neutral') el.style.background = neutral;
+                });
+
+                if (adminPreviewBtn) adminPreviewBtn.style.background = primary;
+                if (adminPreviewMuted) adminPreviewMuted.style.color = neutral;
+            }
+
+            adminFields.forEach((field) => {
+                const picker = document.querySelector('[data-admin-color-picker="' + field + '"]');
+                const hex = document.querySelector('[data-admin-color-hex="' + field + '"]');
+                if (!picker || !hex) return;
+
+                picker.addEventListener('input', () => {
+                    hex.value = picker.value.toUpperCase();
+                    updateAdminPreview();
+                });
+
+                hex.addEventListener('input', () => {
+                    const normalized = normalizeHex(hex.value);
+                    if (normalized) picker.value = normalized;
+                    updateAdminPreview();
+                });
+
+                hex.addEventListener('blur', () => {
+                    const normalized = normalizeHex(hex.value);
+                    if (normalized) hex.value = normalized;
+                    updateAdminPreview();
+                });
+            });
+
+            updateAdminPreview();
         })();
     </script>
 @endpush
