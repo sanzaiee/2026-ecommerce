@@ -856,6 +856,23 @@
         });
     });
 
+    const mobileNavDrawer = document.getElementById("mobileNavDrawer");
+    if (mobileNavDrawer) {
+        mobileNavDrawer.addEventListener("click", (event) => {
+            const link = event.target.closest("a[href]");
+            if (!link || link.hasAttribute("data-drawer-open")) {
+                return;
+            }
+
+            const href = link.getAttribute("href");
+            if (!href || href === "#") {
+                return;
+            }
+
+            closeMobileNavDrawer();
+        });
+    }
+
     document
         .querySelectorAll(
             '[data-bs-target="#cartDrawer"]:not([data-drawer-open])',
