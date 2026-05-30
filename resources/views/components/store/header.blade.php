@@ -48,7 +48,8 @@
         </a>
 
         <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            data-bs-target="#mainNav" data-mobile-nav-toggle aria-controls="mainNav" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 

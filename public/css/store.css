@@ -472,14 +472,45 @@ a {
 }
 
 @media (max-width: 991.98px) {
+    .main-navbar {
+        position: relative;
+        top: auto;
+    }
+
     .main-navbar > .container {
         flex-wrap: wrap;
         align-items: center;
         row-gap: 0;
+        height: auto;
+        min-height: 60px;
+        max-height: none;
     }
 
     .main-navbar .navbar-brand {
         order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: calc(100% - 52px);
+    }
+
+    .main-navbar .navbar-brand--has-logo {
+        position: relative;
+    }
+
+    .main-navbar .navbar-brand--has-logo::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .main-navbar .navbar-brand__mark {
+        max-width: 100%;
+    }
+
+    .main-navbar .navbar-brand__logo {
+        pointer-events: none;
+        max-width: 100%;
     }
 
     .main-navbar .navbar-toggler {
@@ -488,6 +519,13 @@ a {
         position: relative;
         z-index: 1032;
         flex-shrink: 0;
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .main-navbar .navbar-collapse {
@@ -497,6 +535,18 @@ a {
         max-width: 100%;
         padding-top: 4px;
         padding-bottom: 16px;
+        position: relative;
+        z-index: 1033;
+        background: var(--bg-white);
+    }
+
+    .main-navbar .navbar-collapse.show,
+    .main-navbar .navbar-collapse.collapsing {
+        padding-top: 56px;
+    }
+
+    body.mobile-nav-open {
+        overflow: hidden;
     }
 
     .navbar-collapse__body {
@@ -2465,13 +2515,7 @@ a {
     .navbar-brand__logo {
         height: 170px;
         max-height: 170px;
-        max-width: min(360px, 85vw);
-    }
-
-    .main-navbar > .container {
-        height: auto;
-        min-height: 60px;
-        max-height: none;
+        max-width: 100%;
     }
 
     .hero-section {
