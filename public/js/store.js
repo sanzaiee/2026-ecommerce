@@ -376,7 +376,17 @@
         wishlistPanel.hidden = drawerMode !== "wishlist";
     }
 
+    function closeMobileNavDrawer() {
+        const mobileNav = document.getElementById("mobileNavDrawer");
+        if (!mobileNav || typeof bootstrap === "undefined") {
+            return;
+        }
+
+        bootstrap.Offcanvas.getInstance(mobileNav)?.hide();
+    }
+
     function openDrawer(mode) {
+        closeMobileNavDrawer();
         setDrawerMode(mode);
         getOffcanvas().show();
     }
@@ -904,46 +914,6 @@
             });
         }
     });
-
-    // ——— Mobile header nav (touch devices + iOS sticky fix) ———
-    const mainNavEl = document.getElementById("mainNav");
-    const navToggler = document.querySelector("[data-mobile-nav-toggle]");
-
-    if (mainNavEl && navToggler && typeof bootstrap !== "undefined") {
-        const mobileNavCollapse = bootstrap.Collapse.getOrCreateInstance(
-            mainNavEl,
-            { toggle: false },
-        );
-        const mobileNavMq = window.matchMedia("(max-width: 991.98px)");
-
-        const syncMobileNavState = () => {
-            const open = mainNavEl.classList.contains("show");
-            document.body.classList.toggle("mobile-nav-open", open);
-            navToggler.setAttribute("aria-expanded", open ? "true" : "false");
-        };
-
-        mainNavEl.addEventListener("show.bs.collapse", syncMobileNavState);
-        mainNavEl.addEventListener("shown.bs.collapse", syncMobileNavState);
-        mainNavEl.addEventListener("hide.bs.collapse", syncMobileNavState);
-        mainNavEl.addEventListener("hidden.bs.collapse", syncMobileNavState);
-
-        mainNavEl.querySelectorAll(".nav-menu__link").forEach((link) => {
-            link.addEventListener("click", () => {
-                if (
-                    mobileNavMq.matches &&
-                    mainNavEl.classList.contains("show")
-                ) {
-                    mobileNavCollapse.hide();
-                }
-            });
-        });
-
-        window.addEventListener("resize", () => {
-            if (!mobileNavMq.matches && mainNavEl.classList.contains("show")) {
-                mobileNavCollapse.hide();
-            }
-        });
-    }
 
     // ——— Boot ———
     (async function boot() {

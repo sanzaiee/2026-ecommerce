@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('css/store.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/store.css') }}?v={{ filemtime(public_path('css/store.css')) ?: 1 }}" rel="stylesheet">
     @include('partials.store.theme-vars')
     @stack('styles')
 </head>
@@ -59,8 +59,8 @@
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/store.js') }}" defer></script>
-    <script src="{{ asset('js/store-search.js') }}" defer></script>
+    <script src="{{ asset('js/store.js') }}?v={{ filemtime(public_path('js/store.js')) ?: 1 }}" defer></script>
+    <script src="{{ asset('js/store-search.js') }}?v={{ filemtime(public_path('js/store-search.js')) ?: 1 }}" defer></script>
     @stack('scripts')
 </body>
 </html>

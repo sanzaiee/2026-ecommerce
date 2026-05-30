@@ -47,21 +47,15 @@
             @endif
         </a>
 
-        <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNav" data-mobile-nav-toggle aria-controls="mainNav" aria-expanded="false"
+        <button class="navbar-toggler border-0 shadow-none p-1" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#mobileNavDrawer" aria-controls="mobileNavDrawer" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar-collapse d-none d-lg-flex" id="mainNav">
             <div class="navbar-collapse__body">
-                <ul class="navbar-nav nav-menu mb-0">
-                    @foreach ($menuItems as $item)
-                        <li class="nav-item">
-                            <a class="nav-link nav-menu__link" href="{{ $item['href'] }}">{{ $item['label'] }}</a>
-                        </li>
-                    @endforeach
-                </ul>
+                @include('partials.store.nav-menu-links', ['menuItems' => $menuItems])
 
                 <div class="navbar-collapse__actions">
                     @include('partials.store.header-search', ['class' => 'nav-search--mobile d-lg-none'])
@@ -103,3 +97,8 @@ data-drawer-open="wishlist" role="button"
         </div>
     </div>
 </nav>
+
+@include('partials.store.mobile-nav-drawer', [
+    'menuItems' => $menuItems,
+    'cartTotal' => $cartTotal,
+])
