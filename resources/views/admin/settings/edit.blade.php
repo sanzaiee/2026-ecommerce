@@ -91,9 +91,18 @@
     $themePrimaryDark = old('theme_primary_dark', $settings->theme_primary_dark ?? config('store.theme.primary_dark'));
     $themeHeroAccent = old('theme_hero_accent', $settings->theme_hero_accent ?? config('store.theme.hero_accent'));
     $adminTheme = old('admin_theme', $settings->admin_theme ?? config('store.admin.theme', 'light'));
-    $adminColorPrimary = old('admin_color_primary', $settings->admin_color_primary ?? config('store.admin.colors.primary'));
-    $adminColorSecondary = old('admin_color_secondary', $settings->admin_color_secondary ?? config('store.admin.colors.secondary'));
-    $adminColorNeutral = old('admin_color_neutral', $settings->admin_color_neutral ?? config('store.admin.colors.neutral'));
+    $adminColorPrimary = old(
+        'admin_color_primary',
+        $settings->admin_color_primary ?? config('store.admin.colors.primary'),
+    );
+    $adminColorSecondary = old(
+        'admin_color_secondary',
+        $settings->admin_color_secondary ?? config('store.admin.colors.secondary'),
+    );
+    $adminColorNeutral = old(
+        'admin_color_neutral',
+        $settings->admin_color_neutral ?? config('store.admin.colors.neutral'),
+    );
 @endphp
 
 @section('content')
@@ -242,10 +251,10 @@
                             </p>
 
                             @foreach ([
-                                'admin_color_primary' => ['label' => 'Primary', 'hint' => 'Buttons, active nav, headings', 'value' => $adminColorPrimary],
-                                'admin_color_secondary' => ['label' => 'Secondary', 'hint' => 'Accents, icons, highlights', 'value' => $adminColorSecondary],
-                                'admin_color_neutral' => ['label' => 'Neutral', 'hint' => 'Muted text and borders', 'value' => $adminColorNeutral],
-                            ] as $field => $meta)
+            'admin_color_primary' => ['label' => 'Primary', 'hint' => 'Buttons, active nav, headings', 'value' => $adminColorPrimary],
+            'admin_color_secondary' => ['label' => 'Secondary', 'hint' => 'Accents, icons, highlights', 'value' => $adminColorSecondary],
+            'admin_color_neutral' => ['label' => 'Neutral', 'hint' => 'Muted text and borders', 'value' => $adminColorNeutral],
+        ] as $field => $meta)
                                 <div class="row g-2 theme-color-row mb-3" data-admin-color-field="{{ $field }}">
                                     <div class="col-md-5">
                                         <label class="form-label">{{ $meta['label'] }}</label>
@@ -273,17 +282,20 @@
                                 <div class="admin-settings-preview p-3 rounded border" id="adminColorPreview">
                                     <div class="d-flex gap-2 mb-2">
                                         <span class="admin-settings-preview__swatch" data-admin-preview="primary"></span>
-                                        <span class="admin-settings-preview__swatch" data-admin-preview="secondary"></span>
+                                        <span class="admin-settings-preview__swatch"
+                                            data-admin-preview="secondary"></span>
                                         <span class="admin-settings-preview__swatch" data-admin-preview="neutral"></span>
                                     </div>
-                                    <button type="button" class="btn btn-sm text-white" data-admin-preview-btn>Sign in</button>
+                                    <button type="button" class="btn btn-sm text-white" data-admin-preview-btn>Sign
+                                        in</button>
                                     <span class="small ms-2" data-admin-preview-muted>Muted label text</span>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="admin_theme">Default admin theme</label>
-                                <select name="admin_theme" id="admin_theme" class="form-select" style="max-width: 16rem;">
+                                <select name="admin_theme" id="admin_theme" class="form-select"
+                                    style="max-width: 16rem;">
                                     <option value="light" @selected($adminTheme === 'light')>Light</option>
                                     <option value="dark" @selected($adminTheme === 'dark')>Dark</option>
                                     <option value="system" @selected($adminTheme === 'system')>System (match device)</option>

@@ -27,6 +27,7 @@
     --store-footer-logo-height: 100px;
     --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-tag: "Cormorant Garamond", Georgia, "Times New Roman", serif;
     --section-title-size: clamp(1.5rem, 2.4vw, 2rem);
     --section-header-gap: 2.5rem;
 }
@@ -59,9 +60,15 @@ textarea,
 select,
 .hero-subtitle,
 .category-hero__desc,
-.footer-brand p,
-.product-card__vendor {
+.footer-brand p {
     font-family: var(--font-body);
+}
+
+.product-card__vendor,
+.product-card__badge,
+.category-section__eyebrow,
+.category-hero__eyebrow {
+    font-family: var(--font-tag);
 }
 
 h1,
@@ -73,9 +80,7 @@ h6,
 .hero-title,
 .section-heading,
 .section-heading-left,
-.category-section__eyebrow,
 .category-section__title,
-.category-hero__eyebrow,
 .category-hero__title,
 .category-tile__title,
 .product-name,
@@ -125,6 +130,7 @@ a {
     top: 0;
     z-index: 1030;
     overflow: visible;
+    font-family: var(--font-body);
 }
 
 .main-navbar--has-logo {
@@ -629,13 +635,11 @@ a {
         var(--hero-teal) 42%,
         #f4faf8 100%
     );
-    padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3.25rem, 7vw, 6rem);
+    padding: clamp(3rem, 5vw, 4.5rem) 0;
 }
 
 .store-home > .hero-section {
     margin-top: 0;
-    padding-top: clamp(2rem, 4vw, 3.25rem);
-    padding-bottom: clamp(3.5rem, 7vw, 6.5rem);
 }
 
 .hero-section__glow {
@@ -687,13 +691,16 @@ a {
 .hero-content {
     position: relative;
     max-width: 34rem;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .hero-copy {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
     max-width: 100%;
 }
 
@@ -702,7 +709,7 @@ a {
     font-weight: 800;
     line-height: 1.08;
     color: var(--text-dark);
-    margin: 0 0 1rem;
+    margin: 0;
     letter-spacing: -0.04em;
     max-width: 100%;
 }
@@ -719,7 +726,7 @@ a {
 .hero-accent-line {
     width: 4.5rem;
     height: 4px;
-    margin: 1.5rem 0 0;
+    margin: 0;
     border-radius: 999px;
     background: linear-gradient(
         90deg,
@@ -733,7 +740,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: 0;
     padding: 0.6875rem 0.6875rem 0.6875rem 1.5rem;
     border-radius: 999px;
     background: var(--primary);
@@ -1018,9 +1025,9 @@ a {
 
 .category-section__eyebrow {
     margin: 0 0 0.5rem;
-    font-size: 0.6875rem;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--primary);
 }
@@ -1296,13 +1303,13 @@ a {
     top: 12px;
     left: 12px;
     z-index: 2;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     padding: 5px 10px;
     border-radius: var(--radius-sm);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    line-height: 1.3;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
 }
 
 .product-card__badge--sale {
@@ -1465,12 +1472,13 @@ a {
 }
 
 .product-card__vendor {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.02em;
     color: var(--text-muted);
     margin: 0 0 2px;
+    line-height: 1.2;
 }
 
 .product-rating {
@@ -2012,6 +2020,7 @@ a {
     flex-direction: column;
     height: 100%;
     background: var(--bg-white);
+    font-family: var(--font-body);
 }
 
 .mobile-nav-drawer__header {
@@ -2738,29 +2747,13 @@ a {
     }
 
     .hero-section {
-        padding: 2.75rem 0 3.25rem;
+        padding: clamp(2.75rem, 5vw, 3.5rem) 0;
         min-height: 0;
         display: block;
     }
 
-    .hero-copy {
-        align-items: center;
-        text-align: center;
-        margin: 0 auto;
-    }
-
     .hero-content {
         max-width: none;
-        margin: 0 auto;
-    }
-
-    .hero-subtitle {
-        margin: 0 auto;
-    }
-
-    .hero-accent-line {
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .hero-visual {
@@ -2798,7 +2791,7 @@ a {
     }
 
     .hero-section {
-        padding: 2rem 0 2.75rem;
+        padding: clamp(2.5rem, 6vw, 3rem) 0;
     }
 
     .hero-grid {

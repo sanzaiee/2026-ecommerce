@@ -9,5 +9,6 @@
     --primary: {{ $primary }};
     --primary-dark: {{ $primaryDark }};
     --hero-teal: {{ $heroAccent }};
+    --font-tag: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 }
 </style>

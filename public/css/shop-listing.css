@@ -467,8 +467,9 @@
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    font-size: 0.8125rem;
-    font-weight: 500;
+    font-family: var(--font-tag, "Cormorant Garamond", Georgia, serif);
+    font-size: 0.9375rem;
+    font-weight: 600;
     color: var(--text-dark);
     background: var(--bg-light);
     border: 1px solid var(--border);
@@ -756,10 +757,11 @@
 }
 
 .category-hero__eyebrow {
-    font-size: 0.75rem;
+    font-family: var(--font-tag, "Cormorant Garamond", Georgia, serif);
+    font-size: 1.0625rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     color: rgba(255, 255, 255, 0.65);
     margin: 0 0 10px;
 }
