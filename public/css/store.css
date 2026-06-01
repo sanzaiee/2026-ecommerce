@@ -24,9 +24,9 @@
         0px,
         calc((var(--store-logo-height) - var(--store-header-bar-height)) / 2)
     );
-    --store-logo-gap-below: 16px;
     --store-footer-logo-height: 100px;
-    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --section-title-size: clamp(1.5rem, 2.4vw, 2rem);
     --section-header-gap: 2.5rem;
 }
@@ -42,13 +42,49 @@ html {
 }
 
 body {
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--text-body);
     background: var(--bg-white);
     overflow-x: hidden;
     letter-spacing: 0.01em;
+}
+
+p,
+li,
+label,
+input,
+textarea,
+select,
+.hero-subtitle,
+.category-hero__desc,
+.footer-brand p,
+.product-card__vendor {
+    font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-title,
+.section-heading,
+.section-heading-left,
+.category-section__eyebrow,
+.category-section__title,
+.category-hero__eyebrow,
+.category-hero__title,
+.category-tile__title,
+.product-name,
+.brand-text,
+.footer-col h6,
+.footer-newsletter__copy h5,
+.mobile-nav-drawer__title,
+.top-strip {
+    font-family: var(--font-heading);
 }
 
 a {
@@ -92,7 +128,7 @@ a {
 }
 
 .main-navbar--has-logo {
-    margin-bottom: calc(var(--store-logo-bleed) + var(--store-logo-gap-below));
+    margin-bottom: 0;
 }
 
 .main-navbar > .container {
@@ -597,6 +633,8 @@ a {
 }
 
 .store-home > .hero-section {
+    margin-top: 0;
+    padding-top: clamp(2rem, 4vw, 3.25rem);
     padding-bottom: clamp(3.5rem, 7vw, 6.5rem);
 }
 
@@ -861,7 +899,6 @@ a {
 
 .section-heading,
 .section-heading-left {
-    font-family: var(--font-sans);
     font-size: var(--section-title-size);
     font-weight: 700;
     letter-spacing: -0.025em;

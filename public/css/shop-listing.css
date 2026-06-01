@@ -9,6 +9,13 @@
     margin-bottom: 32px;
 }
 
+/* Category / brand pages: breadcrumb sits flush above hero banner */
+.shop-page__breadcrumb:has(+ .category-hero) {
+    margin-bottom: 0;
+    padding: 16px 0 12px;
+    border-bottom: none;
+}
+
 .shop-breadcrumb {
     font-size: 0.8125rem;
 }
@@ -681,7 +688,7 @@
 }
 
 @media (min-width: 992px) {
-    .shop-page__breadcrumb {
+    .shop-page__breadcrumb:not(:has(+ .category-hero)) {
         margin-bottom: 40px;
     }
 
