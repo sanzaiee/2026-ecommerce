@@ -33,7 +33,8 @@
     </div>
 @endif
 
-<nav class="main-navbar navbar navbar-expand-lg" {{ $attributes }}>
+<nav class="main-navbar navbar navbar-expand-lg @if ($logoUrl) main-navbar--has-logo @endif"
+    {{ $attributes }}>
     <div class="container">
         <a class="navbar-brand @if ($logoUrl) navbar-brand--has-logo @endif"
             href="{{ url('/') }}">

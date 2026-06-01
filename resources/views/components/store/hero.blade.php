@@ -10,16 +10,17 @@
     <div class="container hero-section__container">
         <div class="hero-grid">
             <div class="hero-content">
-                <h1 class="hero-title">{{ $title }}</h1>
-                <p class="hero-subtitle">{{ $subtitle }}</p>
-                <div class="hero-accent-line" aria-hidden="true"></div>
-
-                <a href="{{ route('about') }}" class="hero-button">
-                    <span class="hero-button__text">Know More</span>
-                    <span class="hero-button__icon" aria-hidden="true">
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
+                <div class="hero-copy">
+                    <h1 class="hero-title">{{ $title }}</h1>
+                    <p class="hero-subtitle">{{ $subtitle }}</p>
+                    <div class="hero-accent-line" aria-hidden="true"></div>
+                    <a href="{{ route('about') }}" class="hero-button">
+                        <span class="hero-button__text">Know More</span>
+                        <span class="hero-button__icon" aria-hidden="true">
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
             </div>
 
             <div class="hero-visual">

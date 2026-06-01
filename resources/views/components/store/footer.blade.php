@@ -40,7 +40,7 @@
     }
 @endphp
 
-<footer class="site-footer" {{ $attributes }}>
+<footer class="site-footer site-footer--align-left" {{ $attributes }}>
     <div class="footer-newsletter">
         <div class="container">
             <div class="footer-newsletter__inner">
@@ -70,8 +70,13 @@
         <div class="row g-4 g-lg-5">
             <div class="col-12 col-md-6 col-lg-3 footer-brand">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $brand }} {{ $brandSuffix }}"
-                        class="footer-brand__logo" width="220" height="52" loading="lazy" decoding="async">
+                    <div class="footer-brand__logo-slot">
+                        <span class="footer-brand__mark">
+                            <img src="{{ $logoUrl }}" alt="{{ $brand }} {{ $brandSuffix }}"
+                                class="footer-brand__logo" width="360" height="100" loading="lazy"
+                                decoding="async">
+                        </span>
+                    </div>
                 @else
                     <span class="brand-text">{{ $brand }}<span>{{ $brandSuffix }}</span></span>
                 @endif

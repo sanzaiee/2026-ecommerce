@@ -1,6 +1,7 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
 @section('content')
+    <div class="store-home">
     <x-store.hero :title="$hero['title']" :subtitle="$hero['subtitle']" :image="$hero['image']" :image-alt="$hero['imageAlt']" />
 
     {{-- Shop By Category --}}
@@ -98,4 +99,5 @@
             </div>
         </section>
     @endif
+    </div>
 @endsection
