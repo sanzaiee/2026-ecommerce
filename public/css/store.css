@@ -21,12 +21,15 @@
     --container-max: 1280px;
     --grid-gap: 20px;
     --store-header-bar-height: 72px;
+    --store-top-strip-height: 34px;
+    --store-nav-border-width: 1px;
+    --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
     --store-logo-height: 56px;
     --store-logo-max-width: min(280px, 30vw);
     --store-logo-min-width: 120px;
-    --store-footer-logo-height: 100px;
-    --store-footer-logo-max-width: min(320px, 100%);
-    --store-footer-logo-min-width: 120px;
+    --store-footer-logo-height: 48px;
+    --store-footer-logo-max-width: min(180px, 100%);
+    --store-footer-logo-min-width: 100px;
     --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-tag: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -116,6 +119,10 @@ a {
     letter-spacing: 0.06em;
     text-transform: uppercase;
     line-height: 1.4;
+    height: var(--store-top-strip-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .top-strip span {
@@ -551,16 +558,23 @@ a {
 
     :root {
         --store-header-bar-height: 60px;
+        --store-top-strip-height: 34px;
+        --store-nav-border-width: 1px;
+        --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
         --store-logo-height: 44px;
         --store-logo-max-width: min(200px, calc(100vw - 80px));
         --store-logo-min-width: 100px;
-        --store-footer-logo-height: 80px;
+        --store-footer-logo-height: 36px;
+        --store-footer-logo-max-width: min(140px, 100%);
+        --store-footer-logo-min-width: 80px;
     }
 
     /* Tablet-specific adjustments */
     @media (min-width: 768px) {
         :root {
             --store-logo-max-width: min(240px, calc(100vw - 100px));
+            --store-footer-logo-height: 40px;
+            --store-footer-logo-max-width: min(160px, 100%);
         }
     }
 
@@ -661,7 +675,10 @@ a {
         var(--hero-teal) 42%,
         var(--hero-bg-end) 100%
     );
-    padding: clamp(3rem, 6vw, 5.5rem) 0 clamp(3.25rem, 7vw, 6rem);
+    height: calc(100vh - var(--store-total-header-height));
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .store-home > .hero-section {
@@ -686,6 +703,12 @@ a {
 .hero-section__container {
     position: relative;
     z-index: 1;
+    width: 100%;
+    height: 100%;
+    padding: clamp(3rem, 6vw, 5.5rem) 0 clamp(3.25rem, 7vw, 6rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-grid {
@@ -693,19 +716,20 @@ a {
     grid-template-columns: 1fr;
     gap: 3rem;
     align-items: center;
+    width: 100%;
 }
 
 @media (min-width: 992px) {
     .hero-grid {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 4rem;
-        min-height: 460px;
     }
 }
 
 .hero-content {
     position: relative;
     max-width: 40rem;
+    width: 100%;
 }
 
 .hero-copy {
@@ -805,6 +829,7 @@ a {
     position: relative;
     isolation: isolate;
     padding: 0;
+    width: 100%;
 }
 
 .hero-visual__orb {
@@ -2748,8 +2773,8 @@ a {
         min-height: 60px;
     }
 
-    .hero-section {
-        padding: 2.75rem 0 3.25rem;
+    .hero-section__container {
+        padding: clamp(2rem, 5vh, 3rem) 0;
     }
 
     .hero-grid {
@@ -2758,6 +2783,7 @@ a {
 
     .hero-content {
         max-width: 36rem;
+        width: 100%;
     }
 
     .hero-visual {
@@ -2785,12 +2811,15 @@ a {
         --section-py: 48px;
         --grid-gap: 16px;
         --store-header-bar-height: 56px;
+        --store-top-strip-height: 34px;
+        --store-nav-border-width: 1px;
+        --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
         --store-logo-height: 40px;
         --store-logo-max-width: min(160px, calc(100vw - 100px));
         --store-logo-min-width: 80px;
-        --store-footer-logo-height: 72px;
-        --store-footer-logo-max-width: min(200px, 100%);
-        --store-footer-logo-min-width: 90px;
+        --store-footer-logo-height: 32px;
+        --store-footer-logo-max-width: min(130px, 100%);
+        --store-footer-logo-min-width: 70px;
     }
 
     .container {
@@ -2804,8 +2833,8 @@ a {
         letter-spacing: 0.04em;
     }
 
-    .hero-section {
-        padding: 2rem 0 2.75rem;
+    .hero-section__container {
+        padding: clamp(1.5rem, 4vh, 2.5rem) 0;
     }
 
     .hero-grid {
