@@ -41,7 +41,7 @@
             @if ($logoUrl)
                 <span class="navbar-brand__mark">
                     <img src="{{ $logoUrl }}" alt="{{ $siteName }} {{ $brandSuffix }}" class="navbar-brand__logo"
-                        width="520" height="170" decoding="async" fetchpriority="high">
+                        decoding="async" fetchpriority="high">
                 </span>
             @else
                 <span class="brand-text">{{ $siteName }}<span>{{ $brandSuffix }}</span></span>

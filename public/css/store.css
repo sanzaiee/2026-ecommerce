@@ -1,6 +1,7 @@
 ﻿:root {
-    --primary: #b91c1c;
-    --primary-dark: #991b1b;
+    --primary: #2d6a4f;
+    --primary-dark: #1b4332;
+    --primary-light: #52796f;
     --bg-light: #f7f7f7;
     --bg-white: #ffffff;
     --text-dark: #121212;
@@ -8,6 +9,8 @@
     --text-muted: #737373;
     --border: #e8e8e8;
     --hero-teal: #dceee9;
+    --hero-bg-start: #f1f8f3;
+    --hero-bg-end: #ffffff;
     --radius-sm: 8px;
     --radius: 10px;
     --radius-lg: 14px;
@@ -18,12 +21,9 @@
     --container-max: 1280px;
     --grid-gap: 20px;
     --store-header-bar-height: 72px;
-    --store-logo-height: 170px;
-    --store-logo-max-width: min(520px, 80vw);
-    --store-logo-bleed: max(
-        0px,
-        calc((var(--store-logo-height) - var(--store-header-bar-height)) / 2)
-    );
+    --store-logo-height: 56px;
+    --store-logo-max-width: min(280px, 30vw);
+    --store-logo-min-width: 120px;
     --store-footer-logo-height: 100px;
     --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -164,23 +164,35 @@ a {
     height: var(--store-header-bar-height);
     line-height: 0;
     z-index: 1031;
+    max-width: var(--store-logo-max-width);
 }
 
 .navbar-brand__mark {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     flex-shrink: 0;
     line-height: 0;
+    width: 100%;
+    max-width: 100%;
 }
 
 .navbar-brand__logo {
     display: block;
     width: auto;
+    max-width: 100%;
     height: var(--store-logo-height);
     max-height: var(--store-logo-height);
-    max-width: var(--store-logo-max-width);
+    min-height: 32px;
+    min-width: var(--store-logo-min-width);
     object-fit: contain;
     object-position: left center;
+    image-rendering: -webkit-optimize-contrast;
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand__logo:hover {
+    transform: scale(1.02);
 }
 
 .brand-text {
@@ -202,7 +214,7 @@ a {
 }
 
 .navbar-toggler:focus {
-    box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.15);
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
 }
 
 .navbar-collapse {
@@ -537,9 +549,17 @@ a {
 
     :root {
         --store-header-bar-height: 60px;
-        --store-logo-height: 110px;
-        --store-logo-max-width: min(300px, calc(100vw - 64px));
+        --store-logo-height: 44px;
+        --store-logo-max-width: min(200px, calc(100vw - 80px));
+        --store-logo-min-width: 100px;
         --store-footer-logo-height: 80px;
+    }
+
+    /* Tablet-specific adjustments */
+    @media (min-width: 768px) {
+        :root {
+            --store-logo-max-width: min(240px, calc(100vw - 100px));
+        }
     }
 
     .main-navbar > .container {
@@ -558,6 +578,7 @@ a {
 
     .main-navbar .navbar-brand--has-logo {
         position: relative;
+        max-width: var(--store-logo-max-width);
     }
 
     .main-navbar .navbar-brand__mark {
@@ -565,8 +586,11 @@ a {
     }
 
     .main-navbar .navbar-brand__logo {
-        pointer-events: none;
+        pointer-events: auto;
         max-width: 100%;
+        height: var(--store-logo-height);
+        max-height: var(--store-logo-height);
+        min-height: 28px;
     }
 
     .main-navbar .navbar-toggler {
@@ -631,9 +655,9 @@ a {
     overflow: hidden;
     background: linear-gradient(
         145deg,
-        #e8f5f1 0%,
+        var(--hero-bg-start) 0%,
         var(--hero-teal) 42%,
-        #f4faf8 100%
+        var(--hero-bg-end) 100%
     );
     padding: clamp(3rem, 6vw, 5.5rem) 0 clamp(3.25rem, 7vw, 6rem);
 }
@@ -651,7 +675,7 @@ a {
     border-radius: 50%;
     background: radial-gradient(
         circle,
-        rgba(185, 28, 28, 0.09) 0%,
+        rgba(45, 106, 79, 0.08) 0%,
         transparent 68%
     );
     pointer-events: none;
@@ -665,21 +689,21 @@ a {
 .hero-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 3rem;
     align-items: center;
 }
 
 @media (min-width: 992px) {
     .hero-grid {
-        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-        gap: clamp(2rem, 4vw, 4rem);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 4rem;
         min-height: 460px;
     }
 }
 
 .hero-content {
     position: relative;
-    max-width: 34rem;
+    max-width: 40rem;
 }
 
 .hero-copy {
@@ -693,9 +717,9 @@ a {
 .hero-title {
     font-size: clamp(2.25rem, 4.8vw, 3.75rem);
     font-weight: 800;
-    line-height: 1.04;
+    line-height: 1.15;
     color: var(--text-dark);
-    margin: 0 0 1.125rem;
+    margin: 0 0 1rem;
     letter-spacing: -0.04em;
     max-width: 100%;
 }
@@ -705,35 +729,35 @@ a {
     color: var(--text-body);
     font-weight: 400;
     line-height: 1.7;
-    margin: 0;
-    max-width: 26rem;
+    margin: 0 0 1.5rem;
+    max-width: 28rem;
 }
 
 .hero-accent-line {
-    width: 4.5rem;
-    height: 4px;
-    margin-top: 1.75rem;
-    border-radius: 999px;
+    width: 3rem;
+    height: 3px;
+    margin-top: 1.5rem;
+    border-radius: 2px;
     background: linear-gradient(
-        90deg,
+        145deg,
         var(--primary) 0%,
-        rgba(185, 28, 28, 0.35) 100%
+        rgba(45, 106, 79, 0.3) 100%
     );
 }
 
 .hero-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: 1.75rem;
-    padding: 0.6875rem 0.6875rem 0.6875rem 1.5rem;
-    border-radius: 999px;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 8px;
     background: var(--primary);
     color: #fff;
     font-size: 0.9375rem;
     font-weight: 600;
     letter-spacing: 0.01em;
-    box-shadow: 0 4px 16px rgba(185, 28, 28, 0.32);
+    box-shadow: 0 4px 16px rgba(45, 106, 79, 0.25);
     transition:
         background 0.2s ease,
         transform 0.2s ease,
@@ -744,7 +768,7 @@ a {
     background: var(--primary-dark);
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(185, 28, 28, 0.38);
+    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.32);
 }
 
 .hero-button:focus-visible {
@@ -761,29 +785,24 @@ a {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transition:
-        transform 0.25s ease,
-        background 0.2s ease;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.875rem;
+    transition: transform 0.25s ease;
 }
 
 .hero-button:hover .hero-button__icon {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateX(3px);
+    transform: translateX(2px);
 }
 
 .hero-button__icon i {
-    font-size: 1rem;
     line-height: 1;
 }
 
 .hero-visual {
     position: relative;
     isolation: isolate;
-    padding: 0.75rem 0.5rem 2rem;
+    padding: 0;
 }
 
 .hero-visual__orb {
@@ -810,10 +829,10 @@ a {
     width: 38%;
     aspect-ratio: 1;
     bottom: 6%;
-    left: -2%;
+    left: 0;
     background: radial-gradient(
         circle,
-        rgba(185, 28, 28, 0.12) 0%,
+        rgba(45, 106, 79, 0.1) 0%,
         transparent 70%
     );
 }
@@ -827,13 +846,16 @@ a {
     box-shadow:
         0 24px 48px rgba(18, 18, 18, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.65) inset;
-    transform: rotate(-1.25deg);
     transition:
         transform 0.35s ease,
         box-shadow 0.35s ease;
 }
 
 @media (min-width: 992px) {
+    .hero-image-wrap {
+        transform: rotate(-1.25deg);
+    }
+
     .hero-image-wrap:hover {
         transform: rotate(0deg) translateY(-4px);
         box-shadow:
@@ -2722,8 +2744,12 @@ a {
         padding: 2.75rem 0 3.25rem;
     }
 
+    .hero-grid {
+        gap: 2.5rem;
+    }
+
     .hero-content {
-        max-width: none;
+        max-width: 36rem;
     }
 
     .hero-visual {
@@ -2736,6 +2762,11 @@ a {
         transform: none;
     }
 
+    .hero-visual__orb--two {
+        left: 5%;
+        width: 30%;
+    }
+
     .hero-image-wrap img {
         height: 340px;
     }
@@ -2745,6 +2776,10 @@ a {
     :root {
         --section-py: 48px;
         --grid-gap: 16px;
+        --store-header-bar-height: 56px;
+        --store-logo-height: 40px;
+        --store-logo-max-width: min(160px, calc(100vw - 100px));
+        --store-logo-min-width: 80px;
     }
 
     .container {
@@ -2766,16 +2801,41 @@ a {
         gap: 2rem;
     }
 
+    .hero-image-wrap {
+        transform: none;
+    }
+
+    .hero-visual {
+        padding: 0;
+    }
+
+    .hero-visual__orb--two {
+        left: 5%;
+        width: 25%;
+        bottom: 8%;
+    }
+
     .hero-image-wrap img {
         height: 260px;
     }
 
     .hero-title {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.625rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
         font-size: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-accent-line {
+        margin-top: 1.25rem;
+    }
+
+    .hero-button {
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
     }
 
     .category-row {
