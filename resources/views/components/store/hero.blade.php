@@ -7,7 +7,7 @@
 
 <section class="hero-section" {{ $attributes }}>
     <div class="hero-section__glow" aria-hidden="true"></div>
-    <div class="container hero-section__container">
+    <div class="container">
         <div class="hero-grid">
             <div class="hero-content">
                 <div class="hero-copy">

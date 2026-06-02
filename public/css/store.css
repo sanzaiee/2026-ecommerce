@@ -23,7 +23,10 @@
     --store-header-bar-height: 72px;
     --store-top-strip-height: 34px;
     --store-nav-border-width: 1px;
-    --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
+    --store-total-header-height: calc(
+        var(--store-top-strip-height) + var(--store-header-bar-height) +
+            var(--store-nav-border-width)
+    );
     --store-logo-height: 56px;
     --store-logo-max-width: min(280px, 30vw);
     --store-logo-min-width: 120px;
@@ -31,7 +34,8 @@
     --store-footer-logo-max-width: min(180px, 100%);
     --store-footer-logo-min-width: 100px;
     --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-heading:
+        "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-tag: "Cormorant Garamond", Georgia, "Times New Roman", serif;
     --section-title-size: clamp(1.5rem, 2.4vw, 2rem);
     --section-header-gap: 2.5rem;
@@ -560,7 +564,10 @@ a {
         --store-header-bar-height: 60px;
         --store-top-strip-height: 34px;
         --store-nav-border-width: 1px;
-        --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
+        --store-total-header-height: calc(
+            var(--store-top-strip-height) + var(--store-header-bar-height) +
+                var(--store-nav-border-width)
+        );
         --store-logo-height: 44px;
         --store-logo-max-width: min(200px, calc(100vw - 80px));
         --store-logo-min-width: 100px;
@@ -2813,7 +2820,10 @@ a {
         --store-header-bar-height: 56px;
         --store-top-strip-height: 34px;
         --store-nav-border-width: 1px;
-        --store-total-header-height: calc(var(--store-top-strip-height) + var(--store-header-bar-height) + var(--store-nav-border-width));
+        --store-total-header-height: calc(
+            var(--store-top-strip-height) + var(--store-header-bar-height) +
+                var(--store-nav-border-width)
+        );
         --store-logo-height: 40px;
         --store-logo-max-width: min(160px, calc(100vw - 100px));
         --store-logo-min-width: 80px;
