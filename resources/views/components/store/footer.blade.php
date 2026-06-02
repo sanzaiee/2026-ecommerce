@@ -73,8 +73,7 @@
                     <div class="footer-brand__logo-slot">
                         <span class="footer-brand__mark">
                             <img src="{{ $logoUrl }}" alt="{{ $brand }} {{ $brandSuffix }}"
-                                class="footer-brand__logo" width="360" height="100" loading="lazy"
-                                decoding="async">
+                                class="footer-brand__logo" loading="lazy" decoding="async">
                         </span>
                     </div>
                 @else
