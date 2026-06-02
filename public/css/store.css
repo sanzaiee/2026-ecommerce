@@ -1245,6 +1245,12 @@ a {
     .category-section {
         margin-top: 0;
     }
+
+    /* Display 2 categories per row on mobile for efficiency */
+    .category-showcase {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.75rem, 2vw, 1rem);
+    }
 }
 
 @media (min-width: 768px) {
