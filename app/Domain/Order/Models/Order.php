@@ -74,6 +74,24 @@ class Order extends Model
         return $this->payment_status === PaymentStatus::Paid;
     }
 
+    public function hasCustomerInvoice(): bool
+    {
+        if ($this->status === OrderStatus::Cancelled) {
+            return false;
+        }
+
+        if ($this->payment_status === PaymentStatus::Failed) {
+            return false;
+        }
+
+        if ($this->payment_status === PaymentStatus::Paid) {
+            return true;
+        }
+
+        return $this->status === OrderStatus::Confirmed
+            && $this->payment_method === PaymentMethod::Cod;
+    }
+
     public function formattedShippingAddress(): string
     {
         $parts = array_filter([

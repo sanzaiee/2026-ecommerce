@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice {{ $order->order_number }} — Our site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Open+Sans:wght@600;700&display=swap" rel="stylesheet">
     <link href="{{ asset('css/admin-invoice.css') }}" rel="stylesheet">
 </head>
 
 <body class="invoice-body">
     <div class="invoice-toolbar no-print">
         <button type="button" onclick="window.print()" class="invoice-btn">Print / Save PDF</button>
-        <a href="{{ route('admin.orders.show', $order) }}" class="invoice-btn invoice-btn--muted">Back to order</a>
+        <a href="{{ $backUrl }}" class="invoice-btn invoice-btn--muted">{{ $backLabel }}</a>
     </div>
 
     <article class="invoice">

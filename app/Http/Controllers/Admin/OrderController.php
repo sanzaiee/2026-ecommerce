@@ -47,7 +47,11 @@ class OrderController extends Controller
     {
         $order = $this->orders->find($order->id);
 
-        return view('admin.orders.invoice', compact('order'));
+        return view('orders.invoice', [
+            'order' => $order,
+            'backUrl' => route('admin.orders.show', $order),
+            'backLabel' => 'Back to order',
+        ]);
     }
 
     public function updateStatus(UpdateOrderStatusRequest $request, Order $order): RedirectResponse

@@ -52,6 +52,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::get('/account/orders', [AccountController::class, 'orders'])->name('account.orders');
     Route::get('/account/orders/{orderNumber}', [AccountController::class, 'showOrder'])->name('account.orders.show');
+    Route::get('/account/orders/{orderNumber}/invoice', [AccountController::class, 'orderInvoice'])->name('account.orders.invoice');
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
     Route::put('/account/password', [AccountController::class, 'updatePassword'])->name('account.password.update');

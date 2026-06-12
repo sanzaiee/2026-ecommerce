@@ -9,11 +9,19 @@
                 Placed {{ $order->placed_at->format('M j, Y \a\t g:i A') }}
             </p>
         </div>
-        <div class="account-order-badges">
-            <span class="account-order-badge">{{ ucfirst(str_replace('_', ' ', $order->status->value)) }}</span>
-            <span class="account-order-badge account-order-badge--muted">
-                {{ ucfirst(str_replace('_', ' ', $order->delivery_status->value)) }}
-            </span>
+        <div class="account-order-header-actions">
+            @if ($order->hasCustomerInvoice())
+                <a href="{{ route('account.orders.invoice', $order->order_number) }}"
+                    class="account-btn account-btn--outline account-btn--sm" target="_blank" rel="noopener">
+                    View invoice
+                </a>
+            @endif
+            <div class="account-order-badges">
+                <span class="account-order-badge">{{ ucfirst(str_replace('_', ' ', $order->status->value)) }}</span>
+                <span class="account-order-badge account-order-badge--muted">
+                    {{ ucfirst(str_replace('_', ' ', $order->delivery_status->value)) }}
+                </span>
+            </div>
         </div>
     </div>
 

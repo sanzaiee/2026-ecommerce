@@ -41,6 +41,8 @@
                         <span class="small admin-text-muted">Review pending orders and messages</span>
                     </div>
                     <a href="{{ route('admin.orders.index') }}" class="btn btn-sm admin-btn-outline">View orders</a>
+                    <a href="{{ route('admin.contact-messages.index') }}" class="btn btn-sm admin-btn-outline">View
+                        messages</a>
                 </div>
             </div>
         @endif

@@ -49,17 +49,30 @@ class AccountController extends Controller
     public function showOrder(Request $request, string $orderNumber): View
     {
         $user = $this->customer($request);
-
-        $order = Order::query()
-            ->where('user_id', $user->id)
-            ->where('order_number', $orderNumber)
-            ->with('items')
-            ->firstOrFail();
+        $order = $this->findCustomerOrder($user, $orderNumber);
 
         return $this->view('account.orders.show', [
             'pageTitle' => 'Order '.$order->order_number,
             'breadcrumbSection' => 'Orders',
             'order' => $order,
+        ]);
+    }
+
+    public function orderInvoice(Request $request, string $orderNumber): View|RedirectResponse
+    {
+        $user = $this->customer($request);
+        $order = $this->findCustomerOrder($user, $orderNumber);
+
+        if (! $order->hasCustomerInvoice()) {
+            return redirect()
+                ->route('account.orders.show', $order->order_number)
+                ->with('status', 'Invoice is not available for this order.');
+        }
+
+        return view('orders.invoice', [
+            'order' => $order,
+            'backUrl' => route('account.orders.show', $order->order_number),
+            'backLabel' => 'Back to order',
         ]);
     }
 
@@ -177,5 +190,14 @@ class AccountController extends Controller
             ->where('user_id', $user->id)
             ->with('items')
             ->latest('placed_at');
+    }
+
+    private function findCustomerOrder(User $user, string $orderNumber): Order
+    {
+        return Order::query()
+            ->where('user_id', $user->id)
+            ->where('order_number', $orderNumber)
+            ->with('items')
+            ->firstOrFail();
     }
 }
