@@ -31,6 +31,8 @@ use App\Domain\Review\Repositories\ReviewRepositoryInterface;
 use App\Domain\Testimonial\Models\Testimonial;
 use App\Domain\Testimonial\Repositories\TestimonialRepository;
 use App\Domain\Testimonial\Repositories\TestimonialRepositoryInterface;
+use App\Domain\Customer\Repositories\CustomerRepository;
+use App\Domain\Customer\Repositories\CustomerRepositoryInterface;
 use App\Events\CategoryUpdated;
 use App\Events\ProductCreated;
 use App\Events\ProductUpdated;
@@ -62,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(LandingPageRepositoryInterface::class, LandingPageRepository::class);
         $this->app->bind(AboutPageRepositoryInterface::class, AboutPageRepository::class);
         $this->app->bind(SiteSettingRepositoryInterface::class, SiteSettingRepository::class);
+        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
     }
 
     public function boot(): void

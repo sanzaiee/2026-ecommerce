@@ -10,6 +10,7 @@
             'label' => 'Commerce',
             'items' => [
                 ['route' => 'admin.orders.index', 'match' => 'admin.orders.*', 'label' => 'Orders', 'icon' => 'bi-bag-check'],
+                ['route' => 'admin.customers.index', 'match' => 'admin.customers.*', 'label' => 'Customers', 'icon' => 'bi-people'],
                 ['route' => 'admin.products.index', 'match' => 'admin.products.*', 'label' => 'Products', 'icon' => 'bi-box-seam'],
                 ['route' => 'admin.categories.index', 'match' => 'admin.categories.*', 'label' => 'Categories', 'icon' => 'bi-tags'],
                 ['route' => 'admin.brands.index', 'match' => 'admin.brands.*', 'label' => 'Brands', 'icon' => 'bi-award'],

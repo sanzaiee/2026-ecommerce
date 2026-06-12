@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\NewsletterSubscriberController as AdminNewsletter
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
@@ -143,7 +144,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/contact-messages/{contactMessage}/read', [AdminContactMessageController::class, 'markAsRead'])->name('contact-messages.read');
         Route::delete('/contact-messages/{contactMessage}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
 
-        Route::get('/newsletter-subscribers', [AdminNewsletterSubscriberController::class, 'index'])->name('newsletter-subscribers.index');
-        Route::delete('/newsletter-subscribers/{newsletterSubscriber}', [AdminNewsletterSubscriberController::class, 'destroy'])->name('newsletter-subscribers.destroy');
+Route::get('/newsletter-subscribers', [AdminNewsletterSubscriberController::class, 'index'])->name('newsletter-subscribers.index');
+Route::delete('/newsletter-subscribers/{newsletterSubscriber}', [AdminNewsletterSubscriberController::class, 'destroy'])->name('newsletter-subscribers.destroy');
+
+Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/{customer}', [AdminCustomerController::class, 'show'])->name('customers.show');
+Route::patch('/customers/{customer}/ban', [AdminCustomerController::class, 'ban'])->name('customers.ban');
+Route::patch('/customers/{customer}/unban', [AdminCustomerController::class, 'unban'])->name('customers.unban');
     });
 });
