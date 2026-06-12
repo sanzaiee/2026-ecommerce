@@ -32,7 +32,8 @@
     <div class="row g-3 mb-4 align-items-stretch">
         @if (($attention['total'] ?? 0) > 0)
             <div class="col-lg-8">
-                <div class="admin-card admin-card--compact d-flex flex-wrap align-items-center justify-content-between gap-2 h-100">
+                <div
+                    class="admin-card admin-card--compact d-flex flex-wrap align-items-center justify-content-between gap-2 h-100">
                     <div class="d-flex align-items-center gap-2 flex-wrap">
                         <span class="dashboard-attention-badge">
                             <i class="bi bi-bell-fill me-1"></i>{{ $attention['total'] }} need attention
@@ -48,7 +49,8 @@
                 <div class="admin-appearance__head">
                     <div>
                         <h2 class="admin-appearance__title">Appearance</h2>
-                        <p class="admin-appearance__desc">Override the site default for this browser. Set the global default in Settings → Appearance.</p>
+                        <p class="admin-appearance__desc">Override the site default for this browser. Set the global default
+                            in Settings → Appearance.</p>
                     </div>
                     <i class="bi bi-palette admin-appearance__icon" aria-hidden="true"></i>
                 </div>
@@ -282,7 +284,9 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: chartText },
+                        labels: {
+                            color: chartText
+                        },
                     },
                 },
             };
@@ -310,7 +314,7 @@
                         labels: @json($paymentLabels),
                         datasets: [{
                             data: @json($paymentCounts),
-                            backgroundColor: [palette.green, palette.gold, palette.red],
+                            backgroundColor: [palette.red, palette.green, palette.gold],
                         }],
                     },
                     options: doughnutOptions,

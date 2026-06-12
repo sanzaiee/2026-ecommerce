@@ -108,6 +108,7 @@
                             <p class="product-info__stock product-info__stock--{{ $product['inStock'] ? 'in' : 'out' }}">
                                 @if ($product['inStock'])
                                     <i class="bi bi-check-circle-fill" aria-hidden="true"></i> In Stock
+                                    <span class="product-info__stock-count">({{ $product['stockQuantity'] ?? 0 }} available)</span>
                                 @else
                                     <i class="bi bi-x-circle-fill" aria-hidden="true"></i> Out of Stock
                                 @endif

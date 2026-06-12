@@ -33,6 +33,7 @@ class StorefrontProductMapper
             'reviews' => $product->review_count,
             'inStock' => $product->inStock(),
             'outOfStock' => ! $product->inStock(),
+            'stockQuantity' => $product->stock_quantity,
             'href' => route('product.show', $product->slug),
         ];
     }
@@ -92,6 +93,7 @@ class StorefrontProductMapper
             'comparePriceFormatted' => $product->old_price ? $this->formatPrice($product->old_price) : null,
             'discountPercent' => $discount,
             'inStock' => $product->inStock(),
+            'stockQuantity' => $product->stock_quantity,
             'onSale' => $product->isOnSale(),
             'rating' => (float) $product->rating_avg,
             'reviewCount' => $product->review_count,

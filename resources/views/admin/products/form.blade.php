@@ -44,6 +44,11 @@
                 </select>
             </div>
             <div class="col-md-3">
+                <label class="form-label">Stock quantity</label>
+                <input type="number" name="stock_quantity" class="form-control" value="{{ old('stock_quantity', $product?->stock_quantity ?? 0) }}" min="0" required>
+                <small class="text-muted">Set to 0 for out of stock</small>
+            </div>
+            <div class="col-md-3">
                 <label class="form-label">Category</label>
                 <select name="category_id" class="form-select">
                     <option value="">—</option>

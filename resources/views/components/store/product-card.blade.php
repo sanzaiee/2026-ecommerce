@@ -79,6 +79,12 @@
                 <p class="product-card__vendor">{{ $categoryLabel }}</p>
             @endif
 
+            @if ($inStock && isset($stockQuantity) && $stockQuantity <= 5)
+                <p class="product-card__stock-warning">
+                    <small class="text-muted">Only {{ $stockQuantity }} left!</small>
+                </p>
+            @endif
+
             <div class="product-rating" aria-label="{{ $rating }} out of 5 stars">
                 @for ($i = 1; $i <= 5; $i++)
                     @if ($i <= floor($rating))

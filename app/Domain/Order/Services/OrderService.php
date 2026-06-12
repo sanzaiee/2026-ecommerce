@@ -8,6 +8,7 @@ use App\Domain\Order\DTOs\PlaceOrderData;
 use App\Domain\Order\Models\Order;
 use App\Domain\Order\Models\OrderItem;
 use App\Domain\Order\Payment\PaymentGatewayManager;
+use App\Domain\Stock\Services\StockManagementService;
 use App\Enums\DeliveryStatus;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
@@ -25,6 +26,7 @@ class OrderService
         private CheckoutPricingService $pricing,
         private PaymentGatewayManager $gateways,
         private CheckoutPaymentOptions $paymentOptions,
+        private StockManagementService $stock,
     ) {}
 
     public function totalsForOwner(StoreOwnerContext $owner): CheckoutTotalsData
@@ -55,12 +57,20 @@ class OrderService
         $this->assertPaymentMethodAllowed($data->paymentMethod, $totals->total);
 
         foreach ($snapshot['items'] as $line) {
-            if (! ($line['inStock'] ?? true)) {
-                throw ValidationException::withMessages([
-                    'cart' => ["{$line['name']} is out of stock. Please update your cart."],
-                ]);
+                $product = \App\Domain\Product\Models\Product::query()
+                    ->where('slug', $line['id'])
+                    ->first();
+
+                if (! $product) {
+                    continue;
+                }
+
+                if (! $product->hasStockFor($line['qty'])) {
+                    throw ValidationException::withMessages([
+                        'cart' => ["{$line['name']} has insufficient stock. Available: {$product->stock_quantity}, Requested: {$line['qty']}."],
+                    ]);
+                }
             }
-        }
 
         return DB::transaction(function () use ($owner, $data, $snapshot, $totals) {
             $orderNumber = $this->generateOrderNumber();
@@ -107,6 +117,9 @@ class OrderService
             }
 
             $this->attachProductIds($order);
+
+            $this->stock->reserveStock($order);
+
             $this->cart->clear($owner);
 
             if ($owner->isAuthenticated()) {
@@ -143,6 +156,8 @@ class OrderService
 
     public function markPaymentFailed(Order $order): Order
     {
+        $this->stock->releaseStock($order);
+
         $order->update([
             'payment_status' => PaymentStatus::Failed,
             'status' => OrderStatus::Cancelled,

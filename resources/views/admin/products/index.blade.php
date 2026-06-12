@@ -85,6 +85,7 @@
                     <th>Brand</th>
                     <th>Price</th>
                     <th>Stock</th>
+                    <th>Qty</th>
                     <th>Created</th>
                     <th></th>
                 </tr>
@@ -106,6 +107,15 @@
                         <td>{{ $product->brand?->name ?? '—' }}</td>
                         <td>Rs. {{ number_format($product->price, 0) }}</td>
                         <td>{{ str_replace('_', ' ', $product->stock_status->value) }}</td>
+                        <td>
+                            <span class="badge @class([
+                                'bg-success' => $product->stock_quantity > 10,
+                                'bg-warning' => $product->stock_quantity > 0 && $product->stock_quantity <= 10,
+                                'bg-danger' => $product->stock_quantity == 0,
+                            ])">
+                                {{ $product->stock_quantity }} units
+                            </span>
+                        </td>
                         <td class="text-nowrap">{{ $product->created_at?->format('M j, Y') }}</td>
                         <td class="text-end text-nowrap">
                             <a href="{{ route('admin.products.edit', $product) }}"

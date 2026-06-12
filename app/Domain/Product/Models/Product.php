@@ -36,6 +36,7 @@ class Product extends Model implements HasMedia
         'price',
         'old_price',
         'stock_status',
+        'stock_quantity',
         'category_id',
         'brand_id',
         'meta_title',
@@ -46,6 +47,17 @@ class Product extends Model implements HasMedia
         'is_featured',
         'sort_order',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(function (Product $product) {
+            $product->stock_status = $product->stock_quantity > 0 
+                ? StockStatus::InStock 
+                : StockStatus::OutOfStock;
+        });
+    }
 
     protected function casts(): array
     {
@@ -62,7 +74,7 @@ class Product extends Model implements HasMedia
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['title', 'slug', 'price', 'stock_status'])->logOnlyDirty();
+        return LogOptions::defaults()->logOnly(['title', 'slug', 'price', 'stock_status', 'stock_quantity'])->logOnlyDirty();
     }
 
     public function featuredImage(): Attribute
@@ -100,6 +112,11 @@ class Product extends Model implements HasMedia
 
     public function inStock(): bool
     {
-        return $this->stock_status !== StockStatus::OutOfStock;
+        return $this->stock_quantity > 0;
+    }
+
+    public function hasStockFor(int $quantity): bool
+    {
+        return $this->stock_quantity >= $quantity;
     }
 }

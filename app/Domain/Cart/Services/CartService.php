@@ -37,9 +37,9 @@ class CartService
 
     public function add(StoreOwnerContext $owner, Product $product, int $quantity = 1): array
     {
-        if (! $product->inStock()) {
+        if (! $product->hasStockFor($quantity)) {
             throw ValidationException::withMessages([
-                'product' => ['This product is out of stock.'],
+                'product' => ['Insufficient stock. Only '.$product->stock_quantity.' available.'],
             ]);
         }
 
@@ -50,8 +50,16 @@ class CartService
             ->first();
 
         if ($item) {
+            $newQuantity = min(99, $item->quantity + $quantity);
+
+            if (! $product->hasStockFor($newQuantity)) {
+                throw ValidationException::withMessages([
+                    'product' => ['Insufficient stock. Only '.$product->stock_quantity.' available.'],
+                ]);
+            }
+
             $item->update([
-                'quantity' => min(99, $item->quantity + $quantity),
+                'quantity' => $newQuantity,
             ]);
         } else {
             $this->baseQuery($owner)->create([
@@ -82,9 +90,9 @@ class CartService
             return $this->snapshot($owner);
         }
 
-        if (! $product->inStock()) {
+        if (! $product->hasStockFor($quantity)) {
             throw ValidationException::withMessages([
-                'product' => ['This product is out of stock.'],
+                'product' => ['Insufficient stock. Only '.$product->stock_quantity.' available.'],
             ]);
         }
 
