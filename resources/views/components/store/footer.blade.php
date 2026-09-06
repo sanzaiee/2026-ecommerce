@@ -12,6 +12,7 @@
     ],
     'informationLinks' => [
         ['label' => 'About Us', 'href' => route('about')],
+        ['label' => 'Blog', 'href' => route('blog.index')],
         ['label' => 'FAQs', 'href' => route('faqs')],
         ['label' => 'Returns', 'href' => route('refund')],
     ],

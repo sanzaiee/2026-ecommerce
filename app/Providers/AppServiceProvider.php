@@ -2,37 +2,43 @@
 
 namespace App\Providers;
 
+use App\Domain\Blog\Models\Blog;
+use App\Domain\Blog\Repositories\BlogRepository;
+use App\Domain\Blog\Repositories\BlogRepositoryInterface;
 use App\Domain\Brand\Models\Brand;
 use App\Domain\Brand\Repositories\BrandRepository;
 use App\Domain\Brand\Repositories\BrandRepositoryInterface;
 use App\Domain\Category\Models\Category;
 use App\Domain\Category\Observers\CategoryObserver;
-use App\Domain\Contact\Repositories\ContactMessageRepository;
-use App\Domain\Contact\Repositories\ContactMessageRepositoryInterface;
-use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepository;
-use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepositoryInterface;
 use App\Domain\Category\Repositories\CategoryRepository;
 use App\Domain\Category\Repositories\CategoryRepositoryInterface;
+use App\Domain\Category\Services\CategoryService;
 use App\Domain\CMS\Repositories\AboutPageRepository;
 use App\Domain\CMS\Repositories\AboutPageRepositoryInterface;
 use App\Domain\CMS\Repositories\LandingPageRepository;
 use App\Domain\CMS\Repositories\LandingPageRepositoryInterface;
+use App\Domain\Contact\Repositories\ContactMessageRepository;
+use App\Domain\Contact\Repositories\ContactMessageRepositoryInterface;
+use App\Domain\Customer\Repositories\CustomerRepository;
+use App\Domain\Customer\Repositories\CustomerRepositoryInterface;
+use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepository;
+use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepositoryInterface;
+use App\Domain\Order\Repositories\OrderRepository;
+use App\Domain\Order\Repositories\OrderRepositoryInterface;
+use App\Domain\Product\Models\Product;
+use App\Domain\Product\Observers\ProductObserver;
+use App\Domain\Product\Repositories\ProductRepository;
+use App\Domain\Product\Repositories\ProductRepositoryInterface;
+use App\Domain\Review\Models\Review;
+use App\Domain\Review\Repositories\ReviewRepository;
+use App\Domain\Review\Repositories\ReviewRepositoryInterface;
 use App\Domain\Settings\Repositories\SiteSettingRepository;
 use App\Domain\Settings\Repositories\SiteSettingRepositoryInterface;
 use App\Domain\Settings\Services\SettingsService;
-use App\Domain\Product\Models\Product;
-use App\Domain\Product\Observers\ProductObserver;
-use App\Domain\Order\Repositories\OrderRepository;
-use App\Domain\Order\Repositories\OrderRepositoryInterface;
-use App\Domain\Product\Repositories\ProductRepository;
-use App\Domain\Product\Repositories\ProductRepositoryInterface;
-use App\Domain\Review\Repositories\ReviewRepository;
-use App\Domain\Review\Repositories\ReviewRepositoryInterface;
 use App\Domain\Testimonial\Models\Testimonial;
 use App\Domain\Testimonial\Repositories\TestimonialRepository;
 use App\Domain\Testimonial\Repositories\TestimonialRepositoryInterface;
-use App\Domain\Customer\Repositories\CustomerRepository;
-use App\Domain\Customer\Repositories\CustomerRepositoryInterface;
+use App\Domain\Wishlist\Services\WishlistService;
 use App\Events\CategoryUpdated;
 use App\Events\ProductCreated;
 use App\Events\ProductUpdated;
@@ -40,8 +46,12 @@ use App\Events\ReviewApproved;
 use App\Listeners\ClearCategoryCache;
 use App\Listeners\ClearProductCache;
 use App\Listeners\UpdateProductRating;
-use App\Domain\Category\Services\CategoryService;
-use App\Domain\Wishlist\Services\WishlistService;
+use App\Policies\BlogPolicy;
+use App\Policies\BrandPolicy;
+use App\Policies\CategoryPolicy;
+use App\Policies\ProductPolicy;
+use App\Policies\ReviewPolicy;
+use App\Policies\TestimonialPolicy;
 use App\Support\Store\StoreOwnerResolver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
@@ -59,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
         $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
+        $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
         $this->app->bind(ContactMessageRepositoryInterface::class, ContactMessageRepository::class);
         $this->app->bind(NewsletterSubscriberRepositoryInterface::class, NewsletterSubscriberRepository::class);
         $this->app->bind(LandingPageRepositoryInterface::class, LandingPageRepository::class);
@@ -80,11 +91,12 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(ReviewApproved::class, UpdateProductRating::class);
         Event::listen(CategoryUpdated::class, ClearCategoryCache::class);
 
-        Gate::policy(Product::class, \App\Policies\ProductPolicy::class);
-        Gate::policy(Category::class, \App\Policies\CategoryPolicy::class);
-        Gate::policy(Brand::class, \App\Policies\BrandPolicy::class);
-        Gate::policy(\App\Domain\Review\Models\Review::class, \App\Policies\ReviewPolicy::class);
-        Gate::policy(Testimonial::class, \App\Policies\TestimonialPolicy::class);
+        Gate::policy(Product::class, ProductPolicy::class);
+        Gate::policy(Category::class, CategoryPolicy::class);
+        Gate::policy(Brand::class, BrandPolicy::class);
+        Gate::policy(Review::class, ReviewPolicy::class);
+        Gate::policy(Testimonial::class, TestimonialPolicy::class);
+        Gate::policy(Blog::class, BlogPolicy::class);
 
         View::composer([
             'shop',

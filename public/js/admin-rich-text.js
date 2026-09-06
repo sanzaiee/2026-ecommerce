@@ -6,6 +6,7 @@
 
         tinymce.init({
             selector: 'textarea.rich-text',
+            license_key: 'gpl',
             height: 420,
             menubar: false,
             plugins: 'lists link autolink code table',
@@ -20,10 +21,19 @@
         });
 
         document.querySelectorAll('form[data-rich-text]').forEach(function (form) {
-            form.addEventListener('submit', function () {
-                if (typeof tinymce !== 'undefined') {
-                    tinymce.triggerSave();
+            // Sync before native constraint validation (required fields on hidden textareas).
+            form.addEventListener('click', function (event) {
+                var submitter = event.target.closest('button[type="submit"], input[type="submit"], button:not([type])');
+
+                if (! submitter || ! form.contains(submitter)) {
+                    return;
                 }
+
+                tinymce.triggerSave();
+            });
+
+            form.addEventListener('submit', function () {
+                tinymce.triggerSave();
             });
         });
     }

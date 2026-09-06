@@ -23,6 +23,7 @@
                 ['route' => 'admin.landing-page.edit', 'match' => 'admin.landing-page.*', 'label' => 'Landing Page', 'icon' => 'bi-house-door'],
                 ['route' => 'admin.about-page.edit', 'match' => 'admin.about-page.*', 'label' => 'About Page', 'icon' => 'bi-info-circle'],
                 ['route' => 'admin.testimonials.index', 'match' => 'admin.testimonials.*', 'label' => 'Testimonials', 'icon' => 'bi-chat-quote'],
+                ['route' => 'admin.blogs.index', 'match' => 'admin.blogs.*', 'label' => 'Blog', 'icon' => 'bi-journal-text'],
                 ['route' => 'admin.reviews.index', 'match' => 'admin.reviews.*', 'label' => 'Reviews', 'icon' => 'bi-star'],
             ],
         ],

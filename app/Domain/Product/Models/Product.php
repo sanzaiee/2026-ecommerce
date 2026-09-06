@@ -53,8 +53,8 @@ class Product extends Model implements HasMedia
         parent::boot();
 
         static::saving(function (Product $product) {
-            $product->stock_status = $product->stock_quantity > 0 
-                ? StockStatus::InStock 
+            $product->stock_status = $product->stock_quantity > 0
+                ? StockStatus::InStock
                 : StockStatus::OutOfStock;
         });
     }

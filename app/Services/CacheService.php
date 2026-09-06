@@ -40,6 +40,13 @@ class CacheService
         $this->forget('testimonials.home');
     }
 
+    public function forgetBlogs(?string $slug = null): void
+    {
+        if ($slug) {
+            $this->forget('blogs.'.$slug);
+        }
+    }
+
     public function forgetLanding(): void
     {
         $this->forget('landing.page');
