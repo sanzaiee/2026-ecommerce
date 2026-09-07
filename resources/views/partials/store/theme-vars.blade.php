@@ -1,8 +1,8 @@
 @php
     $theme = $site['theme'] ?? [];
-    $primary = $theme['primary'] ?? config('store.theme.primary', '#b91c1c');
-    $primaryDark = $theme['primaryDark'] ?? config('store.theme.primary_dark', '#991b1b');
-    $heroAccent = $theme['heroAccent'] ?? config('store.theme.hero_accent', '#dceee9');
+    $primary = $theme['primary'] ?? config('store.theme.primary', '#b45309');
+    $primaryDark = $theme['primaryDark'] ?? config('store.theme.primary_dark', '#92400e');
+    $heroAccent = $theme['heroAccent'] ?? config('store.theme.hero_accent', '#f3e7d8');
 @endphp
 <style>
 :root {

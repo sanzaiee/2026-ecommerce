@@ -20,6 +20,13 @@ interface BlogRepositoryInterface
      */
     public function categoriesForStorefront(): Collection;
 
+    /**
+     * Latest posts for storefront landing sections, ordered featured-first.
+     *
+     * @return Collection<int, Blog>
+     */
+    public function latestForStorefront(int $limit = 3): Collection;
+
     public function findById(int $id): ?Blog;
 
     public function findBySlug(string $slug): ?Blog;

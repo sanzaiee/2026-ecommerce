@@ -10,9 +10,9 @@ return [
     |--------------------------------------------------------------------------
     */
     'theme' => [
-        'primary' => env('STORE_THEME_PRIMARY', '#b91c1c'),
-        'primary_dark' => env('STORE_THEME_PRIMARY_DARK', '#991b1b'),
-        'hero_accent' => env('STORE_THEME_HERO_ACCENT', '#dceee9'),
+        'primary' => env('STORE_THEME_PRIMARY', '#b45309'),
+        'primary_dark' => env('STORE_THEME_PRIMARY_DARK', '#92400e'),
+        'hero_accent' => env('STORE_THEME_HERO_ACCENT', '#f3e7d8'),
     ],
 
     /*

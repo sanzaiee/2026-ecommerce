@@ -1,34 +1,41 @@
 @props([
-    'title' => 'Mandira Premium Dried Fruits',
-    'subtitle' => 'All natural. No added sugar, color.',
-    'image' => 'https://images.unsplash.com/photo-1608797178974-15b35a8edeaa?w=800&q=80',
-    'imageAlt' => 'Mixed dried fruits assortment',
+    'title' => 'Where Clay Becomes Culture',
+    'subtitle' => 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
+    'image' => null,
+    'imageAlt' => 'Traditional Newar clay pottery from Thimi, Nepal',
 ])
 
-<section class="hero-section" {{ $attributes }}>
-    <div class="hero-section__glow" aria-hidden="true"></div>
+@php
+    $heroImage = $image ?: get_placeholder_image();
+@endphp
+
+<section class="hero-section">
+    <div class="hero-section__media">
+        <img src="{{ $heroImage }}" alt="{{ $imageAlt }}" loading="eager" fetchpriority="high" decoding="async"
+            width="1600" height="900">
+    </div>
+    <div class="hero-section__ambient" aria-hidden="true"></div>
+
     <div class="container">
         <div class="hero-grid">
             <div class="hero-content">
-                <div class="hero-copy">
-                    <h1 class="hero-title">{{ $title }}</h1>
-                    <p class="hero-subtitle">{{ $subtitle }}</p>
-                    <div class="hero-accent-line" aria-hidden="true"></div>
-                    <a href="{{ route('about') }}" class="hero-button">
-                        <span class="hero-button__text">Know More</span>
+                <p class="hero-eyebrow">Jheekuma &mdash; Thimi, Nepal</p>
+                <h1 class="hero-title">{{ $title }}</h1>
+                <p class="hero-subtitle">{{ $subtitle }}</p>
+                <div class="hero-accent-line" aria-hidden="true"></div>
+                <div class="hero-actions">
+                    <a href="{{ route('shop') }}" class="hero-button">
+                        <span class="hero-button__text">Explore Pottery</span>
                         <span class="hero-button__icon" aria-hidden="true">
                             <i class="bi bi-arrow-right"></i>
                         </span>
                     </a>
+                    <a href="{{ route('about') }}" class="hero-button--secondary">Discover Our Tradition</a>
                 </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="hero-visual__orb hero-visual__orb--one" aria-hidden="true"></div>
-                <div class="hero-visual__orb hero-visual__orb--two" aria-hidden="true"></div>
-                <div class="hero-image-wrap">
-                    <img src="{{ $image }}" alt="{{ $imageAlt }}" loading="eager" decoding="async">
-                </div>
+                <a href="#category-heading" class="hero-scroll">
+                    Scroll to explore
+                    <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>

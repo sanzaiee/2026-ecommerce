@@ -80,6 +80,15 @@ class BlogRepository implements BlogRepositoryInterface
             ->get();
     }
 
+    public function latestForStorefront(int $limit = 3): Collection
+    {
+        return Blog::query()
+            ->with(['media', 'category'])
+            ->ordered()
+            ->limit($limit)
+            ->get();
+    }
+
     public function findById(int $id): ?Blog
     {
         return Blog::query()->with('media')->find($id);

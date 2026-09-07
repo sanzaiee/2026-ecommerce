@@ -10,26 +10,30 @@ class LandingPageMapper
     public function __construct(private StorefrontProductMapper $products) {}
 
     /**
+     * @param  array<int, Product>  $everyday
+     * @param  array<int, Product>  $topSelling
      * @return array<string, mixed>
      */
     public function toHomeView(LandingPage $page, array $everyday, array $topSelling): array
     {
-        $heroImage = $page->getFirstMediaUrl('cms', 'large')
-            ?: 'https://images.unsplash.com/photo-1608797178974-15b35a8edeaa?w=800&q=80';
-
         return [
             'hero' => [
-                'title' => $page->hero_title,
-                'subtitle' => $page->hero_subtitle,
-                'image' => $heroImage,
-                'imageAlt' => $page->hero_title,
+                'title' => $page->hero_title ?: 'Where Clay Becomes Culture',
+                'subtitle' => $page->hero_subtitle
+                    ?: 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
+                'image' => $this->heroImage($page),
+                'imageAlt' => $page->hero_title ?: 'Traditional Newar clay pottery from Thimi, Nepal',
             ],
-            'categories' => $page->featuredCategories->map(fn ($c) => [
-                'title' => $c->name,
-                'image' => $c->imageUrl('medium')
-                    ?: 'https://images.unsplash.com/photo-1599599810769-0a29d5affa8e?w=700&q=80',
-                'href' => route('category.show', $c->slug),
-            ])->values()->all(),
+            'categories' => $page->featuredCategories
+                ->take(5)
+                ->map(fn ($c) => [
+                    'title' => $c->name,
+                    'description' => $c->description,
+                    'image' => $c->imageUrl('medium') ?: get_placeholder_image(),
+                    'href' => route('category.show', $c->slug),
+                ])
+                ->values()
+                ->all(),
             'everydayProducts' => array_map(
                 fn (Product $p) => $this->products->toLandingCard($p),
                 $everyday
@@ -39,5 +43,14 @@ class LandingPageMapper
                 $topSelling
             ),
         ];
+    }
+
+    /**
+     * CMS-uploaded hero image, or a neutral pottery placeholder.
+     */
+    private function heroImage(LandingPage $page): string
+    {
+        return $page->getFirstMediaUrl('cms', 'large')
+            ?: get_placeholder_image();
     }
 }

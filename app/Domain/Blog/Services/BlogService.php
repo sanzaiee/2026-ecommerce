@@ -49,6 +49,16 @@ class BlogService
         return $this->repository->categoriesForStorefront();
     }
 
+    /**
+     * Latest posts for the landing page stories section.
+     *
+     * @return Collection<int, Blog>
+     */
+    public function latestForStorefront(int $limit = 3): Collection
+    {
+        return $this->repository->latestForStorefront($limit);
+    }
+
     public function findById(int $id): ?Blog
     {
         return $this->repository->findById($id);
