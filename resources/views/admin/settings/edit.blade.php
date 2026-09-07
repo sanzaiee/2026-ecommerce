@@ -170,7 +170,7 @@
                             <label class="form-label">Header promo (secondary)</label>
                             <input type="text" name="promo_secondary" class="form-control"
                                 value="{{ old('promo_secondary', $settings->promo_secondary) }}"
-                                placeholder="100% natural products">
+                                placeholder="Handmade in Thimi">
                             <div class="form-text">Top strip, right side (shown after | separator).</div>
                         </div>
                         <div class="col-12">
@@ -408,7 +408,7 @@
                             <label class="form-label">Default meta title</label>
                             <input type="text" name="default_meta_title" class="form-control"
                                 value="{{ old('default_meta_title', $settings->default_meta_title) }}"
-                                placeholder="Our site — Premium Dried Fruits & Pickles">
+                                placeholder="JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Default meta description</label>

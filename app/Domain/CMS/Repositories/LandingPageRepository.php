@@ -19,8 +19,11 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         }
 
         return LandingPage::create([
-            'hero_title' => 'Where Clay Becomes Culture',
-            'hero_subtitle' => 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
+            'hero_title' => 'Handmade Newar pottery from Thimi — for home, garden and ritual.',
+            'hero_subtitle' => 'Terracotta planting pots, clay water vessels and everyday ware — shaped on the wheel in Madhyapur.',
+            'meta_title' => 'JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal',
+            'meta_description' => 'Shop handmade terracotta pots, gamala, and clay water filters from Thimi potters. Fired by hand in Madhyapur — shipped across Nepal.',
+            'meta_keywords' => 'Thimi pottery, Nepal clay pots, Newar pottery, clay water filter Nepal, terracotta plant pots Kathmandu, Madhyapur pottery',
         ]);
     }
 

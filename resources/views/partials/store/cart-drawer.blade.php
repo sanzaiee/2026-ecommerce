@@ -21,7 +21,7 @@
                     </div>
                     <p class="cart-drawer__empty-title">Your cart is empty</p>
                     <p class="cart-drawer__empty-text">Looks like you haven&rsquo;t added anything yet. Explore our
-                        premium dried fruits and pickles.</p>
+                        handmade pottery from Thimi.</p>
                     <a href="{{ url('/shop') }}" class="cart-drawer__empty-btn" data-bs-dismiss="offcanvas">Continue
                         shopping</a>
                 </div>

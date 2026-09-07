@@ -1,13 +1,11 @@
 @props([
     'brand' => get_site_name(),
-    'brandSuffix' => 'Foods',
+    'brandSuffix' => 'Clay Arts',
     'description' =>
-        'Premium dried fruits and traditional pickles crafted with care. 100% natural ingredients, no artificial additives — straight from Nepal to your table.',
+        'Handmade clay crafts from the potters of Thimi — vessels for water, plants, ritual and daily life.',
     'copyright' => null,
     'quickLinks' => [
         ['label' => 'All Products', 'href' => url('/shop')],
-        ['label' => 'Fried', 'href' => url('/shop') . '?category=fried'],
-        ['label' => 'Frozen', 'href' => url('/shop') . '?category=frozen'],
         ['label' => 'Contact Us', 'href' => route('contact')],
     ],
     'informationLinks' => [
@@ -35,7 +33,7 @@
     $brandSuffix = $site['brandSuffix'] ?? $brandSuffix;
     $logoUrl = $site['logoUrl'] ?? null;
     $description = $site['footerDescription'] ?? $description;
-    $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' Our site. All rights reserved.');
+    $copyright = $site['copyright'] ?? ($copyright ?? '&copy; ' . date('Y') . ' ' . $brand . '. All rights reserved.');
     if (!empty($site['socialLinks'] ?? [])) {
         $socialLinks = $site['socialLinks'];
     }
@@ -47,7 +45,7 @@
             <div class="footer-newsletter__inner">
                 <div class="footer-newsletter__copy">
                     <h5>Subscribe to our newsletter</h5>
-                    <p>Get updates on new products, seasonal offers, and recipes — no spam.</p>
+                    <p>New firings, seasonal vessels and craft stories — no spam.</p>
                 </div>
                 <form class="footer-newsletter__form" method="POST" action="{{ route('newsletter.subscribe') }}">
                     @csrf

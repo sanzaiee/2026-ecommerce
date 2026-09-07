@@ -49,8 +49,8 @@
             <div class="container">
                 <header class="landing-section__header landing-section__header--split">
                     <div>
-                        <p class="landing-eyebrow">Collections</p>
-                        <h2 id="category-heading" class="landing-section__title">Shop By Category</h2>
+                        <p class="landing-eyebrow">Shop the craft</p>
+                        <h2 id="category-heading" class="landing-section__title">Pottery for garden and home</h2>
                     </div>
                     <a href="{{ route('shop') }}" class="landing-link">
                         View All Pottery
@@ -89,7 +89,7 @@
                     <div class="landing-section__header landing-section__header--split">
                         <div>
                             <p class="landing-eyebrow">Handcrafted for daily life</p>
-                            <h2 id="everyday-heading" class="landing-section__title">Everyday Pottery</h2>
+                            <h2 id="everyday-heading" class="landing-section__title">Everyday clay for the kitchen and courtyard</h2>
                         </div>
                         <a href="{{ route('shop') }}" class="landing-link">
                             View All Pottery
@@ -112,7 +112,7 @@
                     <div class="landing-section__header landing-section__header--split">
                         <div>
                             <p class="landing-eyebrow">Fired &amp; finished with care</p>
-                            <h2 id="top-selling-heading" class="landing-section__title">Most Loved Pieces</h2>
+                            <h2 id="top-selling-heading" class="landing-section__title">Most loved vessels from Thimi</h2>
                         </div>
                         <a href="{{ route('shop') }}" class="landing-link">
                             View All Pottery
@@ -137,16 +137,16 @@
                         <h2 id="culture-heading" class="landing-section__title landing-section__title--light">More Than Clay
                         </h2>
                         <p class="culture-band__text">
-                            In the Newar households of Thimi, a clay pot is never just a pot. It carries water on
-                            ordinary mornings, holds offerings during festivals, and marks the seasons of family
+                            In Newar homes of Thimi, a clay pot is never only a pot. It cools water on
+                            ordinary mornings, holds offerings at festivals, and marks the seasons of family
                             life &mdash; birth, harvest, marriage and remembrance.
                         </p>
                         <p class="culture-band__text">
-                            Each vessel passes through the hands of potters whose families have shaped the same
-                            clay for generations, keeping a craft that machines cannot replicate.
+                            Every vessel on JheeKuma is shaped by potters whose families have worked the same
+                            Madhyapur clay for generations &mdash; a craft machines cannot copy.
                         </p>
                         <a href="{{ route('about') }}" class="landing-link landing-link--light">
-                            Discover Our Tradition
+                            Meet the Potters
                             <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -277,7 +277,7 @@
                         @endforeach
                     </div>
                     <p class="testimonials-section__about text-center mb-0">
-                        <a href="{{ route('about') }}">Learn more about Our site</a>
+                        <a href="{{ route('about') }}">Learn more about JheeKuma</a>
                     </p>
                 </div>
             </section>
@@ -287,10 +287,10 @@
         <section class="landing-section landing-section--cta" aria-labelledby="cta-heading">
             <div class="container">
                 <div class="cta-band">
-                    <h2 id="cta-heading" class="cta-band__title">Bring Home a Piece of Thimi</h2>
-                    <p class="cta-band__text">Handmade pottery, shipped with care from the potters of Madhyapur.</p>
+                    <h2 id="cta-heading" class="cta-band__title">Bring home a piece of Thimi</h2>
+                    <p class="cta-band__text">Handmade terracotta, packed with care and shipped from Madhyapur potters.</p>
                     <a href="{{ route('shop') }}" class="hero-button">
-                        <span class="hero-button__text">Explore Pottery</span>
+                        <span class="hero-button__text">Shop Pottery</span>
                         <span class="hero-button__icon" aria-hidden="true">
                             <i class="bi bi-arrow-right"></i>
                         </span>

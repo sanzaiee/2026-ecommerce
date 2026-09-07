@@ -11,13 +11,13 @@ beforeEach(function () {
 it('renders cms meta title on home page', function () {
     $this->get(route('home'))
         ->assertOk()
-        ->assertSee('<title>Traditional Clay Pottery from Thimi, Nepal — Newar Handmade Pots</title>', false);
+        ->assertSee('<title>JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal</title>', false);
 });
 
 it('renders meta description and keywords on home page', function () {
     $this->get(route('home'))
         ->assertOk()
-        ->assertSee('name="description" content="Handmade Newar pottery from Thimi, Nepal', false)
+        ->assertSee('name="description" content="Shop handmade terracotta pots, gamala, and clay water filters', false)
         ->assertSee('name="keywords" content="Thimi pottery, Nepal clay pots, Newar pottery', false);
 });
 
@@ -25,7 +25,7 @@ it('renders canonical open graph and twitter meta on home page', function () {
     $this->get(route('home'))
         ->assertOk()
         ->assertSee('<link rel="canonical" href="'.config('app.url').'/"', false)
-        ->assertSee('property="og:title" content="Traditional Clay Pottery from Thimi, Nepal — Newar Handmade Pots"', false)
+        ->assertSee('property="og:title" content="JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal"', false)
         ->assertSee('property="og:type" content="website"', false)
         ->assertSee('name="twitter:card" content="summary_large_image"', false);
 });
@@ -51,8 +51,8 @@ it('falls back to pottery copy when all cms meta fields are empty', function () 
 
     $this->get(route('home'))
         ->assertOk()
-        ->assertSee('<title>Traditional Clay Pottery from Thimi, Nepal</title>', false)
-        ->assertSee('name="description" content="Handmade Newar pottery', false)
+        ->assertSee('<title>JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal</title>', false)
+        ->assertSee('name="description" content="Shop handmade terracotta pots, gamala, and clay water filters', false)
         ->assertSee('name="keywords" content="Thimi pottery, Nepal clay pots, Newar pottery', false);
 });
 
@@ -65,6 +65,6 @@ it('uses hero title and subtitle as meta fallback when meta fields empty', funct
 
     $this->get(route('home'))
         ->assertOk()
-        ->assertSee('<title>Where Clay Becomes Culture</title>', false)
-        ->assertSee('name="description" content="Discover traditional clay pottery', false);
+        ->assertSee('<title>Handmade Newar pottery from Thimi — for home, garden and ritual.</title>', false)
+        ->assertSee('name="description" content="Terracotta planting pots, clay water vessels and everyday ware', false);
 });

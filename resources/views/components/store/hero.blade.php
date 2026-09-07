@@ -1,8 +1,8 @@
 @props([
-    'title' => 'Where Clay Becomes Culture',
-    'subtitle' => 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
+    'title' => 'Handmade Newar pottery from Thimi — for home, garden and ritual.',
+    'subtitle' => 'Terracotta planting pots, clay water vessels and everyday ware — shaped on the wheel in Madhyapur.',
     'image' => null,
-    'imageAlt' => 'Traditional Newar clay pottery from Thimi, Nepal',
+    'imageAlt' => 'Handmade Newar pottery from Thimi, Nepal',
 ])
 
 @php
@@ -25,12 +25,12 @@
                 <div class="hero-accent-line" aria-hidden="true"></div>
                 <div class="hero-actions">
                     <a href="{{ route('shop') }}" class="hero-button">
-                        <span class="hero-button__text">Explore Pottery</span>
+                        <span class="hero-button__text">Shop Pottery</span>
                         <span class="hero-button__icon" aria-hidden="true">
                             <i class="bi bi-arrow-right"></i>
                         </span>
                     </a>
-                    <a href="{{ route('about') }}" class="hero-button--secondary">Discover Our Tradition</a>
+                    <a href="{{ route('about') }}" class="hero-button--secondary">Meet the Potters</a>
                 </div>
                 <a href="#category-heading" class="hero-scroll">
                     Scroll to explore

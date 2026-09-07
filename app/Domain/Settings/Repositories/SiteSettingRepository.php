@@ -15,9 +15,9 @@ class SiteSettingRepository implements SiteSettingRepositoryInterface
         }
 
         return SiteSetting::create([
-            'site_name' => 'Our Site Name',
-            'brand_suffix' => 'Foods',
-            'tagline' => 'Premium dried fruits and traditional pickles',
+            'site_name' => 'JheeKuma',
+            'brand_suffix' => 'Clay Arts',
+            'tagline' => 'Handmade Newar pottery from Thimi, Nepal',
             'theme_primary' => config('store.theme.primary'),
             'theme_primary_dark' => config('store.theme.primary_dark'),
             'theme_hero_accent' => config('store.theme.hero_accent'),
@@ -26,11 +26,13 @@ class SiteSettingRepository implements SiteSettingRepositoryInterface
             'admin_color_secondary' => config('store.admin.colors.secondary'),
             'admin_color_neutral' => config('store.admin.colors.neutral'),
             'promo_primary' => 'Free shipping on orders above Rs. 2,000',
-            'promo_secondary' => '100% natural products',
-            'footer_description' => 'Premium dried fruits and traditional pickles crafted with care. 100% natural ingredients, no artificial additives — straight from Nepal to your table.',
-            'contact_email' => 'support@mandirafoods.com',
+            'promo_secondary' => 'Handmade in Thimi',
+            'footer_description' => 'Handmade clay crafts from the potters of Thimi — vessels for water, plants, ritual and daily life.',
+            'default_meta_title' => 'JheeKuma Clay Arts | Handmade Pottery from Thimi, Nepal',
+            'default_meta_description' => 'Shop handmade terracotta pots, gamala, and clay water filters from Thimi potters. Fired by hand in Madhyapur — shipped across Nepal.',
+            'contact_email' => 'hello@jheekuma.com',
             'contact_phone' => '+977 1-XXXXXXX',
-            'contact_address' => 'Baluwatar, Kathmandu, Nepal',
+            'contact_address' => 'Thimi, Madhyapur, Nepal',
             'hours_display_text' => 'Sun–Fri, 10:00 AM – 6:00 PM',
         ]);
     }

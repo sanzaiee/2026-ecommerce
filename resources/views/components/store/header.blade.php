@@ -1,21 +1,19 @@
 @props([
     'promo' => 'Free shipping on orders above Rs. 2,000',
-    'promoSecondary' => '100% natural products',
+    'promoSecondary' => 'Handmade in Thimi',
     'cartTotal' => 'Rs. 0',
     'siteName' => null,
     'brandSuffix' => null,
     'logoUrl' => null,
     'menuItems' => [
         ['label' => 'All Products', 'href' => url('/shop')],
-        ['label' => 'Dried Fruits', 'href' => url('/shop') . '?category=dried-fruits'],
-        ['label' => 'Pickles', 'href' => url('/shop') . '?category=pickles'],
     ],
 ])
 
 @php
     $site = $site ?? [];
-    $siteName = $siteName ?? ($site['siteName'] ?? 'Mandira');
-    $brandSuffix = $brandSuffix ?? ($site['brandSuffix'] ?? 'Foods');
+    $siteName = $siteName ?? ($site['siteName'] ?? 'JheeKuma');
+    $brandSuffix = $brandSuffix ?? ($site['brandSuffix'] ?? 'Clay Arts');
     $logoUrl = $logoUrl ?? ($site['logoUrl'] ?? null);
     $promo = $promo ?? ($site['promoPrimary'] ?? null);
     $promoSecondary = $promoSecondary ?? ($site['promoSecondary'] ?? null);

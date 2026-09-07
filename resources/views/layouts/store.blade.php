@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php $site = $site ?? []; @endphp
-    <title>@yield('title', $site['defaultMetaTitle'] ?? null ?: ($site['siteName'] ?? 'Mandira') . ' ' . ($site['brandSuffix'] ?? 'Foods') . ' — Premium Dried Fruits & Pickles')</title>
+    <title>@yield('title', $site['defaultMetaTitle'] ?? null ?: ($site['siteName'] ?? 'JheeKuma') . ' ' . ($site['brandSuffix'] ?? 'Clay Arts') . ' — Handmade Pottery from Thimi, Nepal')</title>
     @if (isset($seo))
         @include('partials.store.seo-meta', ['seo' => $seo])
     @elseif (!empty($site['defaultMetaDescription']))
