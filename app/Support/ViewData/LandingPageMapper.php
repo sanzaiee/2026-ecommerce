@@ -4,10 +4,29 @@ namespace App\Support\ViewData;
 
 use App\Domain\CMS\Models\LandingPage;
 use App\Domain\Product\Models\Product;
+use App\Support\ViewData\DTOs\Seo;
 
 class LandingPageMapper
 {
     public function __construct(private StorefrontProductMapper $products) {}
+
+    /**
+     * SEO payload for the home page: CMS meta fields first, pottery copy as fallback.
+     */
+    public function toSeo(LandingPage $page): Seo
+    {
+        return new Seo(
+            title: $page->meta_title
+                ?: ($page->hero_title ?: 'Traditional Clay Pottery from Thimi, Nepal'),
+            description: $page->meta_description
+                ?: ($page->hero_subtitle ?: 'Handmade Newar pottery — planting pots, water pots and clay water filters shaped in Thimi, Nepal. Traditional craft, shipped across Nepal.'),
+            keywords: $page->meta_keywords
+                ? array_values(array_filter(array_map('trim', explode(',', $page->meta_keywords))))
+                : ['Thimi pottery', 'Nepal clay pots', 'Newar pottery', 'clay water filter Nepal', 'terracotta plant pots Kathmandu'],
+            canonicalPath: '/',
+            image: $this->heroImage($page),
+        );
+    }
 
     /**
      * @param  array<int, Product>  $everyday

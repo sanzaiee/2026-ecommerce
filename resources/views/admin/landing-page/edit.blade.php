@@ -55,6 +55,11 @@
                 <label class="form-label">Meta description</label>
                 <input type="text" name="meta_description" class="form-control" value="{{ old('meta_description', $page->meta_description) }}">
             </div>
+            <div class="col-12">
+                <label class="form-label">Meta keywords</label>
+                <input type="text" name="meta_keywords" class="form-control" value="{{ old('meta_keywords', $page->meta_keywords) }}" placeholder="Thimi pottery, Nepal clay pots, Newar pottery">
+                <small class="text-muted">Comma-separated keywords used in the page meta tags.</small>
+            </div>
         </div>
         <div class="mt-4">
             <button type="submit" class="btn btn-dark">Save landing page</button>

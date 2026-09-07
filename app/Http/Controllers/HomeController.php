@@ -31,6 +31,7 @@ class HomeController extends Controller
             'cartTotal' => 'Rs. 0',
             'testimonials' => $this->testimonials->forHome(6),
             'stories' => $this->storyCards(),
+            'seo' => $this->mapper->toSeo($page),
         ]));
     }
 

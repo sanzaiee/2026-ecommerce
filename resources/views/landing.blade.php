@@ -1,5 +1,7 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
+@section('title', $seo->title)
+
 @push('styles')
     <link href="{{ asset('css/landing.css') }}?v={{ filemtime(public_path('css/landing.css')) ?: 1 }}" rel="stylesheet">
 @endpush

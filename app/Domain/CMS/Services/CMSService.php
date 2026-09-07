@@ -5,9 +5,11 @@ namespace App\Domain\CMS\Services;
 use App\Domain\CMS\DTOs\UpdateLandingPageData;
 use App\Domain\CMS\Models\LandingPage;
 use App\Domain\CMS\Repositories\LandingPageRepositoryInterface;
+use App\Domain\Product\Models\Product;
 use App\Enums\LandingProductSection;
 use App\Services\CacheService;
 use App\Services\FileUploadService;
+use App\Services\SEOService;
 
 class CMSService
 {
@@ -17,6 +19,7 @@ class CMSService
         private LandingPageRepositoryInterface $repository,
         private FileUploadService $uploads,
         private CacheService $cache,
+        private SEOService $seo,
     ) {}
 
     public function getPublicPayload(): LandingPage
@@ -29,7 +32,10 @@ class CMSService
         $page = $this->repository->getSingleton();
 
         if ($data->toArray() !== []) {
-            $page = $this->repository->update($page, $data->toArray());
+            $page = $this->repository->update(
+                $page,
+                $this->seo->normalizeSeoFields($data->toArray())
+            );
         }
 
         $this->uploads->addSingle($page, 'cms', $data->heroImage);
@@ -76,7 +82,7 @@ class CMSService
     }
 
     /**
-     * @return array<int, \App\Domain\Product\Models\Product>
+     * @return array<int, Product>
      */
     public function everydayProducts(LandingPage $page): array
     {
@@ -87,7 +93,7 @@ class CMSService
     }
 
     /**
-     * @return array<int, \App\Domain\Product\Models\Product>
+     * @return array<int, Product>
      */
     public function topSellingProducts(LandingPage $page): array
     {

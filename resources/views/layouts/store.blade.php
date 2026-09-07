@@ -7,7 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php $site = $site ?? []; @endphp
     <title>@yield('title', $site['defaultMetaTitle'] ?? null ?: ($site['siteName'] ?? 'Mandira') . ' ' . ($site['brandSuffix'] ?? 'Foods') . ' — Premium Dried Fruits & Pickles')</title>
-    @if (!empty($site['defaultMetaDescription']))
+    @if (isset($seo))
+        @include('partials.store.seo-meta', ['seo' => $seo])
+    @elseif (!empty($site['defaultMetaDescription']))
         <meta name="description" content="{{ $site['defaultMetaDescription'] }}">
     @endif
     @if (!empty($site['faviconUrl']))

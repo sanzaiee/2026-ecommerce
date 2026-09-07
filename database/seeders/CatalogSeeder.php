@@ -195,10 +195,11 @@ class CatalogSeeder extends Seeder
         }
 
         $landing = LandingPage::query()->updateOrCreate(['id' => 1], [
-            'hero_title' => 'Mandira Premium Dried Fruits',
-            'hero_subtitle' => 'All natural. No added sugar, color.',
-            'meta_title' => 'Our site — Premium Dried Fruits & Pickles',
-            'meta_description' => 'Shop premium dried fruits and traditional pickles from Nepal.',
+            'hero_title' => 'Where Clay Becomes Culture',
+            'hero_subtitle' => 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
+            'meta_title' => 'Traditional Clay Pottery from Thimi, Nepal — Newar Handmade Pots',
+            'meta_description' => 'Handmade Newar pottery from Thimi, Nepal — planting pots, water pots and clay water filters shaped by generations of potters. Shop traditional craft, shipped across Nepal.',
+            'meta_keywords' => 'Thimi pottery, Nepal clay pots, Newar pottery, clay water filter Nepal, terracotta plant pots Kathmandu',
         ]);
 
         $landing->featuredCategories()->sync([

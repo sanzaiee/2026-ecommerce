@@ -19,8 +19,8 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         }
 
         return LandingPage::create([
-            'hero_title' => 'Mandira Premium Dried Fruits',
-            'hero_subtitle' => 'All natural. No added sugar, color.',
+            'hero_title' => 'Where Clay Becomes Culture',
+            'hero_subtitle' => 'Discover traditional clay pottery shaped by generations of Newar craftsmanship in Thimi, Nepal.',
         ]);
     }
 
