@@ -8,7 +8,7 @@
 
 @push('scripts')
     <script>
-        (function () {
+        (function() {
             var targets = document.querySelectorAll(
                 '.landing-section__header, .category-tile, .product-grid > .col, ' +
                 '.process-step, .story-card, .culture-band, .heritage-band, .cta-band'
@@ -18,16 +18,19 @@
                 return;
             }
 
-            var observer = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+            }, {
+                rootMargin: '0px 0px -8% 0px',
+                threshold: 0.05
+            });
 
-            Array.prototype.forEach.call(targets, function (el, index) {
+            Array.prototype.forEach.call(targets, function(el, index) {
                 el.classList.add('reveal');
                 el.style.transitionDelay = (index % 4) * 60 + 'ms';
                 observer.observe(el);
@@ -65,7 +68,7 @@
                             </span>
                             <span class="category-tile__content">
                                 <h3 class="category-tile__title">{{ $category['title'] }}</h3>
-                                @if (! empty($category['description']))
+                                @if (!empty($category['description']))
                                     <span class="category-tile__desc">{{ $category['description'] }}</span>
                                 @endif
                                 <span class="category-tile__cta">
@@ -80,7 +83,7 @@
         </section>
 
         {{-- 3a. Everyday Pottery --}}
-        @if (! empty($everydayProducts))
+        @if (!empty($everydayProducts))
             <section class="landing-section" aria-labelledby="everyday-heading">
                 <div class="container">
                     <div class="landing-section__header landing-section__header--split">
@@ -103,7 +106,7 @@
         @endif
 
         {{-- 3b. Most Loved Pieces --}}
-        @if (! empty($topSellingProducts))
+        @if (!empty($topSellingProducts))
             <section class="landing-section landing-section--alt" aria-labelledby="top-selling-heading">
                 <div class="container">
                     <div class="landing-section__header landing-section__header--split">
@@ -131,7 +134,8 @@
                 <div class="culture-band">
                     <div class="culture-band__copy">
                         <p class="landing-eyebrow">Our Tradition</p>
-                        <h2 id="culture-heading" class="landing-section__title landing-section__title--light">More Than Clay</h2>
+                        <h2 id="culture-heading" class="landing-section__title landing-section__title--light">More Than Clay
+                        </h2>
                         <p class="culture-band__text">
                             In the Newar households of Thimi, a clay pot is never just a pot. It carries water on
                             ordinary mornings, holds offerings during festivals, and marks the seasons of family
@@ -149,19 +153,23 @@
                     <ul class="culture-band__pillars" aria-label="What pottery carries">
                         <li class="culture-pillar">
                             <span class="culture-pillar__glyph" aria-hidden="true">Clay</span>
-                            <span class="culture-pillar__text">River-bank earth of the Madhyapur valley, prepared by hand.</span>
+                            <span class="culture-pillar__text">River-bank earth of the Madhyapur valley, prepared by
+                                hand.</span>
                         </li>
                         <li class="culture-pillar">
                             <span class="culture-pillar__glyph" aria-hidden="true">Craft</span>
-                            <span class="culture-pillar__text">The wheel, the paddle and the kiln &mdash; skills inherited, not learned from manuals.</span>
+                            <span class="culture-pillar__text">The wheel, the paddle and the kiln &mdash; skills inherited,
+                                not learned from manuals.</span>
                         </li>
                         <li class="culture-pillar">
                             <span class="culture-pillar__glyph" aria-hidden="true">Community</span>
-                            <span class="culture-pillar__text">Pottery squares where neighbours fire, trade and celebrate together.</span>
+                            <span class="culture-pillar__text">Pottery squares where neighbours fire, trade and celebrate
+                                together.</span>
                         </li>
                         <li class="culture-pillar">
                             <span class="culture-pillar__glyph" aria-hidden="true">Culture</span>
-                            <span class="culture-pillar__text">Vessels at the centre of Newar ritual, cuisine and hospitality.</span>
+                            <span class="culture-pillar__text">Vessels at the centre of Newar ritual, cuisine and
+                                hospitality.</span>
                         </li>
                     </ul>
                 </div>
@@ -180,27 +188,32 @@
                     <li class="process-step">
                         <span class="process-step__num" aria-hidden="true">01</span>
                         <h3 class="process-step__title">Clay</h3>
-                        <p class="process-step__text">Fine river clay is collected, cleaned and wedged until it is ready for the wheel.</p>
+                        <p class="process-step__text">Fine river clay is collected, cleaned and wedged until it is ready
+                            for the wheel.</p>
                     </li>
                     <li class="process-step">
                         <span class="process-step__num" aria-hidden="true">02</span>
                         <h3 class="process-step__title">Shape</h3>
-                        <p class="process-step__text">The potter centers the clay and draws each form upward by hand on the traditional wheel.</p>
+                        <p class="process-step__text">The potter centers the clay and draws each form upward by hand on the
+                            traditional wheel.</p>
                     </li>
                     <li class="process-step">
                         <span class="process-step__num" aria-hidden="true">03</span>
                         <h3 class="process-step__title">Dry</h3>
-                        <p class="process-step__text">Vessels rest in the sun, slowly releasing moisture so they can survive the fire.</p>
+                        <p class="process-step__text">Vessels rest in the sun, slowly releasing moisture so they can
+                            survive the fire.</p>
                     </li>
                     <li class="process-step">
                         <span class="process-step__num" aria-hidden="true">04</span>
                         <h3 class="process-step__title">Fire</h3>
-                        <p class="process-step__text">An open kiln firing hardens the clay and gives each piece its earthen tone.</p>
+                        <p class="process-step__text">An open kiln firing hardens the clay and gives each piece its earthen
+                            tone.</p>
                     </li>
                     <li class="process-step">
                         <span class="process-step__num" aria-hidden="true">05</span>
                         <h3 class="process-step__title">Finish</h3>
-                        <p class="process-step__text">Fired pieces are polished, checked and readied for kitchens and altars alike.</p>
+                        <p class="process-step__text">Fired pieces are polished, checked and readied for kitchens and
+                            altars alike.</p>
                     </li>
                 </ol>
             </div>
@@ -227,7 +240,7 @@
         </section>
 
         {{-- 7. Stories From the Tradition --}}
-        @if (! empty($stories))
+        @if (!empty($stories))
             <section class="landing-section landing-section--alt" aria-labelledby="stories-heading">
                 <div class="container">
                     <div class="landing-section__header landing-section__header--split">
@@ -242,14 +255,8 @@
                     </div>
                     <div class="stories-grid">
                         @foreach ($stories as $story)
-                            <x-store.story-card
-                                :title="$story['title']"
-                                :excerpt="$story['excerpt']"
-                                :image="$story['image']"
-                                :category="$story['category']"
-                                :date="$story['date']"
-                                :url="$story['url']"
-                            />
+                            <x-store.story-card :title="$story['title']" :excerpt="$story['excerpt']" :image="$story['image']" :category="$story['category']"
+                                :date="$story['date']" :url="$story['url']" />
                         @endforeach
                     </div>
                 </div>
@@ -257,7 +264,7 @@
         @endif
 
         {{-- 8. Testimonials --}}
-        @if (! empty($testimonials))
+        @if (!empty($testimonials))
             <section class="landing-section" aria-labelledby="testimonials-heading">
                 <div class="container">
                     <header class="landing-section__header">
