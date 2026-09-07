@@ -64,13 +64,18 @@ class SiteSetting extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
+        // Keep PNG/WebP so transparent logos are not flattened to JPG (solid background).
         $this->addMediaConversion('thumb')
             ->width(120)
             ->height(120)
+            ->keepOriginalImageFormat()
+            ->nonQueued()
             ->performOnCollections('logo');
 
         $this->addMediaConversion('header')
             ->width(480)
+            ->keepOriginalImageFormat()
+            ->nonQueued()
             ->performOnCollections('logo');
     }
 }
