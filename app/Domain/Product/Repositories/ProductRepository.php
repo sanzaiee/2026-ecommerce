@@ -2,10 +2,10 @@
 
 namespace App\Domain\Product\Repositories;
 
-use App\Domain\Brand\Models\Brand;
-use App\Domain\Category\Models\Category;
 use App\Domain\Product\DTOs\ProductFilterData;
 use App\Domain\Product\Models\Product;
+use App\Domain\Review\Models\Review;
+use App\Enums\ReviewStatus;
 use App\Enums\StockStatus;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -124,6 +124,21 @@ class ProductRepository implements ProductRepositoryInterface
             'rating_avg' => $avg,
             'review_count' => $count,
         ]);
+    }
+
+    public function recalculateRating(Product $product): void
+    {
+        $stats = Review::query()
+            ->where('product_id', $product->id)
+            ->where('status', ReviewStatus::Approved)
+            ->selectRaw('AVG(rating) as avg_rating, COUNT(*) as total')
+            ->first();
+
+        $this->updateRating(
+            $product,
+            round((float) ($stats->avg_rating ?? 0), 2),
+            (int) ($stats->total ?? 0),
+        );
     }
 
     public function listWithReviewsForFilter(): Collection

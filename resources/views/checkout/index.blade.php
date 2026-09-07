@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', 'Checkout — Our site')
+@section('title', 'Checkout — '.config('app.name'))
 
 @push('styles')
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">

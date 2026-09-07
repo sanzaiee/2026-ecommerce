@@ -32,6 +32,8 @@ interface ProductRepositoryInterface
 
     public function updateRating(Product $product, float $avg, int $count): void;
 
+    public function recalculateRating(Product $product): void;
+
     /**
      * @return Collection<int, Product>
      */

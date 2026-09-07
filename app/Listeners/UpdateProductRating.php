@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Domain\Product\Repositories\ProductRepositoryInterface;
-use App\Domain\Review\Models\Review;
-use App\Enums\ReviewStatus;
 use App\Events\ReviewApproved;
 
 class UpdateProductRating
@@ -19,16 +17,6 @@ class UpdateProductRating
             return;
         }
 
-        $stats = Review::query()
-            ->where('product_id', $product->id)
-            ->where('status', ReviewStatus::Approved)
-            ->selectRaw('AVG(rating) as avg_rating, COUNT(*) as total')
-            ->first();
-
-        $this->products->updateRating(
-            $product,
-            round((float) ($stats->avg_rating ?? 0), 2),
-            (int) ($stats->total ?? 0)
-        );
+        $this->products->recalculateRating($product);
     }
 }

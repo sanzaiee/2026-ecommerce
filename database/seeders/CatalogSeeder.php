@@ -62,8 +62,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::Sale,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 4.5,
-                'review_count' => 24,
+                'rating_avg' => 0,
+                'review_count' => 0,
                 'bullets' => ['100% natural', 'Rich in vitamins A & C', '200g resealable pouch'],
                 'additional_info' => [
                     ['label' => 'Weight', 'value' => '200g'],
@@ -79,8 +79,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::OutOfStock,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $himalayanHarvest->id,
-                'rating_avg' => 4,
-                'review_count' => 18,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Mixed Berry Medley Pack',
@@ -91,8 +91,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::Sale,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 5,
-                'review_count' => 31,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Sun-Dried Kiwi Slices',
@@ -101,8 +101,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::InStock,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $himalayanHarvest->id,
-                'rating_avg' => 4.5,
-                'review_count' => 12,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Himalayan Trail Mix 250g',
@@ -111,8 +111,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::InStock,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $himalayanHarvest->id,
-                'rating_avg' => 4,
-                'review_count' => 9,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Golden Dried Pineapple Rings',
@@ -122,8 +122,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::Sale,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 5,
-                'review_count' => 27,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Turkish Dried Apricots',
@@ -132,8 +132,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::OutOfStock,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 4.5,
-                'review_count' => 15,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Toasted Coconut Chips',
@@ -141,8 +141,8 @@ class CatalogSeeder extends Seeder
                 'price' => 290,
                 'stock_status' => StockStatus::InStock,
                 'category_id' => $driedFruits->id,
-                'rating_avg' => 4,
-                'review_count' => 8,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Premium Dried Anjeer (Fig)',
@@ -151,8 +151,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::InStock,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $himalayanHarvest->id,
-                'rating_avg' => 5,
-                'review_count' => 42,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Traditional Mango Pickle',
@@ -161,8 +161,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::InStock,
                 'category_id' => $pickles->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 4.5,
-                'review_count' => 36,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Spicy Lime Pickle',
@@ -172,8 +172,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::Sale,
                 'category_id' => $pickles->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 4,
-                'review_count' => 14,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
             [
                 'title' => 'Festive Dry Fruit Gift Box',
@@ -183,8 +183,8 @@ class CatalogSeeder extends Seeder
                 'stock_status' => StockStatus::Sale,
                 'category_id' => $driedFruits->id,
                 'brand_id' => $mandira->id,
-                'rating_avg' => 5,
-                'review_count' => 58,
+                'rating_avg' => 0,
+                'review_count' => 0,
             ],
         ];
 
@@ -264,6 +264,24 @@ class CatalogSeeder extends Seeder
                     'status' => ReviewStatus::Approved,
                 ]
             );
+        }
+
+        $reviewedProductIds = collect($sampleReviews)
+            ->pluck('slug')
+            ->unique()
+            ->map(fn (string $slug) => $created[$slug]->id);
+
+        foreach ($reviewedProductIds as $productId) {
+            $stats = Review::query()
+                ->where('product_id', $productId)
+                ->where('status', ReviewStatus::Approved)
+                ->selectRaw('AVG(rating) as avg_rating, COUNT(*) as total')
+                ->first();
+
+            Product::query()->whereKey($productId)->update([
+                'rating_avg' => round((float) ($stats->avg_rating ?? 0), 2),
+                'review_count' => (int) ($stats->total ?? 0),
+            ]);
         }
     }
 }

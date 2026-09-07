@@ -1,5 +1,38 @@
+/* Match /shop breadcrumb spacing (open strip, not boxed content-page bar) */
+.checkout-page .content-page__breadcrumb {
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0 8px;
+    margin-bottom: 32px;
+}
+
+.checkout-page .content-breadcrumb {
+    font-size: 0.8125rem;
+    margin: 0;
+}
+
+.checkout-page .content-breadcrumb .breadcrumb-item a {
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.checkout-page .content-breadcrumb .breadcrumb-item a:hover {
+    color: var(--primary);
+}
+
+.checkout-page .content-breadcrumb .breadcrumb-item.active {
+    color: var(--text-dark);
+    font-weight: 400;
+}
+
 .checkout-page .checkout-section {
-    padding: 40px 0 80px;
+    padding: 0 0 80px;
+}
+
+@media (min-width: 992px) {
+    .checkout-page .content-page__breadcrumb {
+        margin-bottom: 40px;
+    }
 }
 
 .checkout-alert {

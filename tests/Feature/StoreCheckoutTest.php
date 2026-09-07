@@ -55,6 +55,7 @@ it('prefills checkout with saved customer address', function () {
 it('shows checkout page with cart items', function () {
     $customer = User::factory()->create(['role' => UserRole::Customer]);
     $product = Product::query()->where('slug', 'premium-dried-mango-slices')->firstOrFail();
+    $product->update(['stock_quantity' => max(25, (int) $product->stock_quantity)]);
 
     $this->actingAs($customer)
         ->postJson(route('store.cart.items.store'), [
@@ -66,6 +67,8 @@ it('shows checkout page with cart items', function () {
     $this->actingAs($customer)
         ->get(route('store.checkout.show'))
         ->assertOk()
+        ->assertSee('content-page__breadcrumb', false)
+        ->assertSee('Home')
         ->assertSee('Checkout')
         ->assertSee($product->title)
         ->assertSee('Cash on delivery');

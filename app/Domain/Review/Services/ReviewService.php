@@ -2,6 +2,7 @@
 
 namespace App\Domain\Review\Services;
 
+use App\Domain\Product\Models\Product;
 use App\Domain\Product\Repositories\ProductRepositoryInterface;
 use App\Domain\Review\DTOs\CreateReviewData;
 use App\Domain\Review\DTOs\ReviewFilterData;
@@ -35,7 +36,7 @@ class ReviewService
     }
 
     /**
-     * @return Collection<int, \App\Domain\Product\Models\Product>
+     * @return Collection<int, Product>
      */
     public function filterProductOptions(): Collection
     {
@@ -64,7 +65,11 @@ class ReviewService
             throw new \RuntimeException('Review not found.');
         }
 
+        $product = $review->product;
         $this->repository->delete($review);
-    }
 
+        if ($product) {
+            $this->products->recalculateRating($product);
+        }
+    }
 }
