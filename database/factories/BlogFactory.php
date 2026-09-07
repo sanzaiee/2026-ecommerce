@@ -26,6 +26,9 @@ class BlogFactory extends Factory
             'content' => '<p>'.fake()->paragraphs(2, true).'</p>',
             'excerpt' => fake()->optional()->sentence(12),
             'blog_category_id' => null,
+            'meta_title' => null,
+            'meta_description' => null,
+            'meta_keywords' => null,
             'position' => fake()->numberBetween(0, 20),
             'is_featured' => false,
         ];

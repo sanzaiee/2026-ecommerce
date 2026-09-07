@@ -73,7 +73,7 @@ class BlogService
 
     public function create(CreateBlogData $data): Blog
     {
-        $attributes = $this->sanitize($data->toArray());
+        $attributes = $this->seo->normalizeSeoFields($this->sanitize($data->toArray()));
         $attributes['slug'] = $this->uniqueSlug($attributes['title']);
 
         $blog = $this->repository->create($attributes);
@@ -92,7 +92,7 @@ class BlogService
         }
 
         $previousSlug = $blog->slug;
-        $attributes = $this->sanitize($data->toArray());
+        $attributes = $this->seo->normalizeSeoFields($this->sanitize($data->toArray()));
         $attributes['slug'] = $this->uniqueSlug($attributes['title'], $blog->id);
 
         $blog = $this->repository->update($blog, $attributes);
@@ -145,6 +145,15 @@ class BlogService
         if (array_key_exists('excerpt', $attributes)) {
             $attributes['excerpt'] = trim(strip_tags((string) $attributes['excerpt']));
             $attributes['excerpt'] = $attributes['excerpt'] !== '' ? $attributes['excerpt'] : null;
+        }
+
+        foreach (['meta_title', 'meta_description', 'meta_keywords'] as $field) {
+            if (! array_key_exists($field, $attributes)) {
+                continue;
+            }
+
+            $attributes[$field] = trim(strip_tags((string) $attributes[$field]));
+            $attributes[$field] = $attributes[$field] !== '' ? $attributes[$field] : null;
         }
 
         return $attributes;

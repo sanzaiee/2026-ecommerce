@@ -62,6 +62,20 @@
                 </div>
             </div>
         </div>
+        <div class="mb-3">
+            <label class="form-label" for="meta_title">Meta title</label>
+            <input type="text" name="meta_title" id="meta_title" class="form-control" value="{{ old('meta_title', $blog?->meta_title) }}" maxlength="255">
+            <div class="form-text">Leave blank to use the post title.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="meta_description">Meta description</label>
+            <input type="text" name="meta_description" id="meta_description" class="form-control" value="{{ old('meta_description', $blog?->meta_description) }}" maxlength="500">
+            <div class="form-text">Leave blank to use the excerpt (or a content summary).</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="meta_keywords">Meta keywords</label>
+            <input type="text" name="meta_keywords" id="meta_keywords" class="form-control" value="{{ old('meta_keywords', $blog?->meta_keywords) }}" maxlength="255" placeholder="Thimi pottery, Newar craft, clay traditions">
+        </div>
         <button type="submit" class="btn btn-dark">Save</button>
         <a href="{{ route('admin.blogs.index') }}" class="btn btn-link">Cancel</a>
     </form>

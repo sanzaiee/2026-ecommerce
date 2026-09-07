@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', $pageTitle . ' — ' . ($site['siteName'] ?? 'Mandira') . ' ' . ($site['brandSuffix'] ?? 'Foods'))
+@section('title', $seo->title)
 
 @push('styles')
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">

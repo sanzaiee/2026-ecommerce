@@ -32,6 +32,9 @@ class Blog extends Model implements HasMedia
         'blog_category_id',
         'content',
         'excerpt',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
         'position',
         'is_featured',
     ];

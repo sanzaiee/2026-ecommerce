@@ -13,6 +13,9 @@ it('appends a suffix when two posts share a title slug', function () {
         content: '<p>First</p>',
         excerpt: null,
         blogCategoryId: null,
+        metaTitle: null,
+        metaDescription: null,
+        metaKeywords: null,
         position: 0,
         isFeatured: false,
     ));
@@ -21,6 +24,9 @@ it('appends a suffix when two posts share a title slug', function () {
         content: '<p>Second</p>',
         excerpt: null,
         blogCategoryId: null,
+        metaTitle: null,
+        metaDescription: null,
+        metaKeywords: null,
         position: 0,
         isFeatured: false,
     ));

@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Domain\Blog\DTOs\BlogStorefrontFilterData;
 use App\Domain\Blog\Models\BlogCategory;
 use App\Domain\Blog\Services\BlogService;
+use App\Support\ViewData\BlogMapper;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BlogController extends Controller
 {
-    public function __construct(private BlogService $blogs) {}
+    public function __construct(
+        private BlogService $blogs,
+        private BlogMapper $mapper,
+    ) {}
 
     public function index(Request $request): View
     {
@@ -38,11 +42,13 @@ class BlogController extends Controller
         }
 
         $post->loadMissing('category');
+        $seo = $this->mapper->toSeo($post);
 
         return view('pages.blog-show', [
             'cartTotal' => 'Rs. 0',
-            'pageTitle' => $post->title,
+            'pageTitle' => $seo->title,
             'post' => $post,
+            'seo' => $seo,
         ]);
     }
 
