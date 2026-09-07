@@ -43,7 +43,7 @@ return [
         /*
         | Active online gateway: esewa | khalti | null (online payments disabled)
         */
-        'gateway' => env('STORE_PAYMENT_GATEWAY', 'esewa'),
+        'gateway' => env('STORE_PAYMENT_GATEWAY', ''),
 
         'cod' => [
             'enabled' => (bool) env('STORE_COD_ENABLED', true),

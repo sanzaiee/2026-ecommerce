@@ -1,7 +1,7 @@
 :root {
-    --primary: #0174d3;
-    --primary-dark: #0a3263;
-    --primary-light: #c2e4ff;
+    /* Fallbacks; storefront theme from admin settings overrides via theme-vars */
+    --primary: #b45309;
+    --primary-dark: #92400e;
     --bg-light: #f7f7f7;
     --text-dark: #121212;
     --text-muted: #737373;

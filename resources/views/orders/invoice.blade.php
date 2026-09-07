@@ -7,8 +7,11 @@
     <title>Invoice {{ $order->order_number }} — Our site</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Open+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Open+Sans:wght@600;700&display=swap"
+        rel="stylesheet">
     <link href="{{ asset('css/admin-invoice.css') }}" rel="stylesheet">
+    @include('partials.store.theme-vars')
 </head>
 
 <body class="invoice-body">
@@ -20,8 +23,8 @@
     <article class="invoice">
         <header class="invoice__header">
             <div>
-                <h1 class="invoice__brand">Our site</h1>
-                <p class="invoice__tagline">Premium dried fruits &amp; snacks</p>
+                <h1 class="invoice__brand">{{ config('app.name') }}</h1>
+                <p class="invoice__tagline">{{ config('app.description') }}</p>
             </div>
             <div class="invoice__meta">
                 <h2>Invoice</h2>

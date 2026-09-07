@@ -17,6 +17,7 @@ beforeEach(function () {
 function placeTestOrder(User $customer): Order
 {
     $product = Product::query()->where('slug', 'premium-dried-mango-slices')->firstOrFail();
+    $product->update(['stock_quantity' => max(25, (int) $product->stock_quantity)]);
 
     test()->actingAs($customer)
         ->postJson(route('store.cart.items.store'), [
@@ -80,6 +81,26 @@ it('shows printable invoice for admin', function () {
         ->assertOk()
         ->assertSee('Invoice')
         ->assertSee($order->order_number);
+});
+
+it('applies storefront theme colors on the invoice', function () {
+    $admin = User::factory()->create(['role' => UserRole::Admin]);
+    $customer = User::factory()->create(['role' => UserRole::Customer]);
+    $order = placeTestOrder($customer);
+
+    $this->actingAs($admin)
+        ->put(route('admin.settings.update'), [
+            'site_name' => 'Test Store',
+            'theme_primary' => '#AABBCC',
+            'theme_primary_dark' => '#112233',
+        ])
+        ->assertRedirect();
+
+    $this->actingAs($admin)
+        ->get(route('admin.orders.invoice', $order))
+        ->assertOk()
+        ->assertSee('--primary: #AABBCC', false)
+        ->assertSee('--primary-dark: #112233', false);
 });
 
 it('updates delivery status for admin', function () {

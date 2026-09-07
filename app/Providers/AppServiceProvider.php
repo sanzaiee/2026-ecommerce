@@ -133,6 +133,7 @@ class AppServiceProvider extends ServiceProvider
             'components.store.header',
             'components.store.footer',
             'pages.*',
+            'orders.invoice',
         ], $siteComposer);
     }
 }
