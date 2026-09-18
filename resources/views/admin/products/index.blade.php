@@ -121,6 +121,8 @@
                             <a href="{{ route('admin.products.edit', $product) }}"
                                 class="btn btn-sm btn-outline-secondary">Edit</a>
                             @unless ($product->trashed())
+                                <a href="{{ route('admin.products.journey.edit', $product) }}"
+                                    class="btn btn-sm btn-outline-dark">Journey</a>
                                 <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="d-inline"
                                     onsubmit="return confirm('Delete this product?')">
                                     @csrf

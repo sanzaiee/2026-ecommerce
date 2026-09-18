@@ -21,6 +21,8 @@ use App\Domain\Contact\Repositories\ContactMessageRepository;
 use App\Domain\Contact\Repositories\ContactMessageRepositoryInterface;
 use App\Domain\Customer\Repositories\CustomerRepository;
 use App\Domain\Customer\Repositories\CustomerRepositoryInterface;
+use App\Domain\Journey\Repositories\JourneyStageRepository;
+use App\Domain\Journey\Repositories\JourneyStageRepositoryInterface;
 use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepository;
 use App\Domain\Newsletter\Repositories\NewsletterSubscriberRepositoryInterface;
 use App\Domain\Order\Repositories\OrderRepository;
@@ -69,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BrandRepositoryInterface::class, BrandRepository::class);
         $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(TestimonialRepositoryInterface::class, TestimonialRepository::class);
+        $this->app->bind(JourneyStageRepositoryInterface::class, JourneyStageRepository::class);
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
         $this->app->bind(ContactMessageRepositoryInterface::class, ContactMessageRepository::class);
         $this->app->bind(NewsletterSubscriberRepositoryInterface::class, NewsletterSubscriberRepository::class);

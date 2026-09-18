@@ -20,7 +20,7 @@ readonly class CreateProductData
         public float $price,
         public ?float $oldPrice,
         public StockStatus $stockStatus,
-        public int $stockQuantity = 0,
+        public int $stockQuantity,
         public ?int $categoryId,
         public ?int $brandId,
         public ?string $metaTitle,

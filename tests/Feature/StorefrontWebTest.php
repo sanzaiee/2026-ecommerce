@@ -2,6 +2,7 @@
 
 use App\Domain\Blog\Models\Blog;
 use Database\Seeders\CatalogSeeder;
+use Database\Seeders\JourneyStageSeeder;
 
 beforeEach(function () {
     $this->seed(CatalogSeeder::class);
@@ -17,6 +18,20 @@ it('renders shop page', function () {
 
 it('renders product detail by slug route', function () {
     $this->get(route('product.show', 'premium-dried-mango-slices'))->assertOk();
+});
+
+it('renders the journey section on the product detail page', function () {
+    $this->seed(JourneyStageSeeder::class);
+
+    $this->get(route('product.show', 'premium-dried-mango-slices'))
+        ->assertOk()
+        ->assertSee('The Journey', false)
+        ->assertSee('From Clay to Finished Pot', false)
+        ->assertSee('Follow the complete lifecycle of Premium Dried Mango Slices', false)
+        ->assertSee('Clay', false)
+        ->assertSee('Shape', false)
+        ->assertSee('Finish', false)
+        ->assertSee('product-journey__placeholder', false);
 });
 
 it('renders category page by slug route', function () {

@@ -99,6 +99,20 @@
             </div>
         </div>
 
+        @if ($product)
+            <div class="mt-4 p-3 border rounded bg-light">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <h2 class="h6 mb-1">Product journey</h2>
+                        <p class="text-muted small mb-0">Add clay-to-pot stages (title, story, and image) for this product.</p>
+                    </div>
+                    <a href="{{ route('admin.journey-stages.index', ['product_id' => $product->id]) }}" class="btn btn-outline-dark btn-sm">
+                        Manage journey stages
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <div class="mt-4">
             <button type="submit" class="btn btn-dark">Save</button>
             <a href="{{ route('admin.products.index') }}" class="btn btn-link">Cancel</a>

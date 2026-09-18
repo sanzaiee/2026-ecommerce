@@ -108,7 +108,8 @@
                             <p class="product-info__stock product-info__stock--{{ $product['inStock'] ? 'in' : 'out' }}">
                                 @if ($product['inStock'])
                                     <i class="bi bi-check-circle-fill" aria-hidden="true"></i> In Stock
-                                    <span class="product-info__stock-count">({{ $product['stockQuantity'] ?? 0 }} available)</span>
+                                    <span class="product-info__stock-count">({{ $product['stockQuantity'] ?? 0 }}
+                                        available)</span>
                                 @else
                                     <i class="bi bi-x-circle-fill" aria-hidden="true"></i> Out of Stock
                                 @endif
@@ -196,6 +197,42 @@
                 </div>
             </div>
         </section>
+
+        {{-- The Journey — From Clay to Finished Pot --}}
+        @if (count($journey) > 0)
+            <section class="product-detail__journey section-padding" aria-labelledby="journey-heading">
+                <div class="container">
+                    <header class="product-journey__header">
+                        <p class="product-journey__eyebrow">The Journey</p>
+                        <h2 id="journey-heading" class="section-heading-left">From Clay to Finished Pot</h2>
+                        <p class="product-journey__lede">
+                            Follow the complete lifecycle of {{ $product['name'] }} through each stage of its
+                            creation.
+                        </p>
+                    </header>
+                    <ol class="product-journey__track">
+                        @foreach ($journey as $index => $step)
+                            <li class="product-journey__step">
+                                <div class="product-journey__media">
+                                    @if (! empty($step['image']))
+                                        <img src="{{ $step['image'] }}" alt="{{ $step['imageAlt'] }}"
+                                            class="product-journey__img" loading="lazy" width="640" height="480">
+                                    @else
+                                        <div class="product-journey__placeholder" aria-hidden="true"></div>
+                                    @endif
+                                </div>
+                                <div class="product-journey__spine" aria-hidden="true"></div>
+                                <div class="product-journey__body">
+                                    <span class="product-journey__num">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                    <h3 class="product-journey__title">{{ $step['title'] }}</h3>
+                                    <p class="product-journey__text">{{ $step['text'] }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ol>
+                </div>
+            </section>
+        @endif
 
         {{-- Reviews --}}
         <section class="product-detail__reviews section-padding" id="reviews">

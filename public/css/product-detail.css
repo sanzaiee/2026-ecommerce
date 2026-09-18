@@ -401,6 +401,213 @@
     color: var(--text-body);
 }
 
+/* Journey — From Clay to Finished Pot */
+.product-journey__header {
+    margin-bottom: 40px;
+}
+
+.product-journey__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.product-journey__header .section-heading-left {
+    margin-bottom: 0;
+}
+
+.product-journey__lede {
+    margin: 1rem 0 0;
+    max-width: 40rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--text-body);
+}
+
+.product-journey__track {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    max-width: 1040px;
+}
+
+.product-journey__step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.5rem minmax(0, 1fr);
+    column-gap: clamp(1rem, 2.5vw, 2rem);
+    align-items: stretch;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.product-journey__media {
+    grid-row: 1;
+    align-self: center;
+    margin: 0 0 clamp(2rem, 4vw, 2.75rem);
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    background: var(--bg-light);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.product-journey__step:last-child .product-journey__media {
+    margin-bottom: 0;
+}
+
+.product-journey__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-journey__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--border) 100%);
+}
+
+.product-journey__spine {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    justify-self: center;
+    width: 2px;
+    background: var(--border);
+}
+
+.product-journey__step:last-child .product-journey__spine {
+    background: linear-gradient(to bottom, var(--border) 0%, var(--border) 50%, transparent 50%);
+}
+
+.product-journey__spine::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 0 4px var(--bg-white), 0 0 0 5px var(--border);
+    transform: translate(-50%, -50%);
+}
+
+.product-journey__body {
+    grid-row: 1;
+    align-self: center;
+    padding: 0 0 clamp(2rem, 4vw, 2.75rem);
+}
+
+.product-journey__step:last-child .product-journey__body {
+    padding-bottom: 0;
+}
+
+/* Even steps — image left, copy right */
+.product-journey__step:nth-child(even) .product-journey__media {
+    grid-column: 1;
+}
+
+.product-journey__step:nth-child(even) .product-journey__body {
+    grid-column: 3;
+    text-align: left;
+}
+
+/* Odd steps — image right, copy left */
+.product-journey__step:nth-child(odd) .product-journey__media {
+    grid-column: 3;
+}
+
+.product-journey__step:nth-child(odd) .product-journey__body {
+    grid-column: 1;
+    text-align: right;
+}
+
+.product-journey__step:nth-child(odd) .product-journey__text {
+    margin-left: auto;
+}
+
+.product-journey__num {
+    display: block;
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--primary);
+}
+
+.product-journey__title {
+    margin: 0 0 0.625rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-dark);
+}
+
+.product-journey__text {
+    margin: 0;
+    max-width: 28rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-body);
+}
+
+@media (max-width: 767.98px) {
+    .product-journey__step {
+        grid-template-columns: 1.25rem minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 1rem;
+        row-gap: 0.875rem;
+    }
+
+    .product-journey__media,
+    .product-journey__step:nth-child(odd) .product-journey__media,
+    .product-journey__step:nth-child(even) .product-journey__media {
+        grid-column: 2;
+        grid-row: 1;
+        margin-bottom: 0;
+        aspect-ratio: 16 / 10;
+    }
+
+    .product-journey__spine {
+        grid-column: 1;
+        grid-row: 1 / -1;
+    }
+
+    .product-journey__body,
+    .product-journey__step:nth-child(odd) .product-journey__body,
+    .product-journey__step:nth-child(even) .product-journey__body {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: start;
+        padding-bottom: 1.75rem;
+        text-align: left;
+    }
+
+    .product-journey__step:nth-child(odd) .product-journey__text {
+        margin-left: 0;
+    }
+
+    .product-journey__step:last-child .product-journey__body {
+        padding-bottom: 0;
+    }
+
+    .product-journey__spine::before {
+        top: 1.1rem;
+        transform: translate(-50%, 0);
+    }
+}
+
 /* Reviews */
 .product-detail__reviews .section-heading-left {
     margin-bottom: 40px;

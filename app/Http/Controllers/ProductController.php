@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Journey\Services\JourneyStageService;
 use App\Domain\Product\Services\ProductService;
 use App\Domain\Review\Services\ReviewService;
 use App\Http\Requests\Review\StoreReviewRequest;
@@ -14,6 +15,7 @@ class ProductController extends Controller
     public function __construct(
         private ProductService $products,
         private ReviewService $reviews,
+        private JourneyStageService $journeyStages,
         private StorefrontProductMapper $mapper,
     ) {}
 
@@ -44,6 +46,7 @@ class ProductController extends Controller
         return view('product', [
             'cartTotal' => 'Rs. 0',
             'product' => $this->mapper->toDetail($product),
+            'journey' => $this->journeyStages->forProduct($product->id),
             'relatedProducts' => $related,
             'reviews' => $approvedReviews,
         ]);

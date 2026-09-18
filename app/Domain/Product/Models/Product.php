@@ -5,6 +5,7 @@ namespace App\Domain\Product\Models;
 use App\Concerns\HasProductMediaGallery;
 use App\Domain\Brand\Models\Brand;
 use App\Domain\Category\Models\Category;
+use App\Domain\Journey\Models\JourneyStage;
 use App\Domain\Review\Models\Review;
 use App\Enums\StockStatus;
 use Attribute;
@@ -102,6 +103,11 @@ class Product extends Model implements HasMedia
     public function approvedReviews(): HasMany
     {
         return $this->reviews()->where('status', 'approved');
+    }
+
+    public function journeyStages(): HasMany
+    {
+        return $this->hasMany(JourneyStage::class)->orderBy('sort_order')->orderBy('id');
     }
 
     public function isOnSale(): bool

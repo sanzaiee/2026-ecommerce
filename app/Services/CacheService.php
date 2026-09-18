@@ -40,6 +40,17 @@ class CacheService
         $this->forget('testimonials.home');
     }
 
+    public function forgetJourneyStages(?int $productId = null): void
+    {
+        if ($productId) {
+            $this->forget("journey.stages.product.{$productId}");
+
+            return;
+        }
+
+        $this->forget('journey.stages.storefront');
+    }
+
     public function forgetBlogs(?string $slug = null): void
     {
         if ($slug) {

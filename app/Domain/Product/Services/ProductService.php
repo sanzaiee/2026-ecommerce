@@ -12,6 +12,7 @@ use App\Services\FileUploadService;
 use App\Services\SEOService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+
 class ProductService
 {
     private const CACHE_TTL = 3600;

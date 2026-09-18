@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\JourneyStageController as AdminJourneyStageController;
 use App\Http\Controllers\Admin\LandingPageController as AdminLandingPageController;
 use App\Http\Controllers\Admin\NewsletterSubscriberController as AdminNewsletterSubscriberController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -119,6 +120,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::delete('products/{product}/media/{media}', [AdminProductController::class, 'destroyMedia'])
             ->name('products.media.destroy');
+        Route::get('products/{product}/journey', [AdminJourneyStageController::class, 'editForProduct'])
+            ->name('products.journey.edit');
+        Route::put('products/{product}/journey', [AdminJourneyStageController::class, 'syncForProduct'])
+            ->name('products.journey.update');
         Route::resource('products', AdminProductController::class)->except(['show']);
 
         Route::delete('categories/{category}/image', [AdminCategoryController::class, 'destroyImage'])
@@ -142,6 +147,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
         Route::patch('/orders/{order}/delivery-status', [AdminOrderController::class, 'updateDeliveryStatus'])->name('orders.delivery-status');
         Route::patch('/orders/{order}/mark-paid', [AdminOrderController::class, 'markPaid'])->name('orders.mark-paid');
+
+        Route::delete('journey-stages/{journey_stage}/image', [AdminJourneyStageController::class, 'destroyImage'])
+            ->name('journey-stages.image.destroy');
+        Route::resource('journey-stages', AdminJourneyStageController::class)->except(['show']);
 
         Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
         Route::delete('blogs/{blog}/image', [AdminBlogController::class, 'destroyImage'])
