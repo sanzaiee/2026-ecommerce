@@ -41,19 +41,24 @@
                     <div class="col-lg-6">
                         <div class="product-gallery">
                             <div class="product-gallery__main">
-                                <img src="{{ $product['images'][0] }}" alt="{{ $product['name'] }}" id="productMainImage"
+                                <img src="{{ $product['images'][0] ?: get_placeholder_image() }}" alt="{{ $product['name'] }}" id="productMainImage"
                                     class="product-gallery__main-img">
                             </div>
-                            <div class="product-gallery__thumbs" role="list" aria-label="Product images">
-                                @foreach ($product['images'] as $index => $image)
-                                    <button type="button"
-                                        class="product-gallery__thumb{{ $index === 0 ? ' is-active' : '' }}"
-                                        data-image="{{ $image }}" aria-label="View image {{ $index + 1 }}"
-                                        aria-pressed="{{ $index === 0 ? 'true' : 'false' }}">
-                                        <img src="{{ $image }}" alt="">
-                                    </button>
-                                @endforeach
-                            </div>
+                            @php
+                                $galleryImages = array_values(array_filter($product['images']));
+                            @endphp
+                            @if (count($galleryImages) > 1)
+                                <div class="product-gallery__thumbs" role="list" aria-label="Product images">
+                                    @foreach ($galleryImages as $index => $image)
+                                        <button type="button"
+                                            class="product-gallery__thumb{{ $index === 0 ? ' is-active' : '' }}"
+                                            data-image="{{ $image }}" aria-label="View image {{ $index + 1 }}"
+                                            aria-pressed="{{ $index === 0 ? 'true' : 'false' }}">
+                                            <img src="{{ $image }}" alt="">
+                                        </button>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
 

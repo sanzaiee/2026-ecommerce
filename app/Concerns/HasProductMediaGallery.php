@@ -70,6 +70,21 @@ trait HasProductMediaGallery
         return $this->getMedia($this->productMediaCollection());
     }
 
+    public function featuredMedia(): ?Media
+    {
+        return $this->galleryMedia()->first();
+    }
+
+    /**
+     * Extra product photos after the featured image.
+     *
+     * @return Collection<int, Media>
+     */
+    public function additionalMedia(): Collection
+    {
+        return $this->galleryMedia()->slice(1)->values();
+    }
+
     /**
      * @return array<int, string>
      */

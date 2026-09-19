@@ -13,7 +13,10 @@ class StorefrontProductMapper
     {
         $gallery = $product->galleryMedia();
         $image = $product->primaryImageUrl('medium');
-        $hover = $gallery->skip(1)->first()?->getUrl('medium') ?? $image;
+        $hoverMedia = $gallery->skip(1)->first();
+        $hover = $hoverMedia
+            ? $product->mediaPreviewUrl($hoverMedia, 'medium')
+            : $image;
 
         return [
             'id' => $product->slug,

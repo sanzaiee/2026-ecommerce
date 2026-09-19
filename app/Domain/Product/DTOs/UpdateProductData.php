@@ -8,7 +8,7 @@ use Illuminate\Http\UploadedFile;
 readonly class UpdateProductData
 {
     /**
-     * @param  array<int, UploadedFile>|null  $images
+     * @param  array<int, UploadedFile>  $galleryImages
      * @param  array<int, string>|null  $bullets
      * @param  array<int, array{label: string, value: string}>|null  $additionalInfo
      */
@@ -31,7 +31,8 @@ readonly class UpdateProductData
         public int $sortOrder = 0,
         public ?array $bullets = null,
         public ?array $additionalInfo = null,
-        public ?array $images = null,
+        public ?UploadedFile $featuredImage = null,
+        public array $galleryImages = [],
     ) {}
 
     /**

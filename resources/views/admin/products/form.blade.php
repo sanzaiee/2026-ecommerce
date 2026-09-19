@@ -66,18 +66,57 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-4">
-                <label class="form-label">Product images</label>
-                <input type="file" name="images[]" class="form-control" multiple accept="image/*">
-                @if ($product?->hasImages())
+            <div class="col-md-4 form-check mt-4">
+                <input type="checkbox" name="is_featured" value="1" class="form-check-input" id="is_featured" @checked(old('is_featured', $product?->is_featured))>
+                <label class="form-check-label" for="is_featured">Featured product</label>
+            </div>
+
+            <div class="col-12">
+                <hr class="my-2">
+                <h2 class="h6 mb-1">Product photos</h2>
+                <p class="text-muted small mb-0">The featured image is the main photo. Additional photos appear as thumbnails on the product detail page.</p>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="featured_image">Featured image</label>
+                <input type="file" name="featured_image" id="featured_image" class="form-control @error('featured_image') is-invalid @enderror" accept="image/*">
+                @error('featured_image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <div class="form-text">Used on listing cards and as the main product photo.</div>
+                @if ($product?->featuredMedia())
+                    @php $featured = $product->featuredMedia(); @endphp
+                    <x-admin.media-preview
+                        class="admin-media-preview--sm"
+                        :url="$product->mediaPreviewUrl($featured, 'thumbnail')"
+                        :alt="$product->title"
+                        :remove-url="route('admin.products.media.destroy', [$product, $featured])"
+                        confirm="Remove this featured image?"
+                        :width="96"
+                        :height="96"
+                    />
+                @endif
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="gallery_images">Additional photos</label>
+                <input type="file" name="gallery_images[]" id="gallery_images" class="form-control @error('gallery_images') is-invalid @enderror @error('gallery_images.0') is-invalid @enderror" multiple accept="image/*">
+                @error('gallery_images')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+                @error('gallery_images.*')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+                <div class="form-text">Select one or more images. New uploads are added to the gallery without removing existing photos.</div>
+                @if ($product && $product->additionalMedia()->isNotEmpty())
                     <div class="d-flex flex-wrap gap-2 mt-2">
-                        @foreach ($product->galleryMedia() as $media)
+                        @foreach ($product->additionalMedia() as $media)
                             <x-admin.media-preview
                                 class="admin-media-preview--sm"
                                 :url="$product->mediaPreviewUrl($media, 'thumbnail')"
                                 :alt="$product->title"
                                 :remove-url="route('admin.products.media.destroy', [$product, $media])"
-                                confirm="Remove this product image?"
+                                confirm="Remove this product photo?"
                                 :width="64"
                                 :height="64"
                             />
@@ -85,10 +124,7 @@
                     </div>
                 @endif
             </div>
-            <div class="col-md-4 form-check mt-4">
-                <input type="checkbox" name="is_featured" value="1" class="form-check-input" id="is_featured" @checked(old('is_featured', $product?->is_featured))>
-                <label class="form-check-label" for="is_featured">Featured</label>
-            </div>
+
             <div class="col-md-4">
                 <label class="form-label">Meta title</label>
                 <input type="text" name="meta_title" class="form-control" value="{{ old('meta_title', $product?->meta_title) }}">
@@ -104,10 +140,10 @@
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                     <div>
                         <h2 class="h6 mb-1">Product journey</h2>
-                        <p class="text-muted small mb-0">Add clay-to-pot stages (title, story, and image) for this product.</p>
+                        <p class="text-muted small mb-0">Set all five clay-to-pot steps for this product on one page.</p>
                     </div>
-                    <a href="{{ route('admin.journey-stages.index', ['product_id' => $product->id]) }}" class="btn btn-outline-dark btn-sm">
-                        Manage journey stages
+                    <a href="{{ route('admin.products.journey.edit', $product) }}" class="btn btn-outline-dark btn-sm">
+                        Manage journey
                     </a>
                 </div>
             </div>

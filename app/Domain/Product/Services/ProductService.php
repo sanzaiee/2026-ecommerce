@@ -61,8 +61,12 @@ class ProductService
 
         $product = $this->repository->create($attributes);
 
-        if ($data->images) {
-            $this->uploads->syncCollection($product, 'products', $data->images);
+        if ($data->featuredImage) {
+            $this->uploads->addToCollection($product, 'products', $data->featuredImage);
+        }
+
+        if ($data->galleryImages !== []) {
+            $this->uploads->appendToCollection($product, 'products', $data->galleryImages);
         }
 
         $this->cache->forgetProduct($product->slug);
@@ -87,8 +91,12 @@ class ProductService
 
         $product = $this->repository->update($product, $attributes);
 
-        if ($data->images) {
-            $this->uploads->syncCollection($product, 'products', $data->images);
+        if ($data->featuredImage) {
+            $this->uploads->replacePrimary($product, 'products', $data->featuredImage);
+        }
+
+        if ($data->galleryImages !== []) {
+            $this->uploads->appendToCollection($product, 'products', $data->galleryImages);
         }
 
         $this->cache->forgetProduct($oldSlug);

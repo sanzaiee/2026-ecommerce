@@ -5,6 +5,7 @@ namespace App\Http\Requests\Product;
 use App\Domain\Product\DTOs\UpdateProductData;
 use App\Enums\StockStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
@@ -48,8 +49,9 @@ class UpdateProductRequest extends FormRequest
             'sort_order' => ['integer', 'min:0'],
             'bullets' => ['nullable', 'array'],
             'additional_info' => ['nullable', 'array'],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['image', 'max:5120'],
+            'featured_image' => ['nullable', 'image', 'max:5120'],
+            'gallery_images' => ['nullable', 'array'],
+            'gallery_images.*' => ['image', 'max:5120'],
         ];
     }
 
@@ -74,7 +76,25 @@ class UpdateProductRequest extends FormRequest
             sortOrder: (int) $this->input('sort_order', 0),
             bullets: $this->input('bullets'),
             additionalInfo: $this->input('additional_info'),
-            images: $this->file('images'),
+            featuredImage: $this->file('featured_image'),
+            galleryImages: $this->galleryImageFiles(),
         );
+    }
+
+    /**
+     * @return array<int, UploadedFile>
+     */
+    private function galleryImageFiles(): array
+    {
+        $files = $this->file('gallery_images', []);
+
+        if ($files instanceof UploadedFile) {
+            return [$files];
+        }
+
+        return array_values(array_filter(
+            is_array($files) ? $files : [],
+            fn ($file) => $file instanceof UploadedFile
+        ));
     }
 }
