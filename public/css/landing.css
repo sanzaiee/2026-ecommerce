@@ -122,9 +122,10 @@
 .landing .hero-section {
     position: relative;
     display: flex;
-    align-items: flex-end;
-    min-height: min(88vh, 780px);
-    padding: 140px 0 96px;
+    align-items: center;
+    min-height: clamp(560px, calc(100vh - var(--store-total-header-height, 107px)), 820px);
+    height: auto;
+    padding: clamp(64px, 8vh, 104px) 0 clamp(48px, 6vh, 80px);
     background: var(--pottery-charcoal);
     overflow: hidden;
 }
@@ -146,15 +147,17 @@
     inset: 0;
     background:
         linear-gradient(
-            180deg,
-            rgba(44, 29, 18, 0.42) 0%,
-            rgba(44, 29, 18, 0.18) 42%,
-            rgba(44, 29, 18, 0.78) 100%
+            90deg,
+            rgba(26, 17, 11, 0.88) 0%,
+            rgba(26, 17, 11, 0.78) 42%,
+            rgba(26, 17, 11, 0.45) 72%,
+            rgba(26, 17, 11, 0.22) 100%
         ),
-        radial-gradient(
-            900px 420px at 12% 88%,
-            rgba(180, 83, 9, 0.35) 0%,
-            transparent 65%
+        linear-gradient(
+            180deg,
+            rgba(26, 17, 11, 0.58) 0%,
+            rgba(26, 17, 11, 0.2) 42%,
+            rgba(26, 17, 11, 0.82) 100%
         );
     pointer-events: none;
 }
@@ -166,43 +169,47 @@
 }
 
 .landing .hero-content {
-    max-width: 40rem;
+    max-width: 42rem;
     color: var(--pottery-cream);
 }
 
 .landing .hero-eyebrow {
-    margin: 0 0 14px;
+    margin: 0 0 clamp(10px, 1.4vh, 14px);
     font-family: var(--landing-font-serif);
-    font-size: 1rem;
+    font-size: clamp(0.78rem, 1.1vw, 0.92rem);
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--pottery-hero-accent);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .landing .hero-title {
-    margin: 0 0 18px;
+    margin: 0 0 clamp(14px, 2vh, 18px);
     font-family: var(--landing-font-serif);
-    font-size: clamp(2.8rem, 5.6vw, 4.75rem);
+    font-size: clamp(2.1rem, 4.2vw + 0.3rem, 4.2rem);
     font-weight: 700;
-    line-height: 1.04;
-    letter-spacing: -0.01em;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
     color: #ffffff;
     text-wrap: balance;
+    overflow-wrap: break-word;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 .landing .hero-subtitle {
-    max-width: 34rem;
-    margin: 0 0 20px;
-    font-size: 1.15rem;
-    line-height: 1.7;
-    color: rgba(250, 246, 239, 0.88);
+    max-width: 36rem;
+    margin: 0 0 clamp(16px, 2.2vh, 22px);
+    font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+    line-height: 1.65;
+    color: rgba(250, 246, 239, 0.92);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
 .landing .hero-accent-line {
-    width: 72px;
+    width: clamp(52px, 6vw, 72px);
     height: 3px;
-    margin: 0 0 28px;
+    margin: 0 0 clamp(20px, 2.8vh, 28px);
     border-radius: 999px;
     background: linear-gradient(
         90deg,
@@ -289,14 +296,15 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin-top: 40px;
+    margin-top: clamp(24px, 3.2vh, 38px);
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(250, 246, 239, 0.75);
+    color: rgba(250, 246, 239, 0.85);
     text-decoration: none;
     transition: color 0.2s ease;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .landing .hero-scroll:hover {
@@ -375,9 +383,9 @@
     inset: 0;
     background: linear-gradient(
         180deg,
-        rgba(44, 29, 18, 0) 32%,
-        rgba(44, 29, 18, 0.72) 78%,
-        rgba(44, 29, 18, 0.88) 100%
+        rgba(36, 22, 13, 0) 25%,
+        rgba(36, 22, 13, 0.55) 65%,
+        rgba(36, 22, 13, 0.92) 100%
     );
     transition: background 0.3s ease;
 }
@@ -390,6 +398,7 @@
     flex-direction: column;
     gap: 3px;
     color: #fff;
+    z-index: 2;
 }
 
 .landing .category-tile__title {
@@ -400,6 +409,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .landing .category-tile__desc {
@@ -409,7 +419,8 @@
     overflow: hidden;
     font-size: 0.76rem;
     line-height: 1.4;
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .landing .category-tile__cta {
@@ -778,12 +789,41 @@
 
 @media (max-width: 991.98px) {
     .landing .hero-section {
-        min-height: min(76vh, 640px);
-        padding: 112px 0 80px;
+        min-height: max(500px, calc(100svh - var(--store-total-header-height, 107px)));
+        padding: clamp(48px, 6vh, 72px) 0;
     }
 
     .landing .hero-section__media img {
         object-position: center 35%;
+    }
+
+    .landing .hero-section__ambient {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(24, 15, 9, 0.9) 0%,
+                rgba(24, 15, 9, 0.82) 65%,
+                rgba(24, 15, 9, 0.52) 100%
+            ),
+            linear-gradient(
+                180deg,
+                rgba(24, 15, 9, 0.6) 0%,
+                rgba(24, 15, 9, 0.25) 45%,
+                rgba(24, 15, 9, 0.85) 100%
+            );
+    }
+
+    .landing .hero-content {
+        max-width: 36rem;
+    }
+
+    .landing .hero-title {
+        font-size: clamp(2rem, 5.2vw, 3rem);
+        line-height: 1.12;
+    }
+
+    .landing .hero-subtitle {
+        font-size: 1.05rem;
     }
 
     .landing-section {
@@ -799,8 +839,29 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .landing .category-showcase {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        justify-content: flex-start;
+        gap: 14px;
+        margin: 0 -16px;
+        padding: 4px 16px 20px 16px;
+        scrollbar-width: none;
+    }
+
+    .landing .category-showcase::-webkit-scrollbar {
+        display: none;
+    }
+
     .landing .category-tile {
-        flex-basis: calc((100% - 32px) / 3);
+        flex: 0 0 clamp(160px, 32vw, 200px);
+        scroll-snap-align: start;
+        scroll-margin-left: 16px;
+        aspect-ratio: 1 / 1;
     }
 }
 
@@ -812,16 +873,50 @@
     }
 
     .landing .hero-section {
-        min-height: 72vh;
-        padding: 88px 0 64px;
+        min-height: max(440px, calc(100svh - var(--store-total-header-height, 91px)));
+        padding: clamp(36px, 5vh, 52px) 0;
+    }
+
+    .landing .hero-section__ambient {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(22, 14, 8, 0.74) 0%,
+                rgba(22, 14, 8, 0.65) 45%,
+                rgba(22, 14, 8, 0.9) 100%
+            );
+    }
+
+    .landing .hero-eyebrow {
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        margin-bottom: 10px;
     }
 
     .landing .hero-title {
-        font-size: clamp(2.4rem, 9vw, 3.2rem);
+        font-size: clamp(1.75rem, 6.8vw, 2.35rem);
+        line-height: 1.15;
+        margin-bottom: 12px;
     }
 
     .landing .hero-subtitle {
-        font-size: 1.05rem;
+        font-size: 0.98rem;
+        line-height: 1.55;
+        margin-bottom: 16px;
+    }
+
+    .landing .hero-accent-line {
+        margin-bottom: 18px;
+    }
+
+    .landing .hero-actions {
+        gap: 12px;
+    }
+
+    .landing .hero-actions .hero-button,
+    .landing .hero-actions .hero-button--secondary {
+        padding: 12px 22px;
+        font-size: 0.95rem;
     }
 
     .landing .culture-pillar {
@@ -833,8 +928,85 @@
         grid-template-columns: 1fr;
     }
 
+    /* Touch-friendly Category Horizontal Swipe */
+    .landing .category-showcase {
+        margin: 0 -20px;
+        padding: 4px 20px 20px 20px;
+        gap: 12px;
+    }
+
     .landing .category-tile {
-        flex-basis: calc((100% - 16px) / 2);
+        flex: 0 0 clamp(138px, 42vw, 175px);
+        scroll-margin-left: 20px;
+        border-radius: 14px;
+    }
+
+    /* 2-Column Mobile Product Grid Fine-tuning */
+    .landing .product-grid {
+        --bs-gutter-x: 10px;
+        --bs-gutter-y: 14px;
+    }
+
+    .landing .product-card {
+        border-radius: 12px;
+    }
+
+    .landing .product-card .card-body {
+        padding: 10px 10px 12px;
+        gap: 2px;
+    }
+
+    .landing .product-card__vendor {
+        font-size: 0.72rem;
+        margin-bottom: 2px;
+    }
+
+    .landing .product-name {
+        font-size: 0.84rem;
+        margin-bottom: 4px;
+        line-height: 1.35;
+    }
+
+    .landing .product-price {
+        font-size: 0.88rem;
+        gap: 4px;
+    }
+
+    .landing .product-price__compare {
+        font-size: 0.76rem;
+    }
+
+    .landing .product-card__badge {
+        top: 8px;
+        left: 8px;
+        font-size: 0.65rem;
+        padding: 3px 6px;
+        letter-spacing: 0.06em;
+        border-radius: 4px;
+    }
+
+    .landing .product-card__wishlist {
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+
+    .landing .product-card__quick-add {
+        padding: 8px 6px;
+        font-size: 0.68rem;
+        letter-spacing: 0.02em;
+        gap: 4px;
+    }
+
+    .landing .product-rating {
+        font-size: 0.58rem;
+        margin-bottom: 3px;
+    }
+
+    .landing .product-rating .count {
+        font-size: 0.62rem;
     }
 
     .cta-band {
@@ -843,10 +1015,53 @@
 }
 
 @media (max-width: 575.98px) {
+    .landing .hero-section {
+        min-height: auto;
+        padding: 32px 0 36px;
+    }
+
+    .landing .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+    }
+
     .landing .hero-actions .hero-button,
     .landing .hero-actions .hero-button--secondary {
         width: 100%;
         justify-content: center;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 0.9375rem;
+    }
+
+    .landing .hero-scroll {
+        display: none;
+    }
+
+    .landing .product-grid {
+        --bs-gutter-x: 8px;
+        --bs-gutter-y: 12px;
+    }
+
+    .landing .product-card .card-body {
+        padding: 8px 8px 10px;
+    }
+
+    .landing .product-name {
+        font-size: 0.8rem;
+    }
+
+    .landing .product-price {
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-height: 640px) {
+    .landing .hero-section {
+        min-height: auto;
+        padding: 36px 0 32px;
     }
 
     .landing .hero-scroll {

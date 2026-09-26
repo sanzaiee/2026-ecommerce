@@ -9,10 +9,10 @@
     $heroImage = $image ?: get_placeholder_image();
 @endphp
 
-<section class="hero-section">
+<section class="hero-section" aria-labelledby="hero-heading">
     <div class="hero-section__media">
         <img src="{{ $heroImage }}" alt="{{ $imageAlt }}" loading="eager" fetchpriority="high" decoding="async"
-            width="1600" height="900">
+            width="1600" height="900" sizes="100vw">
     </div>
     <div class="hero-section__ambient" aria-hidden="true"></div>
 
@@ -20,7 +20,7 @@
         <div class="hero-grid">
             <div class="hero-content">
                 <p class="hero-eyebrow">Jheekuma &mdash; Thimi, Nepal</p>
-                <h1 class="hero-title">{{ $title }}</h1>
+                <h1 class="hero-title" id="hero-heading">{{ $title }}</h1>
                 <p class="hero-subtitle">{{ $subtitle }}</p>
                 <div class="hero-accent-line" aria-hidden="true"></div>
                 <div class="hero-actions">

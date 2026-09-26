@@ -96,7 +96,7 @@
                             <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="row product-grid row-cols-1 row-cols-md-2 row-cols-lg-4">
+                    <div class="row product-grid row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-sm-3 g-lg-4">
                         @foreach ($everydayProducts as $product)
                             @include('partials.store.product-card-item', ['product' => $product])
                         @endforeach
@@ -119,7 +119,7 @@
                             <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="row product-grid row-cols-1 row-cols-md-2 row-cols-lg-4">
+                    <div class="row product-grid row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-sm-3 g-lg-4">
                         @foreach ($topSellingProducts as $product)
                             @include('partials.store.product-card-item', ['product' => $product])
                         @endforeach

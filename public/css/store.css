@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --primary: #2d6a4f;
     --primary-dark: #1b4332;
     --primary-light: #52796f;
@@ -682,7 +682,8 @@ a {
         var(--hero-teal) 42%,
         var(--hero-bg-end) 100%
     );
-    height: calc(100vh - var(--store-total-header-height));
+    min-height: calc(100vh - var(--store-total-header-height));
+    height: auto;
     display: flex;
     align-items: center;
     box-sizing: border-box;

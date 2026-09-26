@@ -1,6 +1,6 @@
 @extends('layouts.store', ['cartTotal' => $cartTotal])
 
-@section('title', $pageTitle . ' — ' . ($site['siteName'] ?? 'Mandira') . ' ' . ($site['brandSuffix'] ?? 'Foods'))
+@section('title', $seo->title)
 
 @push('styles')
     <link href="{{ asset('css/content-pages.css') }}" rel="stylesheet">
@@ -121,7 +121,7 @@
                                                     <img
                                                         class="blog-card__image"
                                                         src="{{ $post->imageUrl('medium') }}"
-                                                        alt=""
+                                                        alt="{{ $post->title }}"
                                                         width="640"
                                                         height="400"
                                                         loading="lazy"
@@ -187,4 +187,25 @@
 
 @push('scripts')
     <script src="{{ asset('js/blog-listing.js') }}"></script>
+    @if ($posts->isNotEmpty())
+        @php
+            $itemListLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'CollectionPage',
+                'name' => $seo->title,
+                'description' => $seo->description,
+                'url' => $seo->canonicalUrl(),
+                'mainEntity' => [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $posts->values()->map(fn ($post, $index) => [
+                        '@type' => 'ListItem',
+                        'position' => $index + 1,
+                        'url' => route('blog.show', $post->slug),
+                        'name' => $post->title,
+                    ])->all(),
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($itemListLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endif
 @endpush

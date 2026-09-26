@@ -17,6 +17,7 @@ class Seo
         public readonly string $canonicalPath = '/',
         public readonly string $ogType = 'website',
         public readonly ?string $image = null,
+        public readonly bool $noIndex = false,
     ) {}
 
     /**

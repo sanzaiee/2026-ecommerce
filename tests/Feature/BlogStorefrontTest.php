@@ -157,3 +157,62 @@ it('renders a blog post featured image on the storefront', function () {
         ->assertSee('blog-show__image', false)
         ->assertSee($post->fresh()->imageUrl('medium'), false);
 });
+
+it('renders SEO meta tags and Schema.org structured data on the blog listing', function () {
+    $category = BlogCategory::create([
+        'name' => 'Pottery Heritage',
+        'slug' => 'pottery-heritage',
+        'description' => 'Stories from master potters of Thimi.',
+        'sort_order' => 1,
+    ]);
+
+    Blog::factory()->create([
+        'title' => 'Ancient Kilns of Madhyapur',
+        'slug' => 'ancient-kilns-of-madhyapur',
+        'blog_category_id' => $category->id,
+    ]);
+
+    $this->get(route('blog.index'))
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.url('/blog').'">', false)
+        ->assertSee('<meta property="og:type" content="website">', false)
+        ->assertSee('Stories &amp; Cultural Heritage', false)
+        ->assertSee('"@type":"CollectionPage"', false)
+        ->assertSee('"@type":"ItemList"', false)
+        ->assertSee('Ancient Kilns of Madhyapur');
+
+    $this->get(route('blog.index', ['category' => 'pottery-heritage']))
+        ->assertOk()
+        ->assertSee('<link rel="canonical" href="'.url('/blog?category=pottery-heritage').'">', false)
+        ->assertSee('Pottery Heritage — Newari Traditions &amp; Cultural Stories', false)
+        ->assertSee('Stories from master potters of Thimi.');
+});
+
+it('applies noindex robots tag on search filtered blog listing', function () {
+    Blog::factory()->create([
+        'title' => 'Terracotta clay guide',
+        'slug' => 'terracotta-clay-guide',
+    ]);
+
+    $this->get(route('blog.index', ['q' => 'clay']))
+        ->assertOk()
+        ->assertSee('<meta name="robots" content="noindex, follow">', false);
+
+    $this->get(route('blog.index'))
+        ->assertOk()
+        ->assertDontSee('<meta name="robots" content="noindex, follow">', false);
+});
+
+it('renders post title as image alt attribute on blog cards', function () {
+    Storage::fake('public');
+
+    $post = Blog::factory()->create([
+        'title' => 'Wheel Throwing in Thimi',
+        'slug' => 'wheel-throwing-in-thimi',
+    ]);
+    $post->addMedia(UploadedFile::fake()->image('wheel.jpg'))->toMediaCollection('blogs');
+
+    $this->get(route('blog.index'))
+        ->assertOk()
+        ->assertSee('alt="Wheel Throwing in Thimi"', false);
+});

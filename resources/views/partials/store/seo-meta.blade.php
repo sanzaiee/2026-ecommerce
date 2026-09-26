@@ -26,6 +26,10 @@
 
 <link rel="canonical" href="{{ $seo->canonicalUrl() }}">
 
+@if ($seo->noIndex)
+    <meta name="robots" content="noindex, follow">
+@endif
+
 <meta name="description" content="{{ $seo->description }}">
 
 @if ($ogImage = $seo->ogImageUrl())

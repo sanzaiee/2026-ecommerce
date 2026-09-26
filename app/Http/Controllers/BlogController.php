@@ -23,13 +23,25 @@ class BlogController extends Controller
         $categories = $this->blogs->categoriesForStorefront();
         $activeCategory = $categories->firstWhere('slug', $filters->category);
 
+        $firstPostWithImage = $posts->first(fn ($post) => $post->hasImage());
+        $featuredImage = $firstPostWithImage?->imageUrl('medium');
+
+        $seo = $this->mapper->toIndexSeo($activeCategory, $filters, $featuredImage);
+
+        $pageTitle = match (true) {
+            ! empty($filters->search) => 'Search: "'.$filters->search.'"',
+            $activeCategory !== null => $activeCategory->name,
+            default => 'Blog',
+        };
+
         return view('pages.blog-index', [
             'cartTotal' => 'Rs. 0',
-            'pageTitle' => $activeCategory?->name ?? 'Blog',
+            'pageTitle' => $pageTitle,
             'posts' => $posts,
             'categories' => $categories,
             'filters' => $filters,
             'activeCategory' => $activeCategory,
+            'seo' => $seo,
         ]);
     }
 
